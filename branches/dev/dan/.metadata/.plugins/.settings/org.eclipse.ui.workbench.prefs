@@ -1,0 +1,6 @@
+#Sat Jan 29 17:21:09 PST 2011
+UIActivities.org.eclipse.cdt.debug.cdigdbActivity=true
+UIActivities.org.eclipse.cdt.debug.dsfgdbActivity=true
+eclipse.preferences.version=1
+//org.eclipse.ui.commands/state/org.eclipse.cdt.debug.edc.ui.snapshotCreation/org.eclipse.ui.commands.radioState=manual
+ENABLED_DECORATORS=org.eclipse.cdt.ui.indexedFiles\:false,org.eclipse.mylyn.context.ui.decorator.interest\:true,org.eclipse.mylyn.tasks.ui.decorators.task\:true,org.eclipse.mylyn.team.ui.changeset.decorator\:true,org.eclipse.team.cvs.ui.decorator\:true,org.eclipse.ui.LinkedResourceDecorator\:true,org.eclipse.ui.ContentTypeDecorator\:true,
