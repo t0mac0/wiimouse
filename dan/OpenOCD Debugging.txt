@@ -1,0 +1,23 @@
+set complaints 1
+set output-radix 16
+set input-radix 16
+set prompt (arm-gdb)
+target remote localhost:3333
+set remote memory-write-packet-size 1024
+set remote memory-write-packet-size fixed
+set remote memory-read-packet-size 1024
+set remote memory-read-packet-size fixed
+set remote hardware-watchpoint-limit 6
+set remote hardware-breakpoint-limit 6
+monitor reset
+monitor sleep 200
+monitor poll
+monitor soft_reset_halt
+monitor stm32x sw_bkpts enable
+monitor stm32x unlock 0
+monitor stm32x mass_erase 0
+monitor flash write_image C:\\Users\\Reed\\Programming\\wiiMouse_prj\\dan\\Printf\\\Debug\\Printf.elf 0x08000000 elf
+monitor reset
+monitor poll
+break main
+continue
