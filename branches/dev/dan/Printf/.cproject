@@ -63,8 +63,9 @@
 							<tool id="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.printsize.debug.1486651172" name="ARM Sourcery Windows GNU Print Size" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.printsize.debug"/>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.debug.1197981532.1727184046" name="stm32f10x_usart.h" rcbsApplicability="disable" resourcePath="inc/stm32f10x_usart.h" toolsToInvoke=""/>
 					<sourceEntries>
-						<entry excluding="src/system_stm32f10x.c|src/stm32f10x_vector.c|src/stm32f10x_nvic.c|src/stm32f10x_it.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="inc/stm32f10x_it.h|inc/cortexm3_macro.h|src/system_stm32f10x.c|src/stm32f10x_vector.c|src/stm32f10x_nvic.c|src/stm32f10x_it.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1884,6 +1885,8 @@
 				</scannerConfigBuildInfo>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.language.mapping"/>
+			<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 		</cconfiguration>
 		<cconfiguration id="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.release.183445665">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.release.183445665" moduleId="org.eclipse.cdt.core.settings" name="Release">
@@ -1929,7 +1932,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="src/system_stm32f10x.c|src/usart.c|src/stm32f10x_vector.c|src/stm32f10x_usart.c|src/stm32f10x_nvic.c|src/stm32f10x_lib.c|src/stm32f10x_it.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="inc/stm32f10x_usart.h|inc/stm32f10x_it.h|inc/cortexm3_macro.h|src/stm32f10x_gpio.c|src/system_stm32f10x.c|src/usart.c|src/stm32f10x_vector.c|src/stm32f10x_usart.c|src/stm32f10x_nvic.c|src/stm32f10x_lib.c|src/stm32f10x_it.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -3749,6 +3752,8 @@
 				</scannerConfigBuildInfo>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.core.language.mapping"/>
+			<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
