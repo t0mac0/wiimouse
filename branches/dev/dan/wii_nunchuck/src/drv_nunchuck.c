@@ -10,7 +10,9 @@ Author: Dan Riedler
 Created: 2-11-10
  
 *********************************************************************************/
-#include <stdio.h>
+#include "printf.h"
+#include "i2c.h"
+#include "delay.h"
 
 /*-------------------------------------------------------------------------------
 	Includes
@@ -30,7 +32,7 @@ Created: 2-11-10
 /**********************************************************
 	I2C Setup Constants
 **********************************************************/
-#define NUNCHUCK_ADDR			0xA4			// Nunchuck Slave address
+#define NUNCHUCK_ADDR			23/*			// Nunchuck Slave address
 // TODO: make these dynamic	with PCLK
 #define NUNCHUCK_SCLH			29				// Clock pulse HIGH time
 #define NUNCHUCK_SCLL			23				// Clock pulse LOW time
@@ -87,129 +89,107 @@ bool nunchuck_init( void ){
 
 	initialized = FALSE;
 
-	i2c_init( I2C_NUNCHUCK, NUNCHUCK_SCLL, NUNCHUCK_SCLH );
+	InitI2C2();
 	
 
 	printf("Initializing nunchuck...\n");
 
 	for( i = 0; i < NUNCHUCK_INIT_TIMEOUT; ){
 		
-		buffer[0] = NUNCHUCK_ADDR;
-		buffer[1] = 0xF0;
-		buffer[2] = 0x55;
+		buffer[0] = 0xF0;
+		buffer[1] = 0x55;
 		
-		i2c_msg = i2c_send(I2C_NUNCHUCK, 3, buffer);
-    	if( i2c_msg )
+		i2c_msg = WriteBufferI2C2(buffer, 2);
+    	if( i2c_msg != 2 )
 		{
 			printf("\tfailed sending first init code\n");
 			goto nunchuck_init_fail;
 		}
-    	delay_ms(30);
+    	DelayMs(30);
 
-		buffer[0] = NUNCHUCK_ADDR;
-		buffer[1] = 0xFB;
-		buffer[2] = 0x00;
+		buffer[0] = 0xFB;
+		buffer[1] = 0x00;
 
-		i2c_msg = i2c_send(I2C_NUNCHUCK, 3, buffer);
-    	if( i2c_msg )
+		i2c_msg = WriteBufferI2C2(buffer, 2);
+    	if( i2c_msg !=2 )
 		{
 			printf("\tfailed sending second init code\n");
 			goto nunchuck_init_fail;
 		}
-    	delay_ms(30);
+    	DelayMs(30);
 
 
-		// Identity request
-		buffer[0] = NUNCHUCK_ADDR;
-		buffer[1] = 0xFA;
-		
-		i2c_msg = i2c_send(I2C_NUNCHUCK, 2, buffer);
-    	if( i2c_msg )
-		{
-			printf("\tfailed sending identity request command\n");
-			goto nunchuck_init_fail;
-		}
-
-    	delay_ms(1);
-
-		// Identity read
-		buffer[0] = NUNCHUCK_ADDR | I2C_READ;
-
-		i2c_msg = i2c_receive(I2C_NUNCHUCK, 6, buffer);
-		if( i2c_msg )
+    	i2c_msg = ReadBufferI2C2(buffer, 0xFA, 6);
+		if( i2c_msg != 6 )
 		{
 			printf("\tfailed readiing device ID \n");
 			goto nunchuck_init_fail;
 		}
 		printf("\tNunchuck device ID: %X\n",buffer[3]);
 
-		delay_ms(30);
+		DelayMs(30);
 
 
 		// Enable encryption
-		buffer[0] = NUNCHUCK_ADDR;
-		buffer[1] = 0xF0;
-		buffer[2] = 0xAA;
+		buffer[0] = 0xF0;
+		buffer[1] = 0xAA;
 	
-		i2c_msg = i2c_send(I2C_NUNCHUCK, 3, buffer);
-    	if( i2c_msg )
+		i2c_msg = WriteBufferI2C2(buffer, 2);
+    	if( i2c_msg != 2 )
 		{
 			printf("\tfailed enabling encryption\n");
 			goto nunchuck_init_fail;
 		}
-    	delay_ms(30);
+    	DelayMs(30);
 
 		// send first 6 bytes of encryption code
-		buffer[0] = NUNCHUCK_ADDR;
-		buffer[1] = 0x40;
+		buffer[0] = 0x40;
+		buffer[1] = 0x00;
 		buffer[2] = 0x00;
 		buffer[3] = 0x00;
 		buffer[4] = 0x00;
 		buffer[5] = 0x00;
 		buffer[6] = 0x00;
-		buffer[7] = 0x00;
 	
-		i2c_msg = i2c_send(I2C_NUNCHUCK, 8, buffer);	
-    	if( i2c_msg )
+		i2c_msg = WriteBufferI2C2(buffer, 7);
+    	if( i2c_msg != 7 )
 		{
 			printf("\tfailed sending first 6 bytes of encryption code\n");
 			goto nunchuck_init_fail;
 		}
-    	delay_ms(30);
+    	DelayMs(30);
 
 		// send next 6 bytes of encryption code
-		buffer[0] = NUNCHUCK_ADDR;
-		buffer[1] = 0x46;
+    	buffer[0] = 0x46;
+		buffer[1] = 0x00;
 		buffer[2] = 0x00;
 		buffer[3] = 0x00;
 		buffer[4] = 0x00;
 		buffer[5] = 0x00;
 		buffer[6] = 0x00;
-		buffer[7] = 0x00;
-		
-		i2c_msg = i2c_send(I2C_NUNCHUCK, 8, buffer);
-    	if( i2c_msg )
+
+		i2c_msg = WriteBufferI2C2(buffer, 7);
+		if( i2c_msg != 7 )
 		{
 			printf("\tfailed sending next 6 bytes of encryption code\n");
 			goto nunchuck_init_fail;
 		}
-    	delay_ms(30);
+		DelayMs(30);
 
 		// send last 4 bytes of encryption code
-		buffer[0] = NUNCHUCK_ADDR;
-		buffer[1] = 0x4C;
+		buffer[0] = 0x4C;
+		buffer[1] = 0x00;
 		buffer[2] = 0x00;
 		buffer[3] = 0x00;
 		buffer[4] = 0x00;
-		buffer[5] = 0x00;
 		
-		i2c_msg = i2c_send(I2C_NUNCHUCK, 6, buffer);
-    	if( i2c_msg )
+		i2c_msg = WriteBufferI2C2(buffer, 5);
+    	if( i2c_msg != 5)
 		{	
 			printf("\tfailed sending last 4 bytes of encryption code\n");
 			goto nunchuck_init_fail;
 		}
-    	delay_ms(30);
+    	DelayMs(30);
 
 		/*
 		// Read calibration data
@@ -266,7 +246,7 @@ nunchuck_init_fail:
 		{
 			printf("i2c error: %X\n", i2c_msg);
 			printf("Failed to initialized nunchuck, trying again...\n");
-			delay_ms(250);
+			DelayMs(250);
 		}
 	}
 
@@ -309,24 +289,16 @@ bool nunchuck_read( void ){
 	int i;
 	bool read;
 	uint8 i2c_msg;
-	uint8 data[] = { NUNCHUCK_ADDR, 0x00 } ;
+	uint8 data = 0x00 ;
 
 	read = FALSE;
 
 	//printf("Reading the nunchuck...\n");
 
-	i2c_msg = i2c_send(I2C_NUNCHUCK, 2, data);
-	if( i2c_msg )
-	{
-		printf("\tfailed to send read command\n");
-		goto nunchuck_read_fail;
-	}
 
-	delay_us(600);
-
-    nunchuck_buffer[0] = NUNCHUCK_ADDR | I2C_READ;
-	i2c_msg = i2c_receive(I2C_NUNCHUCK, DATA_PCKT_LEN, nunchuck_buffer);
-	if( i2c_msg )
+	//delay_us(600);
+	i2c_msg = ReadBufferI2C2(nunchuck_buffer, data, 6);
+	if( i2c_msg != 6 )
 	{
 		printf("\tfailed receive nunchuck packet\n");
 		goto nunchuck_read_fail;

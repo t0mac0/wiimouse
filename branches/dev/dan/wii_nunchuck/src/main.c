@@ -1,41 +1,25 @@
 
 #include "stm32f10x_lib.h"
-#include "stm32f10x_map.h"
-#include "stm32f10x_rcc.h"
-#include "stm32f10x_gpio.h"
-#include "stm32f10x_usart.h"
-#include "stm32f10x_i2c.h"
+#include "core_cm3.h"
 #include "usart.h"
 #include "bits.h"
 #include "printf.h"
+#include "drv_nunchuck.h"
+#include "delay.h"
 
-#define STACK_TOP 0x20000800
-
-#define NVIC_CCR ((volatile unsigned long *)(0xE000ED14))
 
 void putc( void* p, char c);
 
 
-void nmi_handler(void);
-void hardfault_handler(void);
-int main(void);
-void Clk_Init (void);
-void STM_EVAL_COMInit(USART_InitTypeDef* USART_InitStruct);
-void myDelay(unsigned long delay );
+void NVIC_Configuration(void);
 
 
-
-
-// Define the vector table
-unsigned int * myvectors[4]
-   __attribute__ ((section("vectors")))= {
-   	(unsigned int *)	0x20000800,	// stack pointer
-   	(unsigned int *) 	main,		// code entry point
-   	(unsigned int *)	nmi_handler,		// NMI handler (not really)
-   	(unsigned int *)	hardfault_handler		// hard fault handler (let's hope not)
-};
 
 // VARIABLES
+
+
+/* Private function prototypes -----------------------------------------------*/
+
 
 
 /*************************************************************************
@@ -49,11 +33,7 @@ unsigned int * myvectors[4]
 int main(void)
 {
 	int i;
-
-
-	*NVIC_CCR = *NVIC_CCR | 0x200; /* Set STKALIGN in NVIC */
-	// Init clock system
-	  Clk_Init();
+	uint8 x, y;
 
 	  RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
 	  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOA, ENABLE);
@@ -72,71 +52,40 @@ int main(void)
 
 	  init_printf(0,putc);
 
+	  NVIC_Configuration();
+	  I2C_ITConfig(I2C2,I2C_IT_ERR , ENABLE);
+
+	  /* Setup SysTick Timer for 1 msec interrupts  */
+	  if (SysTick_Config(SystemCoreClock / 1000))
+	  {
+	    /* Capture error */
+	    while (1);
+	  }
+
+	  nunchuck_init();
+
+
 	  i = 0;
 
 	  while(1)
 		{
-		  i++;
-		  printf("Printf() function seems %s. (This has been printed: %d times)\n", "to be working...", i);
+		  //printf("Printf() function seems %s. (This has been printed: %d times)\n", "to be working...", i);
+		  if(nunchuck_read())
+		  {
+		  nunchuck_get_joystick(&x, &y);
 
-	            GPIOC->BRR |= 0x00001000;
-	            myDelay(500000);
-	            GPIOC->BSRR |= 0x00001000;
-	            myDelay(500000);
-
+		  printf("X: %d, Y: %d, C: %d, Z: %d\n",
+				  x, y, nunchuck_c_pressed(), nunchuck_z_pressed());
+		  }
+		  DelayMs(75);
 	      }
 }
-void nmi_handler(void)
-{
-	return ;
-}
 
-void hardfault_handler(void)
-{
-	return ;
-}
-//Functions definitions
-void myDelay(unsigned long delay )
-{
-  while(delay) delay--;
-}
 
-/*************************************************************************
- * Function Name: Clk_Init
- * Parameters: Int32U Frequency
- * Return: Int32U
- *
- * Description: Init clock system
- *
- *************************************************************************/
-
-void Clk_Init (void)
+void assert_failed(uint8* file, uint32 line)
 {
-  // 1. Cloking the controller from internal HSI RC (8 MHz)
-  RCC_HSICmd(ENABLE);
-  // wait until the HSI is ready
-  while(RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);
-  RCC_SYSCLKConfig(RCC_SYSCLKSource_HSI);
-  // 2. Enable ext. high frequency OSC
-  RCC_HSEConfig(RCC_HSE_ON);
-  // wait until the HSE is ready
-  while(RCC_GetFlagStatus(RCC_FLAG_HSERDY) == RESET);
-  // 3. Init PLL
-  RCC_PLLConfig(RCC_PLLSource_HSE_Div1,RCC_PLLMul_9); // 72MHz
-//  RCC_PLLConfig(RCC_PLLSource_HSE_Div2,RCC_PLLMul_9); // 72MHz
-  RCC_PLLCmd(ENABLE);
-  // wait until the PLL is ready
-  while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET);
-  // 4. Set system clock divders
-  RCC_USBCLKConfig(RCC_USBCLKSource_PLLCLK_1Div5);
-  RCC_ADCCLKConfig(RCC_PCLK2_Div8);
-  RCC_PCLK2Config(RCC_HCLK_Div1);
-  RCC_PCLK1Config(RCC_HCLK_Div2);
-  RCC_HCLKConfig(RCC_SYSCLK_Div1);
-  // Flash 1 wait state
-  *(vuint32 *)0x40022000 = 0x12;
-  // 5. Clock system from PLL
-  RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);
+	printf("Assert failed: file: %s, line: %d\n", file, line);
+	while(1);
 }
 
 
@@ -156,3 +105,28 @@ void putc( void* p, char ch)
   {}
 
 }
+
+/**
+  * @brief  Configures the nested vectored interrupt controller.
+  * @param  None
+  * @retval None
+  */
+void NVIC_Configuration(void)
+{
+  NVIC_InitTypeDef NVIC_InitStructure;
+
+  /* Configure the NVIC Preemption Priority Bits */
+  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
+
+  /* Enable the USARTy Interrupt */
+  NVIC_InitStructure.NVIC_IRQChannel = I2C2_ER_IRQChannel;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
+
+}
+
+
+
+
+
