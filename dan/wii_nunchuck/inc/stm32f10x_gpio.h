@@ -28,8 +28,7 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f10x_type.h"
-#include "stm32f10x_map.h"
+#include "stm32f10x.h"
 
 /** @addtogroup STM32F10x_StdPeriph_Driver
   * @{

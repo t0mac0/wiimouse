@@ -53,6 +53,21 @@ typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
 #define INT32_MAX    ((int32)2147483647)
 #define INT32_MIN    ((int32)2147483648uL)
 
+
+/**
+ * IO definitions
+ *
+ * define access restrictions to peripheral registers
+ */
+
+#ifdef __cplusplus
+  #define     __I     volatile                /*!< defines 'read only' permissions      */
+#else
+  #define     __I     volatile const          /*!< defines 'read only' permissions      */
+#endif
+#define     __O     volatile                  /*!< defines 'write only' permissions     */
+#define     __IO    volatile                  /*!< defines 'read / write' permissions   */
+
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */

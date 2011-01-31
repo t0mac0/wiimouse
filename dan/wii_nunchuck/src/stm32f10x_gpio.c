@@ -389,8 +389,8 @@ void GPIO_EventOutputConfig(uint8 GPIO_PortSource, uint8 GPIO_PinSource)
   uint32 tmpreg = 0x00;
 
   /* Check the parameters */
-  assert(IS_GPIO_PORT_SOURCE(GPIO_PortSource));
-  assert(IS_GPIO_PIN_SOURCE(GPIO_PinSource));
+  //assert(IS_GPIO_PORT_SOURCE(GPIO_PortSource));
+  //assert(IS_GPIO_PIN_SOURCE(GPIO_PinSource));
     
   tmpreg = AFIO->EVCR;
   /* Clear the PORT[6:4] and PIN[3:0] bits */
@@ -503,8 +503,8 @@ void GPIO_EXTILineConfig(uint8 GPIO_PortSource, uint8 GPIO_PinSource)
   uint32 tmp = 0x00;
 
   /* Check the parameters */
-  assert(IS_GPIO_PORT_SOURCE(GPIO_PortSource));
-  assert(IS_GPIO_PIN_SOURCE(GPIO_PinSource));
+  //assert(IS_GPIO_PORT_SOURCE(GPIO_PortSource));
+  //assert(IS_GPIO_PIN_SOURCE(GPIO_PinSource));
   
   tmp = ((uint32)0x0F) << (0x04 * (GPIO_PinSource & (uint8)0x03));
 

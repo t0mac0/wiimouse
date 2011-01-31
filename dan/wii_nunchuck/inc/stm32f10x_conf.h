@@ -20,6 +20,8 @@
 #ifndef __STM32F10x_CONF_H
 #define __STM32F10x_CONF_H
 
+#include "stm32f10x_type.h"
+
 /* Includes ------------------------------------------------------------------*/
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
@@ -127,7 +129,7 @@
 *******************************************************************************/
   #define assert(expr) ((expr) ? (void)0 : assert_failed((uint8 *)__FILE__, __LINE__))
 /* Exported functions ------------------------------------------------------- */
-  void assert_failed(uint8* file, uint32 line);
+void assert_failed(uint8 *file, uint32 line);
 #else
   #define assert(expr) ((void)0)
 #endif /* DEBUG */

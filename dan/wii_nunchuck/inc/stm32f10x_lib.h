@@ -23,7 +23,7 @@
 #define __STM32F10x_LIB_H
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f10x_map.h"
+#include "stm32f10x.h"
 
 #ifdef _GPIO
   #include "stm32f10x_gpio.h"
@@ -37,6 +37,13 @@
   #include "stm32f10x_usart.h"
 #endif /*_USART */
 
+#ifdef _I2C
+  #include "stm32f10x_i2c.h"
+#endif /*_USART */
+
+#ifdef _NVIC
+  #include "stm32f10x_nvic.h"
+#endif /*_USART */
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
