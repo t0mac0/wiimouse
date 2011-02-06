@@ -123,7 +123,7 @@ const uint8 Virtual_Com_Port_ConfigDescriptor[DEVICE_CONFIGURATION_DESCRIPTOR_SI
 		CDC_CM_DESCRIPTOR_SIZE,     		/* bLength */
 		CDC_CS_INTERFACE_DESCRIPTOR_TYPE,   /* bDescriptorType: CS_INTERFACE */
 		CDC_CM_FUNC_DESCRIPTOR_SUBTYPE,  	/* bDescriptorSubtype: Call Management Func Desc */
-		0x01,   							/* bmCapabilities: D0+D1 */
+		0x00,   							/* bmCapabilities: D0+D1 */
 		CDC_DATA_IFC_NUM,   				/* bDataInterface: 1 */
 
 /********************************************************************************
@@ -181,7 +181,7 @@ const uint8 Virtual_Com_Port_ConfigDescriptor[DEVICE_CONFIGURATION_DESCRIPTOR_SI
 *********************************************************************************/
 		USB_ENDPOINT_DESCRIPTOR_SIZE,		/* bLength */
 		USB_ENDPOINT_DESCRIPTOR_TYPE,		/* bDescriptorType */
-		USB_ENDPOINT_IN(1), 				/* bEndpointAddress */
+		USB_ENDPOINT_IN(4), 				/* bEndpointAddress */
 		USB_ENDPOINT_TYPE_BULK,				/* bmAttributes */
 		WBVAL(VIRTUAL_COM_PORT_DATA_SIZE),  /* wMaxPacketSize */
 		0x00,                				/* bInterval: Ignore bulk transfer  */

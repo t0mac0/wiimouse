@@ -88,7 +88,7 @@ void EP1_IN_Callback (void)
 }
 
 /*******************************************************************************
-* Function Name  : EP3_OUT_Callback
+* Function Name  : EP4_OUT_Callback
 * Description    :
 * Input          : None.
 * Output         : None.

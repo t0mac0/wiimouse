@@ -158,61 +158,49 @@ void Virtual_Com_Port_Reset(void)
 	/* Set Virtual_Com_Port DEVICE with the default Interface*/
 	pInformation->Current_Interface = 0;
 
-#ifdef STM32F10X_CL     
-	/* EP0 is already configured by USB_SIL_Init() function */
-
-	/* Init EP1 IN as Bulk endpoint */
-	OTG_DEV_EP_Init(EP1_IN, OTG_DEV_EP_TYPE_BULK, VIRTUAL_COM_PORT_DATA_SIZE);
-
-	/* Init EP2 IN as Interrupt endpoint */
-	OTG_DEV_EP_Init(EP2_IN, OTG_DEV_EP_TYPE_INT, VIRTUAL_COM_PORT_INT_SIZE);
-
-	/* Init EP3 OUT as Bulk endpoint */
-	OTG_DEV_EP_Init(EP3_OUT, OTG_DEV_EP_TYPE_BULK, VIRTUAL_COM_PORT_DATA_SIZE);
-#else 
-
 	SetBTABLE(BTABLE_ADDRESS);
 
-	  /* Initialize Endpoint 0 */
-	  SetEPType(ENDP0, EP_CONTROL);
-	  SetEPTxStatus(ENDP0, EP_TX_STALL);
-	  SetEPRxAddr(ENDP0, ENDP0_RXADDR);
-	  SetEPTxAddr(ENDP0, ENDP0_TXADDR);
-	  Clear_Status_Out(ENDP0);
-	  SetEPRxCount(ENDP0, Device_Property.MaxPacketSize);
-	  SetEPRxValid(ENDP0);
-
-	  /* Initialize Endpoint 1 */
-	  SetEPType(ENDP1, EP_BULK);
-	  SetEPTxAddr(ENDP1, ENDP1_TXADDR);
-	  SetEPTxStatus(ENDP1, EP_TX_NAK);
-	  SetEPRxStatus(ENDP1, EP_RX_DIS);
-
-	  /* Initialize Endpoint 2 */
-	  SetEPType(ENDP2, EP_INTERRUPT);
-	  SetEPTxAddr(ENDP2, ENDP2_TXADDR);
-	  SetEPRxStatus(ENDP2, EP_RX_DIS);
-	  SetEPTxStatus(ENDP2, EP_TX_NAK);
-
-	  /* Initialize Endpoint 3 */
-	  SetEPType(ENDP3, EP_BULK);
-	  SetEPRxAddr(ENDP3, ENDP3_RXADDR);
-	  SetEPRxCount(ENDP3, VIRTUAL_COM_PORT_DATA_SIZE);
-	  SetEPRxStatus(ENDP3, EP_RX_VALID);
-	  SetEPTxStatus(ENDP3, EP_TX_DIS);
+	/* Initialize Endpoint 0 */
+	SetEPType(ENDP0, EP_CONTROL);
+	SetEPTxStatus(ENDP0, EP_TX_STALL);
+	SetEPRxAddr(ENDP0, ENDP0_RXADDR);
+	SetEPTxAddr(ENDP0, ENDP0_TXADDR);
+	Clear_Status_Out(ENDP0);
+	SetEPRxCount(ENDP0, Device_Property.MaxPacketSize);
+	SetEPRxValid(ENDP0);
 
 
-	/* Initialize Endpoint 4 */
-	SetEPType(ENDP4, EP_INTERRUPT);
+	/* Initialize Endpoint 1: HId interrupt in */
+	SetEPType(ENDP1, EP_INTERRUPT);
+	SetEPTxAddr(ENDP1, ENDP1_TXADDR);
+	SetEPTxCount(ENDP1, HID_MOUSE_REPORT_SIZE);
+	SetEPRxStatus(ENDP1, EP_RX_DIS);
+	SetEPTxStatus(ENDP1, EP_TX_NAK);
+
+
+	/* Initialize Endpoint 2: CDC Interrupt in */
+	SetEPType(ENDP2, EP_INTERRUPT);
+	SetEPTxAddr(ENDP2, ENDP2_TXADDR);
+	SetEPRxStatus(ENDP2, EP_RX_DIS);
+	SetEPTxStatus(ENDP2, EP_TX_NAK);
+
+	/* Initialize Endpoint 3: CDC bulk out */
+	SetEPType(ENDP3, EP_BULK);
+	SetEPRxAddr(ENDP3, ENDP3_RXADDR);
+	SetEPRxCount(ENDP3, VIRTUAL_COM_PORT_DATA_SIZE);
+	SetEPRxStatus(ENDP3, EP_RX_VALID);
+	SetEPTxStatus(ENDP3, EP_TX_DIS);
+
+	/* Initialize Endpoint 4: CDC Bulk in */
+	SetEPType(ENDP4, EP_BULK);
 	SetEPTxAddr(ENDP4, ENDP4_TXADDR);
-	SetEPTxCount(ENDP4, 3);
-	SetEPRxStatus(ENDP4, EP_RX_DIS);
+	//SetEPTxCount(ENDP4, VIRTUAL_COM_PORT_DATA_SIZE);
 	SetEPTxStatus(ENDP4, EP_TX_NAK);
+	SetEPRxStatus(ENDP4, EP_RX_DIS);
 
 
 	/* Set this device to response on default address */
 	SetDeviceAddress(0);
-#endif /* STM32F10X_CL */
 
 	bDeviceState = ATTACHED;
 }
