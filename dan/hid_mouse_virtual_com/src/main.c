@@ -30,7 +30,7 @@
 int main(void)
 {
 	HID_MOUSE_REPORT report;
-	uint8 buffer[64];
+	char buffer[64];
 	uint32 size;
 
 	Set_System();
@@ -76,14 +76,11 @@ int main(void)
 			snprintf(buffer, &size,
 					"X: %d, Y: %d, Z: %d, C: %d\n",report.X, report.Y, report.Buttons.Left, report.Buttons.Right);
 
-			//USB_SIL_Write(EP1_IN, buffer, size);
-			//SetEPTxValid(ENDP1);
-
-			USB_SIL_Write(EP4_IN, &report, HID_MOUSE_REPORT_SIZE);
+			USB_SIL_Write(EP4_IN, (uint8*)buffer, size);
 			SetEPTxValid(ENDP4);
-			  /* Copy mouse position info in ENDP1 Tx Packet Memory Area*/
-			  //USB_SIL_Write(EP1_IN, (uint8*)&report, 3);
-			  //SetEPTxValid(ENDP1);
+
+			USB_SIL_Write(EP1_IN, (uint8*)&report, HID_MOUSE_REPORT_SIZE);
+			SetEPTxValid(ENDP1);
 		}
 
 	}

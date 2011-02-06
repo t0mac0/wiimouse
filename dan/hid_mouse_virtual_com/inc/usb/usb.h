@@ -149,6 +149,7 @@ typedef struct _INTERFACE_ASSOCIATION_DESCRIPTOR {
 	uint8 bFirstInterface;
 	uint8 bInterfaceCount;
 	uint8 bFunctionClass;
+	uint8 bFunctionSubClass;
 	uint8 bFunctionProtocol;
 	uint8 iFunction;
 } INTERFACE_ASSOCIATION_DESCRIPTOR;
