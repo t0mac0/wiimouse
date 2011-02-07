@@ -1,0 +1,145 @@
+***********************************************************
+*                                                         *
+*       Firwware Upgrade Specification                    *
+*                                                         *
+***********************************************************
+
+
+-----------------------------------------------------------
+|       FW Upgrade Image Format                           |
+-----------------------------------------------------------
+
+* Header:
+  uint16  Vendor ID
+  uint16  Product ID
+  uint16  Device ID
+  uint16  FW Version
+  uint16  Number of image sections
+  uint32  Image hashsum
+
+* Image Section:
+  uint32  section id
+  uint32  hashsum
+  uint32  Start address
+  uint32  size 32bit words
+  uint32[] FW image data
+
+-----------------------------------------------------------
+|       FW Update Sequence                                |
+-----------------------------------------------------------
+
+Notes:
+  * (h) - represents host action (CPU)
+  * (d) - reprsents device action (microcontroller)
+
+1. Query Device:
+  * (h) a: Attempt to open all COM devices
+  * (h) b: send DFU_QUERY_DEVICE command
+  * (h) c: receive (in this order):
+           - vendor ID
+           - product ID
+           - device ID
+           - FW version
+  * (h) d: compare against corresponding image fields
+           - vendo ID, product ID, device ID must be the same
+           - FW version < image FW version
+ 
+2. Download FW Image:
+  * (h) a: send DFU_INITIALIZE_UPDATE command
+  * (d) b: set device mode to DFU_MODE_UPGRADE in non-volatile flash
+  * (d) c: send DFU_STATUS_SUCCESS
+  * (d) d: reset device
+  * (h) e: receive status
+  * (d) f: bootloader checks device mode and executes in DFU_MODE_UPGRADE mode
+           - enumerates DFU_MODE_UPGRADE USB interface
+  * (h) g: Re-execute step 1
+  * (h) h: send DFU_BEGIN_UPDATE with number of sections, receive status
+  * (h) i: send DFU_START_SECTION_UPDATE with start address and size, receive status
+  * (h) j: send DFU_SECTION_UPDATE with offset, receive status
+  * (h) k: send 64 bytes chuck of image, receive status 
+          - loop to j until all of section sent
+  * (h) l: send DFU_END_SECTION_UPDATE, receive status
+          - loop to i until all sections sent
+  * (h) m: send DFU_END_UPDATE, receive status
+
+3. Validate Downloaded FW Image
+  * (h) a: send DFU_BEGIN_VALIDATION with number of sections, receive status
+  * (h) b: send DFU_START_SECTION_VALIDATION with start address and size, receive status
+  * (h) c: send DFU_SECTION_VALID with offset, receive status
+  * (h) d: receive 64 byte chuck of image, validate against original image
+           - loop to c until all of isection validated
+  * (h) e: send DFU_END_SECTION_VALID, receive status with calculate hashsum
+  * (h) f: compare received hashsum to image section hashsum
+           - loop to b until all sections validated
+  * (h) g: send DFU_END_VALIDATION, receive status
+
+4. Complete FW Update:
+  * (h) a: send DFU_COMPLETE_UPDATE
+  * (d) b: set device mode to DFU_MODE_USER in non-volatile flash
+  * (d) c: send DFU_STATUS_SUCCESS
+  * (d) d: reset the device
+  * (d) e: bootloader checks device mode and executes in DFU_MODE_USER mode
+           - executes newly download FW, enumerates the downloaded USB interface(s)
+  * (h) f: receive status
+
+
+
+
+-----------------------------------------------------------
+|       DFU Commands                                      |
+-----------------------------------------------------------
+
+
+* DFU_COMMND_TYPE (enu
+  DFU_INITIALIZE_UPDATE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
