@@ -48,12 +48,11 @@
 							</tool>
 							<tool id="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.c.linker.debug.1832768393" name="ARM Sourcery Windows GCC C Linker" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.c.linker.debug">
 								<option id="org.eclipse.cdt.cross.arm.gnu.c.link.option.scriptfile.1988161468" name="Script file (-T)" superClass="org.eclipse.cdt.cross.arm.gnu.c.link.option.scriptfile" value="C:\Users\Reed\Programming\wiiMouse_prj\dan\wii_nunchuck\memory_layout.cmd" valueType="string"/>
-								<option id="org.eclipse.cdt.cross.arm.gnu.c.link.option.gcsections.1372250055" name="Remove unused sections (-Xlinker --gc-sections)" superClass="org.eclipse.cdt.cross.arm.gnu.c.link.option.gcsections" value="false" valueType="boolean"/>
-								<option id="org.eclipse.cdt.cross.arm.gnu.c.link.option.ldflags.1477856110" name="Linker flags (-Xlinker [option])" superClass="org.eclipse.cdt.cross.arm.gnu.c.link.option.ldflags" valueType="stringList">
-									<listOptionValue builtIn="false" value="-hosted"/>
-								</option>
-								<option id="org.eclipse.cdt.cross.arm.gnu.c.link.option.nodeflibs.1216386259" name="Do not use default libraries (-nodefaultlibs)" superClass="org.eclipse.cdt.cross.arm.gnu.c.link.option.nodeflibs" value="false" valueType="boolean"/>
+								<option id="org.eclipse.cdt.cross.arm.gnu.c.link.option.gcsections.1372250055" name="Remove unused sections (-Xlinker --gc-sections)" superClass="org.eclipse.cdt.cross.arm.gnu.c.link.option.gcsections" value="true" valueType="boolean"/>
+								<option id="org.eclipse.cdt.cross.arm.gnu.c.link.option.ldflags.1477856110" name="Linker flags (-Xlinker [option])" superClass="org.eclipse.cdt.cross.arm.gnu.c.link.option.ldflags"/>
+								<option id="org.eclipse.cdt.cross.arm.gnu.c.link.option.nodeflibs.1216386259" name="Do not use default libraries (-nodefaultlibs)" superClass="org.eclipse.cdt.cross.arm.gnu.c.link.option.nodeflibs" value="true" valueType="boolean"/>
 								<option id="org.eclipse.cdt.cross.arm.gnu.c.link.option.nostart.74288611" name="Do not use standard start files (-nostartfiles)" superClass="org.eclipse.cdt.cross.arm.gnu.c.link.option.nostart" value="true" valueType="boolean"/>
+								<option id="org.eclipse.cdt.cross.arm.gnu.c.link.option.nostdlibs.187596131" name="No startup or default libs (-nostdlib)" superClass="org.eclipse.cdt.cross.arm.gnu.c.link.option.nostdlibs" value="true" valueType="boolean"/>
 								<inputType id="org.eclipse.cdt.cross.arm.gnu.c.linker.input.1475238055" superClass="org.eclipse.cdt.cross.arm.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -73,7 +72,7 @@
 					<fileInfo id="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.debug.1197981532.1213612406" name="stm32f10x_it.h" rcbsApplicability="disable" resourcePath="inc/stm32f10x_it.h" toolsToInvoke=""/>
 					<fileInfo id="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.debug.1197981532.1727184046" name="stm32f10x_usart.h" rcbsApplicability="disable" resourcePath="inc/stm32f10x_usart.h" toolsToInvoke=""/>
 					<sourceEntries>
-						<entry excluding="inc/cortexm3_macro.h|src/stm32f10x_vector.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="src/arg.c|src/machine.c|inc/cortexm3_macro.h|src/stm32f10x_vector.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1941,7 +1940,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="src/drv_nunchuck.c|inc/stm32f10x_usart.h|inc/stm32f10x_it.h|inc/cortexm3_macro.h|src/stm32f10x_gpio.c|src/system_stm32f10x.c|src/usart.c|src/stm32f10x_vector.c|src/stm32f10x_usart.c|src/stm32f10x_nvic.c|src/stm32f10x_lib.c|src/stm32f10x_it.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="src/arg.c|src/machine.c|src/flash_if.c|src/dfu_state_machine.c|src/dfu_com.c|src/dfu_actions.c|src/dfu_mal.c|src/drv_nunchuck.c|inc/stm32f10x_usart.h|inc/stm32f10x_it.h|inc/cortexm3_macro.h|src/stm32f10x_gpio.c|src/system_stm32f10x.c|src/usart.c|src/stm32f10x_vector.c|src/stm32f10x_usart.c|src/stm32f10x_nvic.c|src/stm32f10x_lib.c|src/stm32f10x_it.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

@@ -45,6 +45,8 @@ void InitUSART2(void) {
 
   init_printf(0,putchr);
 
+  printf("UART2 Initialized\n");
+
 }
 
 void InitUSART3(void) {

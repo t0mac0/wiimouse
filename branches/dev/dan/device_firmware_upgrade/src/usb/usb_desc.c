@@ -54,6 +54,18 @@ const uint8 Virtual_Com_Port_ConfigDescriptor[VIRTUAL_COM_PORT_SIZ_CONFIG_DESC] 
     0x00,   /* iConfiguration: Index of string descriptor describing the configuration */
     0xC0,   /* bmAttributes: self powered */
     0x32,   /* MaxPower 0 mA */
+
+    /********************************************************************************
+     CDC Interface Association Descriptor
+    *********************************************************************************/								//
+    		8,  	// bLength
+    		11,	// bDescriptorType = 11
+    		0,								// bFirstInterface
+    		0x02,										// bInterfaceCount
+    		2,			// bFunctionClass (Communication Class)
+    		2,							// bFunctionSubClass (Abstract Control Model)
+    		1,							// bFunctionProcotol (V.25ter, Common AT commands)
+    		0x00,										// iInterface
     /*Interface Descriptor*/
     0x09,   /* bLength: Interface Descriptor size */
     USB_INTERFACE_DESCRIPTOR_TYPE,  /* bDescriptorType: Interface */
