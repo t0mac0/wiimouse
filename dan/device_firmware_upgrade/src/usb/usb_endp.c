@@ -101,7 +101,6 @@ void EP3_OUT_Callback(void)
   /* Get the received data buffer and update the counter */
   dfu_ComReceiveCommand();
   
-
 }
 
 
@@ -128,7 +127,7 @@ void SOF_Callback(void)
       FrameCount = 0;
       
       /* Check the data to be sent through IN pipe */
-      Handle_USBAsynchXfer();
+      //Handle_USBAsynchXfer();
     }
   }  
 }

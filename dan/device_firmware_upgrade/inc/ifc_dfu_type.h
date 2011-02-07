@@ -60,33 +60,26 @@ typedef struct _DFU_ImageSection {
 
 #pragma pack(push, 1)
 typedef struct _DFU_Command {
-	DFU_CommandType Command;
-	DFU_SubCommandType SubCommand;
-	union {
-		uint32 Offset;
-		uint32 StartAddress;
-		uint32 SectionsCount;
-	} u32;
-	union {
-		uint16 Length;
-	} u16;
+	uint8 Command;
+	uint8 SubCommand;
+	uint32 Offset;
+	uint32 StartAddress;
+	uint32 SectionsCount;
+	uint32 Length;
 } DFU_Command;
 #pragma  pack(pop)
 
 
 #pragma pack(push, 1)
 typedef struct _DFU_Response {
-	DFU_StatusType Status;
-	union {
-		uint32 VendorId;
-		uint32 ProductId;
-		uint32 DeviceId;
-		uint32 FWVersion;
-		uint32 HashSum;
-	} u32;
-	union {
-		uint16 Length;
-	} u16;
+	uint8 Status;
+	uint8 Command;
+	uint16 VendorId;
+	uint16 ProductId;
+	uint16 DeviceId;
+	uint16 FWVersion;
+	uint32 HashSum;
+	uint32 Length;
 } DFU_Response;
 #pragma  pack(pop)
 

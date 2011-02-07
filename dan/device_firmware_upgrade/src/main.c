@@ -35,7 +35,6 @@ uint32 JumpAddress;
  *************************************************************************/
 int main(void)
 {
-
 	if (((*(__IO uint32*)ApplicationAddress) & 0x2FFE0000 ) == 0x20000000)
 	{ /* Jump to user application */
 
@@ -46,13 +45,18 @@ int main(void)
 		Jump_To_Application();
 	}
 
-
 	/* Enter DFU mode */
 	//DeviceState = STATE_dfuERROR;
 	//DeviceStatus[0] = STATUS_ERRFIRMWARE;
 	//DeviceStatus[4] = DeviceState;
 	dfu_StateMachineInit();
 	Set_System();
+
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOA, ENABLE);
+
+	InitUSART2();
+
 	USB_Interrupts_Config();
 	Set_USBClock();
 	USB_Init();
