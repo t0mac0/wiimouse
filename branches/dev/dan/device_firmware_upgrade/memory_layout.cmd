@@ -59,7 +59,7 @@ SECTIONS
         . = ALIGN(4);
         _etext = .;        /* define a global symbols at end of code */
      } >FLASH
-     
+    
     .ARM.extab   : 
     { 
         *(.ARM.extab* .gnu.linkonce.armextab.*) 
@@ -100,6 +100,7 @@ SECTIONS
     } >FLASH
 
     /* used by the startup to initialize data */
+    . = ALIGN(4);
     _sidata = .;
 
     /* Initialized data sections goes into RAM, load LMA copy after code */

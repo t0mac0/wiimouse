@@ -16,7 +16,6 @@ typedef enum _dfu_ModeType {
 	DFU_MODE_USER = 0x39FE72B6,
 } dfu_ModeType;
 
-typedef void (*dfu_Action)(DFU_Command*, DFU_Response*);
 
 
 #endif /* DFU_TYPE_H_ */

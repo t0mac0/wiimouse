@@ -21,7 +21,7 @@
   uint32  section id
   uint32  hashsum
   uint32  Start address
-  uint32  size 32bit words
+  uint32  size in bytes
   uint32[] FW image data
 
 -----------------------------------------------------------

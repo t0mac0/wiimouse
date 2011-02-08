@@ -144,7 +144,7 @@ void Set_System(void)
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
 	GPIO_Init(USB_DISCONNECT, &GPIO_InitStructure);
 
-	//MAL_Init();
+	MAL_Init();
 
 	/* Unlock the internal flash */
 	FLASH_Unlock();
