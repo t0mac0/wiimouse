@@ -9,7 +9,7 @@
 #include "printf.h"
 
 
-void dfu_ActionQueryDevice(DFU_Command *Cmd, DFU_Response *Response)
+void* dfu_ActionQueryDevice(DFU_Command *Cmd, DFU_Response *Response)
 {
 	Response->Status = DFU_STATUS_SUCCESS;
 
@@ -20,79 +20,21 @@ void dfu_ActionQueryDevice(DFU_Command *Cmd, DFU_Response *Response)
 
 	printf("Device queried\n");
 
+	return NULL;
 }
 
-void  dfu_ActionInitializeUpdate(DFU_Command *Cmd, DFU_Response *Response)
+void*  dfu_ActionInitializeUpdate(DFU_Command *Cmd, DFU_Response *Response)
 {
-
-
-}
-
-void  dfu_ActionBeginUpdate(DFU_Command *Cmd, DFU_Response *Response)
-{
-
-
-}
-
-void  dfu_ActionStartSectionUpdate(DFU_Command *Cmd, DFU_Response *Response)
-{
-
-
-}
-
-void  dfu_ActionSectionUpdate(DFU_Command *Cmd, DFU_Response *Response)
-{
-
-
-}
-
-void  dfu_ActionEndSectionUpdate(DFU_Command *Cmd, DFU_Response *Response)
-{
-
-
-}
-
-void  dfu_ActionEndUpdate(DFU_Command *Cmd, DFU_Response *Response)
-{
-
-
+	// set device to DFU_MODE_UPGRADE in non-volatile flash
+	// send DFU_STATUS_SUCCESS
+	// reset device
+	return NULL;
 }
 
 
 
-
-void  dfu_ActionBeginValidation(DFU_Command *Cmd, DFU_Response *Response)
+void*  dfu_ActionCompleteUpdate(DFU_Command *Cmd, DFU_Response *Response)
 {
 
-
-}
-
-void  dfu_ActionStartSectionValidation(DFU_Command *Cmd, DFU_Response *Response)
-{
-
-
-}
-
-void  dfu_ActionValidateSection(DFU_Command *Cmd, DFU_Response *Response)
-{
-
-
-}
-
-void  dfu_ActionEndSectionValidation(DFU_Command *Cmd, DFU_Response *Response)
-{
-
-
-}
-
-void  dfu_ActionEndValidation(DFU_Command *Cmd, DFU_Response *Response)
-{
-
-
-}
-
-void  dfu_ActionCompleteUpdate(DFU_Command *Cmd, DFU_Response *Response)
-{
-
-
+	return NULL;
 }
