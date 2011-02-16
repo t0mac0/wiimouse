@@ -24,7 +24,6 @@ pFunction Jump_To_Application;
 uint32 JumpAddress;
 
 
-
 /*************************************************************************
  * Function Name: main
  * Parameters: none

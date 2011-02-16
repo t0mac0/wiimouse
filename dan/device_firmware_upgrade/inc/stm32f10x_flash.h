@@ -59,6 +59,9 @@ typedef enum
   * @}
   */
 
+#define FLASH_PAGE_SIZE 0x400 // 1kB
+#define FLASH_PAGE_MASK (FLASH_PAGE_SIZE-1)
+
 /** @defgroup FLASH_Exported_Constants
   * @{
   */

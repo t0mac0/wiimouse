@@ -46,12 +46,16 @@
 /* Exported functions ------------------------------------------------------- */
 
 uint16 MAL_Init (void);
-uint16 MAL_Erase (uint32 SectorAddress);
+uint16 MAL_Erase (uint32 SectorAddress, uint32 Length);
 uint16 MAL_Write (uint32 SectorAddress, uint32 DataLength);
 uint8  *MAL_Read (uint32 SectorAddress, uint32 DataLength);
 uint16 MAL_GetStatus(uint32 SectorAddress ,uint8 Cmd, uint8 *buffer);
 
-extern uint8  MAL_Buffer[MAL_BUFFER_SIZE]; /* RAM Buffer for Downloaded Data */
+extern uint8  DFU_MalBuffer[MAL_BUFFER_SIZE]; /* RAM Buffer for Downloaded Data */
+
+extern bool DFU_MalWriteEnabled;
+extern bool DFU_MalReadEnabled;
+
 #endif /* __DFU_MAL_H */
 
 /******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/

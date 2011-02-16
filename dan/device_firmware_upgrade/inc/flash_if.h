@@ -25,8 +25,8 @@
 /* Exported functions ------------------------------------------------------- */
 
 uint16 FLASH_If_Init(void);
-uint16 FLASH_If_Erase (uint32 SectorAddress);
-uint16 FLASH_If_Write (uint32 SectorAddress, uint32 DataLength);
+uint16 FLASH_If_Erase(uint32 SectorAddress, uint32 Length);
+uint16 FLASH_If_Write (uint32 SectorAddress, uint32 DataLength, bool Erase);
 uint8 *FLASH_If_Read (uint32 SectorAddress, uint32 DataLength);
 
 #endif /* __FLASH_IF_MAL_H */
