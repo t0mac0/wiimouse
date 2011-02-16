@@ -25,11 +25,14 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 uint16 (*pMAL_Init) (void);
-uint16 (*pMAL_Erase) (uint32 SectorAddress);
-uint16 (*pMAL_Write) (uint32 SectorAddress, uint32 DataLength);
+uint16 (*pMAL_Erase) (uint32 SectorAddress, uint32 Length);
+uint16 (*pMAL_Write) (uint32 SectorAddress, uint32 DataLength, bool Erase);
 uint8  *(*pMAL_Read)  (uint32 SectorAddress, uint32 DataLength);
-uint8  MAL_Buffer[MAL_BUFFER_SIZE]; /* RAM Buffer for Downloaded Data */
-extern ONE_DESCRIPTOR DFU_String_Descriptor[7];
+uint8  DFU_MalBuffer[MAL_BUFFER_SIZE]; /* RAM Buffer for Downloaded Data */
+//extern ONE_DESCRIPTOR DFU_String_Descriptor[7];
+
+bool DFU_MalWriteEnabled;
+bool DFU_MalReadEnabled;
 
 
 static const uint16  TimingTable[5][2] =
@@ -66,7 +69,7 @@ uint16 MAL_Init(void)
 * Output         : None
 * Return         : None
 *******************************************************************************/
-uint16 MAL_Erase(uint32 SectorAddress)
+uint16 MAL_Erase(uint32 SectorAddress, uint32 Length)
 {
 
   switch (SectorAddress & MAL_MASK)
@@ -78,7 +81,7 @@ uint16 MAL_Erase(uint32 SectorAddress)
     default:
       return MAL_FAIL;
   }
-  return pMAL_Erase(SectorAddress);
+  return pMAL_Erase(SectorAddress, Length);
 }
 
 /*******************************************************************************
@@ -100,7 +103,7 @@ uint16 MAL_Write (uint32 SectorAddress, uint32 DataLength)
     default:
       return MAL_FAIL;
   }
-  return pMAL_Write(SectorAddress, DataLength);
+  return pMAL_Write(SectorAddress, DataLength, FALSE);
 }
 
 /*******************************************************************************

@@ -13,5 +13,6 @@ void dfu_ComReceiveCommand( void );
 
 void dfu_ComSendResponse( void );
 
+void dfu_ComSendData( uint32 byteCount );
 
 #endif /* DFU_COM_H_ */
