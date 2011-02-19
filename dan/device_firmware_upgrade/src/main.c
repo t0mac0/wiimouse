@@ -34,10 +34,10 @@ uint32 JumpAddress;
  *************************************************************************/
 int main(void)
 {
-	if (((*(__IO uint32*)ApplicationAddress) & 0x2FFE0000 ) == 0x20000000)
+	if(*((uint32*)DFU_MODE_ADDR) == DFU_MODE_USER)
 	{ /* Jump to user application */
 
-		JumpAddress = *(__IO uint32*) (ApplicationAddress + 4);
+		JumpAddress = *(__IO uint32*) (ApplicationAddress+4);
 		Jump_To_Application = (pFunction) JumpAddress;
 		/* Initialize user application's Stack Pointer */
 		__set_MSP(*(__IO uint32*) ApplicationAddress);
@@ -55,6 +55,9 @@ int main(void)
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOA, ENABLE);
 
 	InitUSART2();
+
+	printf("Addr: %08X =  %08X...\n", DFU_MODE_ADDR,  (*(__IO uint32*)DFU_MODE_ADDR));
+	printf("Running in Update mode\n");
 
 	USB_Interrupts_Config();
 	Set_USBClock();

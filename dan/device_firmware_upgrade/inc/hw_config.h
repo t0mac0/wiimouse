@@ -29,7 +29,7 @@
 #define LED_ON                0xF0
 #define LED_OFF               0xFF
 
-#define ApplicationAddress 0x08003000
+#define ApplicationAddress 0x08008000
 
 #define USART_RX_DATA_SIZE   1024
 #define USB_RX_DATA_SIZE     1024

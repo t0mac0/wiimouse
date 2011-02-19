@@ -31,6 +31,8 @@
 
 #define INTERNAL_FLASH_BASE 0x08000000
 
+#define MAL_MEMORY_SECTIONS_COUNT 1
+
 #define MAL_BUFFER_SIZE 1024
 
 /* utils macro ---------------------------------------------------------------*/

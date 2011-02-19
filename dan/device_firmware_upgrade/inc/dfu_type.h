@@ -10,7 +10,7 @@
 
 #include "ifc_dfu_type.h"
 
-
+#define DFU_MODE_ADDR 0x0801C000
 
 
 

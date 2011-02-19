@@ -1199,7 +1199,7 @@ static __INLINE void __NOP()                      { __ASM volatile ("nop"); }
 // __INLINE void __WFE()                      { __ASM volatile ("wfe"); }
 // __INLINE void __SEV()                      { __ASM volatile ("sev"); }
 // __INLINE void __ISB()                      { __ASM volatile ("isb"); }
-// __INLINE void __DSB()                      { __ASM volatile ("dsb"); }
+static __INLINE void __DSB()                      { __ASM volatile ("dsb"); }
 // __INLINE void __DMB()                      { __ASM volatile ("dmb"); }
 static __INLINE void __CLREX()                    { __ASM volatile ("clrex"); }
 

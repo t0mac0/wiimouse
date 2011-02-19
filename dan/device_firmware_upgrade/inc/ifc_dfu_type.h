@@ -14,7 +14,7 @@
 #define CHUNK_SIZE 512
 
 typedef enum _dfu_ModeType {
-	DFU_MODE_UPDATE = 0xAEFDE14B,
+	DFU_MODE_UPDATE = 0xFFFFFFFF,
 	DFU_MODE_USER = 0x39FE72B6,
 } DFU_ModeType;
 
@@ -46,19 +46,13 @@ typedef enum _DFU_StatusType {
 	DFU_STATUS_TOO_MANY_SECTIONS,
 	DFU_STATUS_INTERNAL_FLASH_WRITE_ERROR,
 	DFU_STATUS_INTERNAL_FLASH_READ_ERROR,
+	DFU_STATUS_NOT_IN_UPDATE_MODE,
 } DFU_StatusType;
 
-typedef enum _DFU_DestinationType {
-	DFU_DESTINATION_INTERNALFLASH,
-
-	DFU_DESTINATION_COUNT,
-	DFU_DESTINATION_UNKNOWN = -1
-} DFU_DestinationType;
 
 #pragma pack(push, 1)
 typedef struct _DFU_Command {
 	uint8 Command;
-	uint32 Destination;
 	uint32 StartAddress;
 	uint32 SectionsCount;
 	uint32 Length;
