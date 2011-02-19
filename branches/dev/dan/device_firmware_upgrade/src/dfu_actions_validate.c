@@ -16,7 +16,6 @@
 static uint32 sectionStartAddress;
 static uint32 sectionsRemaining;
 static uint32 sectionSize;
-static DFU_DestinationType destination;
 static uint32 readSize;
 static uint32 readAddress;
 
@@ -28,7 +27,6 @@ static void InitializeDataMembers( void )
 	sectionStartAddress = 0;
 	sectionsRemaining = 0;
 	sectionSize = 0;
-	destination = DFU_DESTINATION_UNKNOWN;
 	DFU_MalReadEnabled = FALSE;
 	readSize = 0;
 	readAddress = 0;
@@ -55,13 +53,13 @@ void  dfu_ActionBeginValidation(DFU_Command *Cmd, DFU_Response *Response)
 
 	sectionsRemaining = Cmd->SectionsCount;
 
-	if( sectionsRemaining > DFU_DESTINATION_COUNT)
-	{
-		Response->Status = DFU_STATUS_TOO_MANY_SECTIONS;
-		printf("ActionBeginValidation: too many sections: %d (max %d)\n",
-				sectionsRemaining, DFU_DESTINATION_COUNT);
-	}
-	else
+//	if( sectionsRemaining > MAL_MEMORY_SECTIONS_COUNT)
+//	{
+//		Response->Status = DFU_STATUS_TOO_MANY_SECTIONS;
+//		printf("ActionBeginValidation: too many sections: %d (max %d)\n",
+//				sectionsRemaining, MAL_MEMORY_SECTIONS_COUNT);
+//	}
+//	else
 	{
 		Response->Status = DFU_STATUS_SUCCESS;
 
@@ -72,18 +70,12 @@ void  dfu_ActionBeginValidation(DFU_Command *Cmd, DFU_Response *Response)
 void  dfu_ActionStartSectionValidation(DFU_Command *Cmd, DFU_Response *Response)
 {
 	sectionsRemaining--;
-	destination = Cmd->Destination;
 
 	if(sectionsRemaining < 0)
 	{
 		Response->Status = DFU_STATUS_SECTION_OVERFLOW;
 		printf("ActionStartSectionValidation: DFU_STATUS_SECTION_OVERFLOW\n");
 		InitializeDataMembers();
-	}
-	else if( destination > DFU_DESTINATION_COUNT )
-	{
-		Response->Status = DFU_STATUS_INVALID_DESTINATION;
-		printf("ActionBeginValidation: invalid destination: %d\n", destination);
 	}
 	else
 	{
@@ -118,17 +110,17 @@ void  dfu_ActionSectionValidate(DFU_Command *Cmd, DFU_Response *Response)
 
 uint32 dfu_ActionReadSectionChunk(void)
 {
-	uint32 byteRead, i;
+//	uint32 byteRead, i;
 
 	// read length bytes to readAddress of destination here
 	MAL_Read(readAddress, readSize);
 
 	printf("ActionReadSectionChunk: read %d bytes from %08X\n", readSize, readAddress);
 
-	printf("After:\n");
-	for(i=48; i >= 48 && i < 72; i++)
-		printf("%X ", DFU_MalBuffer[i]);
-	printf("\n");
+//	printf("After:\n");
+//	for(i=48; i >= 48 && i < 72; i++)
+//		printf("%X ", DFU_MalBuffer[i]);
+//	printf("\n");
 
 	//UpdateCheckSum((uint32*)Response, readSize/4);
 	DFU_MalReadEnabled = FALSE;
