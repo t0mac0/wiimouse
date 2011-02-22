@@ -1,0 +1,38 @@
+/*
+ * flash_eeprom_prepreprocess.h
+ *
+ *  Created on: Feb 19, 2011
+ *      Author: Reed
+ */
+
+#ifndef FEEPROM_PREPREPROCESS_H_
+#define FEEPROM_PREPREPROCESS_H_
+
+#ifdef USE_FEEPROM_ENTRY_GENERATOR
+#define _$FEEPROM_ENTRY_COUNT$_ 5
+
+#define _$FEEPROM_ENTRIES$_ { \
+		{ 8*2, FEEPROM_ENTRY_TEST, TRUE,  FEEPROM_ENTRY_FORCE_UPDATE, {NULL} },\
+		{ 4*2, FEEPROM_ENTRY_TEST2, TRUE,  FEEPROM_ENTRY_FORCE_UPDATE, {NULL} },\
+		{ 6*2, FEEPROM_ENTRY_TEST3, TRUE,  FEEPROM_ENTRY_FORCE_UPDATE, {NULL} },\
+		{ 6*2, FEEPROM_ENTRY_TEST4, TRUE,  FEEPROM_ENTRY_FORCE_UPDATE, {NULL} },\
+		{ 1*2, FEEPROM_ENTRY_DFU_MODE, TRUE,  FEEPROM_ENTRY_FORCE_UPDATE, {NULL} },\
+}
+#define _$FEEPROM_ENTRY_DATA$_ {\
+		1,2,3,4,5,6,7,8,\
+		1,2,3,4,\
+		1,2,3,4,5,6,\
+		0x1,0xFEED,0xDEAD,0xADD,5,6,\
+		-1,\
+}
+#else
+
+#define _$FEEPROM_ENTRIES$_ {0}
+
+#define _$FEEPROM_ENTRY_COUNT$_ 0
+
+#define _$FEEPROM_ENTRY_DATA$_ {0}
+
+#endif
+
+#endif /* FLASH_EEPROM_PREPREPROCESS_H_ */
