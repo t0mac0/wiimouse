@@ -12,7 +12,6 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include <platform_lib.h>
 #include "usart/hw_usart.h"
 #include "gpio/hw_gpio.h"
 
@@ -102,20 +101,22 @@ PRIVATE uint32 HW_RCC_ApbPeriphUsart[USART_COUNT] =
 // Exported Functions
 //
 //****************************************************************************
+
+//****************************************************************************/
 PUBLIC inline void HW_USART_DefaultInit( void )
 {
     USART_InitTypeDef USART_InitStructure;
     GPIO_InitTypeDef GPIO_InitStructure;
 
-    ASSERT(usartBase[DEFAULT_USART]);
-    ASSERT(HW_GPIO_PortBase[DEFAULT_USART_PORT]);
-    ASSERT(HW_RCC_ApbPeriphGpio[DEFAULT_USART_PORT]);
-    ASSERT(HW_RCC_ApbPeriphUsart[DEFAULT_USART_PORT]);
+    ASSERT(usartBase[DEFAULT_USART] != NULL);
+    ASSERT(HW_GPIO_PortBase[DEFAULT_USART_PORT] != NULL);
+    ASSERT(HW_RCC_ApbPeriphGpio[DEFAULT_USART_PORT] != NULL);
+    ASSERT(HW_RCC_ApbPeriphUsart[DEFAULT_USART] != NULL);
 
     // Enable clocks
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
     RCC_APB2PeriphClockCmd(HW_RCC_ApbPeriphGpio[DEFAULT_USART_PORT], ENABLE);
-    RCC_APB1PeriphClockCmd(HW_RCC_ApbPeriphUsart[DEFAULT_USART_PORT], ENABLE);
+    RCC_APB1PeriphClockCmd(HW_RCC_ApbPeriphUsart[DEFAULT_USART], ENABLE);
 
     USART_Cmd(usartBase[DEFAULT_USART], ENABLE);
 
@@ -143,6 +144,8 @@ PUBLIC inline void HW_USART_DefaultInit( void )
     USART_Init(usartBase[DEFAULT_USART], &USART_InitStructure);
 }
 
+
+//****************************************************************************/
 PUBLIC Result HW_USART_Init(uint32 BlockId, void* InitInfo )
 {
     Result result = HW_USART_RESULT_INIT();
@@ -154,6 +157,8 @@ PUBLIC Result HW_USART_Init(uint32 BlockId, void* InitInfo )
     return result;
 }
 
+
+//****************************************************************************/
 PUBLIC Result HW_USART_PowerUp( uint32 BlockId )
 {
     Result result = HW_USART_RESULT_INIT();
@@ -163,6 +168,8 @@ PUBLIC Result HW_USART_PowerUp( uint32 BlockId )
     return result;
 }
 
+
+//****************************************************************************/
 PUBLIC Result HW_USART_PowerDown( uint32 BlockId )
 {
     Result result = HW_USART_RESULT_INIT();
@@ -173,6 +180,74 @@ PUBLIC Result HW_USART_PowerDown( uint32 BlockId )
 }
 
 
+//****************************************************************************/
+PUBLIC Result HW_USART_WriteByte(HW_USART_BlockId Id, uint8 Byte)
+{
+    //ASSERT(usartBase[Id] != NULL);
+
+    // TODO check if initialized and wrap with watch dog
+    USART_SendData(usartBase[Id], (uint16)Byte);
+    while(USART_GetFlagStatus(usartBase[Id], USART_FLAG_TXE) == RESET);
+
+    return HW_USART_RESULT(HW_USART_RESULT_SUCCESS);
+}
+
+
+//****************************************************************************/
+PUBLIC Result HW_USART_WriteBytes(HW_USART_BlockId Id, uint8* Bytes, uint32 Count)
+{
+    uint32 i;
+
+    // TODO check if initialized and wrap with watch dog
+    ASSERT(usartBase[Id] != NULL);
+
+    for( i = 0; i < Count; i++ )
+    {
+        USART_SendData(usartBase[Id], (uint16)Bytes[i]);
+        while(USART_GetFlagStatus(usartBase[Id], USART_FLAG_TXE) == RESET);
+    }
+
+    return HW_USART_RESULT(HW_USART_RESULT_SUCCESS);
+}
+
+
+//****************************************************************************/
+PUBLIC Result HW_USART_ReadByte(HW_USART_BlockId Id, uint8 *Byte)
+{
+    // TODO check if initialized and wrap with watch dog
+    ASSERT(usartBase[Id] != NULL);
+
+    while(USART_GetFlagStatus(usartBase[Id], USART_FLAG_RXNE) == RESET);
+    *Byte =  (uint8)USART_ReceiveData(usartBase[Id]);
+
+    return HW_USART_RESULT(HW_USART_RESULT_SUCCESS);
+}
+
+
+//****************************************************************************/
+PUBLIC Result HW_USART_ReadBytes(HW_USART_BlockId Id, uint8 *Bytes, uint32 Count)
+{
+    uint32 i;
+
+    // TODO check if initialized and wrap with watch dog
+    ASSERT(usartBase[Id] != NULL);
+
+    for( i = 0; i < Count; i++ )
+    {
+        while(USART_GetFlagStatus(usartBase[Id], USART_FLAG_RXNE) == RESET);
+        Bytes[i] =  (uint8)USART_ReceiveData(usartBase[Id]);
+    }
+
+    return HW_USART_RESULT(HW_USART_RESULT_SUCCESS);
+}
+
+
+//****************************************************************************/
+PUBLIC void HW_USART_DefaultOutputDest(void *p, char ch)
+{
+    UNUSED(p);
+    HW_USART_WriteByte(DEFAULT_USART, ch);
+}
 
 
 //*****************************************************************************

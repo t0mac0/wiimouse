@@ -30,7 +30,7 @@ enum {
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-#define MOD_MGR_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_MOD_MGR, RESULT_NULL_MOD, code))
+#define MOD_MGR_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_MOD_MGR, NULL_MOD, code))
 
 #define MOD_MGR_RESULT_INIT()(MOD_MGR_RESULT(MOD_MGR_RESULT_NULL))
 

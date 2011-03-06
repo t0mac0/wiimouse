@@ -74,12 +74,6 @@ typedef enum {
 } ResultSeverity;
 
 
-typedef Result (ModulePowerUpPrototype)( void );
-typedef Result (*pModulePowerUpPrototype)( void );
-
-typedef Result (ModulePowerDownPrototype)( void );
-typedef Result (*pModulePowerDownPrototype)( void );
-
 typedef Result (ModuleInitPrototype)( void );
 typedef Result (*pModuleInitPrototype)( void );
 
