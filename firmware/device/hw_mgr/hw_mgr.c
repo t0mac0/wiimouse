@@ -14,6 +14,8 @@
 ------------------------------------------------------------------------------*/
 #include "hw_mgr.h"
 
+#ifdef DEV_MOD_HW_MGR
+
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
@@ -46,28 +48,10 @@ Result HW_MGR_Init( void )
 {
     Result result = HW_MGR_RESULT_INIT();
 
-
-    return result;
-}
+    LOG_RegisterModule(MOD_MGR_HW_MGR, HW_MGR_USART, TRUE);
 
 
-/******************************************************************************/
-Result HW_MGR_PowerUp( void )
-{
-    Result result = HW_MGR_RESULT_INIT();
-
-
-    return result;
-}
-
-
-/******************************************************************************/
-Result HW_MGR_PowerDown( void )
-{
-    Result result = HW_MGR_RESULT_INIT();
-
-
-    return result;
+    return HW_MGR_RESULT(HW_MGR_RESULT_SUCCESS);
 }
 
 
@@ -79,3 +63,4 @@ Result HW_MGR_PowerDown( void )
 //
 //*****************************************************************************
 
+#endif

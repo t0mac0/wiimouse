@@ -29,7 +29,7 @@
 #define RESULT_SEVERITY_MASK          0x00000300
 #define RESULT_CODE_MASK              0x000000FF
 
-#define RESULT_NULL_MOD              (0xFFFFFFFF)
+#define NULL_MOD              (0xFFFFFFFF)
 
 
 /*-----------------------------------------------------------------------------
@@ -48,7 +48,7 @@
 #define RESULT_WARN(code)( ((uint32)RESULT_SEVERITY_WARN << 8) | code )
 #define RESULT_ERROR(code)( ((uint32)RESULT_SEVERITY_ERROR << 8) | code )
 
-#define RESULT_SUCCESS(result, func)( (result=func) == RESULT_SEVERITY_SUCCESS )
+#define RESULT_SUCCESS(result, func)( RESULT_SEVERITY((result=func)) == RESULT_SEVERITY_SUCCESS )
 
 
 #define UNUSED(x)(x= NULL);

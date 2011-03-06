@@ -18,6 +18,7 @@
 #include "device.h"
 #include "hw_mgr.h"
 #include "hw_usart_result.h"
+#include "hw_mgr_types.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -62,6 +63,16 @@ PUBLIC HwModuleInitPrototype HW_USART_Init;
 PUBLIC HwModulePowerUpPrototype HW_USART_PowerUp;
 
 PUBLIC HwModulePowerDownPrototype HW_USART_PowerDown;
+
+PUBLIC Result HW_USART_WriteByte(HW_USART_BlockId Id, uint8 Bytes);
+
+PUBLIC Result HW_USART_WriteBytes(HW_USART_BlockId Id, uint8* Bytes, uint32 Count);
+
+PUBLIC Result HW_USART_ReadByte(HW_USART_BlockId Id, uint8 *Byte);
+
+PUBLIC Result HW_USART_ReadBytes(HW_USART_BlockId Id, uint8 *Bytes, uint32 Count);
+
+PUBLIC LIB_PRINTF_PutChr HW_USART_DefaultOutputDest;
 
 /*-----------------------------------------------------------------------------
  External Data Members

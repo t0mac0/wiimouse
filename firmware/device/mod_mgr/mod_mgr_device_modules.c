@@ -30,10 +30,9 @@
 #define ADD_MODULE(_name)                                \
 {                                                        \
     (MOD_MGR_ModuleId)MOD_MGR_##_name,                   \
-    (pModulePowerUpPrototype)&_name##_PowerUp,           \
-    (pModulePowerDownPrototype)&_name##_PowerDown,       \
     (pModuleInitPrototype)&_name##_Init,                 \
-    (pGetResutCodeStrPrototype)&_name##_GetResultCodeStr \
+    (pGetResutCodeStrPrototype)&_name##_GetResultCodeStr,\
+    FALSE                                                \
 }
 
 
@@ -49,7 +48,6 @@
  Data Members
 ------------------------------------------------------------------------------*/
 ModMgrModules modMgrModules[MOD_MGR_MODULE_COUNT] = {
-        { MOD_MGR_MOD_MGR, NULL, NULL, NULL, NULL },
 #ifdef DEV_MOD_HW_MGR
         ADD_MODULE(HW_MGR),                                     // Hardware Module
 #endif

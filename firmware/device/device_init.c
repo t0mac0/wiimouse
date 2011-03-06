@@ -52,8 +52,19 @@ PROTECTED bool DeviceInit( void )
     // initialize device critical hardware
     ASSERT(CriticalHwInit());
 
+    // initialize logging
+    ASSERT(RESULT_SUCCESS(result, LOG_Init()));
+
+    // register the default usart as the default logging output destination
+    ASSERT(RESULT_SUCCESS(result, LOG_RegisterOutputDest(LOG_OUTPUT_DEFAULT, HW_USART_DefaultOutputDest, TRUE)));
+    LOG_Printf("Logging enabled on default USART\n");
+
     //  initialize device modules
-    ASSERT(RESULT_SUCCESS(result, MOD_MGR_Init()));
+    if( !RESULT_SUCCESS(result, MOD_MGR_Init()) )
+    {
+        LOG_CatchError(result);
+        ASSERT(0);
+    }
 
     return retval;
 }

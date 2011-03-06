@@ -21,6 +21,7 @@
 #include "device_types.h"
 
 #include "mod_mgr/mod_mgr.h"
+#include "log/log.h"
 
 
 /*-----------------------------------------------------------------------------

@@ -18,6 +18,7 @@
 #include "device.h"
 #include "hw_mgr.h"
 #include "hw_mgr_conf.h"
+#include "hw_mgr_types.h"
 
 //--------- System Critical Modules -------------------------------//
 #ifdef HW_MOD_SYSCLK

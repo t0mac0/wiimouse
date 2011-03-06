@@ -1,24 +1,24 @@
 /*!
- * \file hw_mgr.h
+ * \file log.h
  *
  * \brief 
  *
  *
- * \date Mar 2, 2011
+ * \date Mar 5, 2011
  * \author Dan Riedler
  *
  */
 
-#ifndef _HW_MGR_H_
-#define _HW_MGR_H_
+#ifndef _LOG_H_
+#define _LOG_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
 #include "device.h"
-#include "hw_mgr_hw_modules.h"
-#include "hw_mgr_result.h"
-#include "hw_mgr_types.h"
+#include "log_types.h"
+#include "printf/lib_printf.h"
+
 
 
 /*-----------------------------------------------------------------------------
@@ -29,6 +29,7 @@
  Macros
 ------------------------------------------------------------------------------*/
 
+
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
@@ -38,17 +39,30 @@
 ------------------------------------------------------------------------------*/
 
 /*!****************************************************************************
- * /brief Hardware Initialization
- *
- * This initializes all hardware based on the hardware configuration.
+ * /brief Log Initialization
  *
  * /param
  * /return
  ******************************************************************************/
-PUBLIC ModuleInitPrototype HW_MGR_Init;
+PUBLIC ModuleInitPrototype LOG_Init;
 
+PUBLIC Result LOG_RegisterModule(uint32 ModId, uint32 SubModuleId, bool Enabled);
 
+PUBLIC Result LOG_RegisterOutputDest(LOG_DestinationId DestId, void (*Dest)(void *, char), bool Enabled);
 
+#ifdef DEV_MOD_LOG
+PUBLIC Result LOG(LOG_DestinationId DestId, uint32 ModId, uint32 SubModId, char* Format, ...);
+#else
+#define LOG(w,x,y,z,...)
+#endif
+
+PUBLIC Result LOG_CatchError(Result result);
+
+PUBLIC Result LOG_Printf( char* Format, ...);
+
+PUBLIC Result LOG_SetModuleEnabled(uint32 ModId, uint32 SubModuleId, bool Enabled);
+
+PUBLIC Result LOG_SetOutputDestEnabled(LOG_DestinationId DestId, bool Enabled);
 
 
 /*-----------------------------------------------------------------------------
@@ -56,4 +70,4 @@ PUBLIC ModuleInitPrototype HW_MGR_Init;
 ------------------------------------------------------------------------------*/
 
 
-#endif /* HW_MGR_H_ */
+#endif /* LOG_H_ */

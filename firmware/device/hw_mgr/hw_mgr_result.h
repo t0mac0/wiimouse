@@ -16,17 +16,12 @@
  Includes
 ------------------------------------------------------------------------------*/
 #include "hw_mgr.h"
-
+#include "hw_mgr_hw_modules.h"
 
 
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
-#ifndef MOD_MGR_HW_MGR
-#define MOD_MGR_HW_MGR 0xFFFFFFFF
-#endif
-
-
 enum {
     HW_MGR_RESULT_SUCCESS = RESULT_SEVERITY_SUCCESS,
 
@@ -43,7 +38,7 @@ enum {
  Macros
 ------------------------------------------------------------------------------*/
 
-#define HW_MGR_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_HW_MGR, RESULT_NULL_MOD, code))
+#define HW_MGR_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_HW_MGR, NULL_MOD, code))
 
 #define HW_MGR_RESULT_INIT()(HW_MGR_RESULT(HW_MGR_RESULT_NULL))
 

@@ -14,6 +14,7 @@
 ------------------------------------------------------------------------------*/
 #include "mod_mgr.h"
 
+
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
@@ -45,6 +46,22 @@
 PUBLIC Result MOD_MGR_Init( void )
 {
     Result result = MOD_MGR_RESULT_INIT();
+    uint32 i;
+
+    for( i = 0; i < MOD_MGR_MODULE_COUNT; i++ )
+    {
+        if( modMgrModules[i].Init != NULL && RESULT_SUCCESS(result, modMgrModules[i].Init()) )
+        {
+            modMgrModules[i].Initialized = TRUE;
+        }
+        else
+        {
+           return result;
+        }
+    }
+
+    LOG_RegisterModule(MOD_MGR_MOD_MGR, NULL_MOD, TRUE);
+
 
 
     return result;

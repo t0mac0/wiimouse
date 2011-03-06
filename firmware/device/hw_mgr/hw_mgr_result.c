@@ -50,7 +50,7 @@ CString HW_MGR_GetResultCodeStr(Result result)
    {
        uint32 subModId = RESULT_SUB_MODULE_ID(result);
 
-       if( subModId == RESULT_NULL_MOD )
+       if( subModId == NULL_MOD )
        {
            switch(RESULT_CODE(result))
            {
