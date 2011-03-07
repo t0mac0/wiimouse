@@ -62,7 +62,7 @@ CString HW_MGR_GetResultCodeStr(Result result)
        {
            switch(subModId)
            {
-#ifdef HW_MOD_USART
+#ifdef HW_MGR_MOD_USART
            case HW_MGR_USART:
 #endif
 #if( HW_MGR_MODULE_COUNT > 0 )

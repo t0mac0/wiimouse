@@ -46,9 +46,9 @@
 /******************************************************************************/
 Result HW_MGR_Init( void )
 {
-    Result result = HW_MGR_RESULT_INIT();
+    //Result result = HW_MGR_RESULT_INIT();
 
-    LOG_RegisterModule(MOD_MGR_HW_MGR, HW_MGR_USART, TRUE);
+    LOG_RegisterModule(MOD_MGR_HW_MGR, NULL_MOD, TRUE);
 
 
     return HW_MGR_RESULT(HW_MGR_RESULT_SUCCESS);

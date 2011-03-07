@@ -31,7 +31,9 @@
 #define DEV_MOD_COMM_MGR            // Communication Manager module
 #define DEV_MOD_COMP_MGR            // Component Manager module
 
+#define OS_PLATFORM FREERTOS
 
+#if( SYSTEM_PLATFORM == STM32F10X_MD )
 
 /*!
  * \brief Default (logging) USART config
@@ -41,6 +43,7 @@
 #define DEFAULT_USART_PARITY        USART_Parity_No
 #define DEFAULT_USART_WORD_LEN      USART_WordLength_8b
 #define DEFAULT_USART_FLOW_CTL      USART_HardwareFlowControl_None
+
 
 /*!
  * \brief Device Clock Speed
@@ -52,6 +55,9 @@
  * from the base of memory
  */
 #define DEVICE_VECTOR_TABLE_OFFSET 0x00000000
+
+
+#endif
 
 
 /*-----------------------------------------------------------------------------
