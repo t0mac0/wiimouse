@@ -44,17 +44,16 @@
  * /param
  * /return
  ******************************************************************************/
+
+#ifdef DEV_MOD_LOG
+
 PUBLIC ModuleInitPrototype LOG_Init;
 
 PUBLIC Result LOG_RegisterModule(uint32 ModId, uint32 SubModuleId, bool Enabled);
 
 PUBLIC Result LOG_RegisterOutputDest(LOG_DestinationId DestId, void (*Dest)(void *, char), bool Enabled);
 
-#ifdef DEV_MOD_LOG
 PUBLIC Result LOG(LOG_DestinationId DestId, uint32 ModId, uint32 SubModId, char* Format, ...);
-#else
-#define LOG(w,x,y,z,...)
-#endif
 
 PUBLIC Result LOG_CatchError(Result result);
 
@@ -63,6 +62,19 @@ PUBLIC Result LOG_Printf( char* Format, ...);
 PUBLIC Result LOG_SetModuleEnabled(uint32 ModId, uint32 SubModuleId, bool Enabled);
 
 PUBLIC Result LOG_SetOutputDestEnabled(LOG_DestinationId DestId, bool Enabled);
+
+#else
+
+#define LOG_Init() 0
+#define LOG_RegisterModule(x,y,z)
+#define LOG_RegisterOutputDest(x,y,z) 0
+#define LOG(w,x,y,z,...)
+#define LOG_CatchError(x)
+#define LOG_Printf(x,...)
+#define LOG_SetModuleEnabled(x,y,z)
+#define LOG_SetOutputDestEnabled(x,y)
+
+#endif
 
 
 /*-----------------------------------------------------------------------------

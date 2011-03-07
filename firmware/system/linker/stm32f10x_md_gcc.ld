@@ -100,6 +100,7 @@ SECTIONS
     } >FLASH
 
     /* used by the startup to initialize data */
+    . = ALIGN(4);
     _sidata = .;
 
     /* Initialized data sections goes into RAM, load LMA copy after code */

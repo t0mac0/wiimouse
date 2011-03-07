@@ -21,22 +21,22 @@
 #include "hw_mgr_types.h"
 
 //--------- System Critical Modules -------------------------------//
-#ifdef HW_MOD_SYSCLK
+#ifdef HW_MGR_MOD_SYSCLK
 #include "sysclk/hw_sysclk.h"
 #endif
-#ifdef HW_MOD_SYSINIT
+#ifdef HW_MGR_MOD_SYSINIT
 #include "sysinit/hw_sysinit.h"
 #endif
-#ifdef HW_MOD_INT
+#ifdef HW_MGR_MOD_INT
 #include "int/hw_int.h"
 #endif
-#ifdef HW_MOD_USART
+#ifdef HW_MGR_MOD_USART
 #include "usart/hw_usart.h"
 #endif
-#ifdef HW_MOD_RCC
+#ifdef HW_MGR_MOD_RCC
 #include "rcc/hw_rcc.h"
 #endif
-#ifdef HW_MOD_GPIO
+#ifdef HW_MGR_MOD_GPIO
 #include "gpio/hw_gpio.h"
 #endif
 
@@ -56,13 +56,15 @@
  Typedefs
 ------------------------------------------------------------------------------*/
 PUBLIC typedef enum {
+#ifdef HW_MGR_MOD_USART
     HW_MGR_USART,
+#endif
     HW_MGR_MODULE_COUNT,   // this must come second to last
     HW_MGR_MAX_MODULE = 1024 // this must come last
 } HW_MGR_ModuleId;
 
 
-typedef struct {
+PROTECTED typedef struct {
     HW_MGR_ModuleId Id;
     pHwModulePowerUpPrototype PowerUp;
     pHwModulePowerDownPrototype PowerDown;

@@ -16,7 +16,7 @@
 #include "sysinit/hw_sysinit.h"
 
 #if( SYSTEM_PLATFORM == STM32F10X_MD )
-#ifdef HW_MOD_SYSINIT
+#ifdef HW_MGR_MOD_SYSINIT
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/

@@ -537,7 +537,7 @@ typedef struct
 /******************************************************************************/
 
 /*------------------- Non Debug Mode -----------------------------------------*/
-#ifndef DEBUG
+//#ifndef DEBUG
 #ifdef _TIM2
   #define TIM2                  ((TIM_TypeDef *) TIM2_BASE)
 #endif /*_TIM2 */
@@ -697,167 +697,167 @@ typedef struct
 
 
 /*----------------------  Debug Mode -----------------------------------------*/
-#else   /* DEBUG */
-
-
-#ifdef _TIM2
-  EXTERN_C TIM_TypeDef             *TIM2;
-#endif /*_TIM2 */
-
-#ifdef _TIM3
-  EXTERN_C TIM_TypeDef             *TIM3;
-#endif /*_TIM3 */
-
-#ifdef _TIM4
-  EXTERN_C TIM_TypeDef             *TIM4;
-#endif /*_TIM4 */
-
-#ifdef _RTC
-  EXTERN_C RTC_TypeDef             *RTC;
-#endif /*_RTC */
-
-#ifdef _WWDG
-  EXTERN_C WWDG_TypeDef            *WWDG;
-#endif /*_WWDG */
-
-#ifdef _IWDG
-  EXTERN_C IWDG_TypeDef            *IWDG;
-#endif /*_IWDG */
-
-#ifdef _SPI2
-  EXTERN_C SPI_TypeDef             *SPI2;
-#endif /*_SPI2 */
-
-#ifdef _USART2
-  EXTERN_C USART_TypeDef           *USART2;
-#endif /*_USART2 */
-
-#ifdef _USART3
-  EXTERN_C USART_TypeDef           *USART3;
-#endif /*_USART3 */
-
-#ifdef _I2C1
-  EXTERN_C I2C_TypeDef             *I2C1;
-#endif /*_I2C1 */
-
-#ifdef _I2C2
-  EXTERN_C I2C_TypeDef             *I2C2;
-#endif /*_I2C2 */
-
-#ifdef _CAN
-  EXTERN_C CAN_TypeDef             *CAN;
-#endif /*_CAN */
-
-#ifdef _BKP
-  EXTERN_C BKP_TypeDef             *BKP;
-#endif /*_BKP */
-
-#ifdef _PWR
-  EXTERN_C PWR_TypeDef             *PWR;
-#endif /*_PWR */
-
-#ifdef _AFIO
-  EXTERN_C AFIO_TypeDef            *AFIO;
-#endif /*_AFIO */
-
-#ifdef _EXTI
-  EXTERN_C EXTI_TypeDef            *EXTI;
-#endif /*_EXTERN_CI */
-
-#ifdef _GPIOA
-  EXTERN_C GPIO_TypeDef            *GPIOA;
-#endif /*_GPIOA */
-
-#ifdef _GPIOB
-  EXTERN_C GPIO_TypeDef            *GPIOB;
-#endif /*_GPIOB */
-
-#ifdef _GPIOC
-  EXTERN_C GPIO_TypeDef            *GPIOC;
-#endif /*_GPIOC */
-
-#ifdef _GPIOD
-  EXTERN_C GPIO_TypeDef            *GPIOD;
-#endif /*_GPIOD */
-
-#ifdef _GPIOE
-  EXTERN_C GPIO_TypeDef            *GPIOE;
-#endif /*_GPIOE */
-
-#ifdef _ADC1
-  EXTERN_C ADC_TypeDef             *ADC1;
-#endif /*_ADC1 */
-
-#ifdef _ADC2
-  EXTERN_C ADC_TypeDef             *ADC2;
-#endif /*_ADC2 */
-
-#ifdef _TIM1
-  EXTERN_C TIM1_TypeDef            *TIM1;
-#endif /*_TIM1 */
-
-#ifdef _SPI1
-  EXTERN_C SPI_TypeDef             *SPI1;
-#endif /*_SPI1 */
-
-#ifdef _USART1
-  EXTERN_C USART_TypeDef           *USART1;
-#endif /*_USART1 */
-
-#ifdef _DMA
-  EXTERN_C DMA_TypeDef             *DMA;
-#endif /*_DMA */
-
-#ifdef _DMA_Channel1
-  EXTERN_C DMA_Channel_TypeDef     *DMA_Channel1;
-#endif /*_DMA_Channel1 */
-
-#ifdef _DMA_Channel2
-  EXTERN_C DMA_Channel_TypeDef     *DMA_Channel2;
-#endif /*_DMA_Channel2 */
-
-#ifdef _DMA_Channel3
-  EXTERN_C DMA_Channel_TypeDef     *DMA_Channel3;
-#endif /*_DMA_Channel3 */
-
-#ifdef _DMA_Channel4
-  EXTERN_C DMA_Channel_TypeDef     *DMA_Channel4;
-#endif /*_DMA_Channel4 */
-
-#ifdef _DMA_Channel5
-  EXTERN_C DMA_Channel_TypeDef     *DMA_Channel5;
-#endif /*_DMA_Channel5 */
-
-#ifdef _DMA_Channel6
-  EXTERN_C DMA_Channel_TypeDef     *DMA_Channel6;
-#endif /*_DMA_Channel6 */
-
-#ifdef _DMA_Channel7
-  EXTERN_C DMA_Channel_TypeDef     *DMA_Channel7;
-#endif /*_DMA_Channel7 */
-
-#ifdef _FLASH
-  EXTERN_C FLASH_TypeDef            *FLASH;
-  EXTERN_C OB_TypeDef               *OB;
-#endif /*_FLASH */
-
-#ifdef _RCC
-  EXTERN_C RCC_TypeDef             *RCC;
-#endif /*_RCC */
-
-#ifdef _SysTick
-  EXTERN_C SysTick_TypeDef         *SysTick;
-#endif /*_SysTick */
-
-#ifdef _NVIC
-  EXTERN_C NVIC_TypeDef            *NVIC;
-#endif /*_NVIC */
-
-#ifdef _SCB
-  EXTERN_C SCB_TypeDef             *SCB;
-#endif /*_SCB */
-
-#endif  /* DEBUG */
+//#else   /* DEBUG */
+//
+//
+//#ifdef _TIM2
+//  EXTERN_C TIM_TypeDef             *TIM2;
+//#endif /*_TIM2 */
+//
+//#ifdef _TIM3
+//  EXTERN_C TIM_TypeDef             *TIM3;
+//#endif /*_TIM3 */
+//
+//#ifdef _TIM4
+//  EXTERN_C TIM_TypeDef             *TIM4;
+//#endif /*_TIM4 */
+//
+//#ifdef _RTC
+//  EXTERN_C RTC_TypeDef             *RTC;
+//#endif /*_RTC */
+//
+//#ifdef _WWDG
+//  EXTERN_C WWDG_TypeDef            *WWDG;
+//#endif /*_WWDG */
+//
+//#ifdef _IWDG
+//  EXTERN_C IWDG_TypeDef            *IWDG;
+//#endif /*_IWDG */
+//
+//#ifdef _SPI2
+//  EXTERN_C SPI_TypeDef             *SPI2;
+//#endif /*_SPI2 */
+//
+//#ifdef _USART2
+//  EXTERN_C USART_TypeDef           *USART2;
+//#endif /*_USART2 */
+//
+//#ifdef _USART3
+//  EXTERN_C USART_TypeDef           *USART3;
+//#endif /*_USART3 */
+//
+//#ifdef _I2C1
+//  EXTERN_C I2C_TypeDef             *I2C1;
+//#endif /*_I2C1 */
+//
+//#ifdef _I2C2
+//  EXTERN_C I2C_TypeDef             *I2C2;
+//#endif /*_I2C2 */
+//
+//#ifdef _CAN
+//  EXTERN_C CAN_TypeDef             *CAN;
+//#endif /*_CAN */
+//
+//#ifdef _BKP
+//  EXTERN_C BKP_TypeDef             *BKP;
+//#endif /*_BKP */
+//
+//#ifdef _PWR
+//  EXTERN_C PWR_TypeDef             *PWR;
+//#endif /*_PWR */
+//
+//#ifdef _AFIO
+//  EXTERN_C AFIO_TypeDef            *AFIO;
+//#endif /*_AFIO */
+//
+//#ifdef _EXTI
+//  EXTERN_C EXTI_TypeDef            *EXTI;
+//#endif /*_EXTERN_CI */
+//
+//#ifdef _GPIOA
+//  EXTERN_C GPIO_TypeDef            *GPIOA;
+//#endif /*_GPIOA */
+//
+//#ifdef _GPIOB
+//  EXTERN_C GPIO_TypeDef            *GPIOB;
+//#endif /*_GPIOB */
+//
+//#ifdef _GPIOC
+//  EXTERN_C GPIO_TypeDef            *GPIOC;
+//#endif /*_GPIOC */
+//
+//#ifdef _GPIOD
+//  EXTERN_C GPIO_TypeDef            *GPIOD;
+//#endif /*_GPIOD */
+//
+//#ifdef _GPIOE
+//  EXTERN_C GPIO_TypeDef            *GPIOE;
+//#endif /*_GPIOE */
+//
+//#ifdef _ADC1
+//  EXTERN_C ADC_TypeDef             *ADC1;
+//#endif /*_ADC1 */
+//
+//#ifdef _ADC2
+//  EXTERN_C ADC_TypeDef             *ADC2;
+//#endif /*_ADC2 */
+//
+//#ifdef _TIM1
+//  EXTERN_C TIM1_TypeDef            *TIM1;
+//#endif /*_TIM1 */
+//
+//#ifdef _SPI1
+//  EXTERN_C SPI_TypeDef             *SPI1;
+//#endif /*_SPI1 */
+//
+//#ifdef _USART1
+//  EXTERN_C USART_TypeDef           *USART1;
+//#endif /*_USART1 */
+//
+//#ifdef _DMA
+//  EXTERN_C DMA_TypeDef             *DMA;
+//#endif /*_DMA */
+//
+//#ifdef _DMA_Channel1
+//  EXTERN_C DMA_Channel_TypeDef     *DMA_Channel1;
+//#endif /*_DMA_Channel1 */
+//
+//#ifdef _DMA_Channel2
+//  EXTERN_C DMA_Channel_TypeDef     *DMA_Channel2;
+//#endif /*_DMA_Channel2 */
+//
+//#ifdef _DMA_Channel3
+//  EXTERN_C DMA_Channel_TypeDef     *DMA_Channel3;
+//#endif /*_DMA_Channel3 */
+//
+//#ifdef _DMA_Channel4
+//  EXTERN_C DMA_Channel_TypeDef     *DMA_Channel4;
+//#endif /*_DMA_Channel4 */
+//
+//#ifdef _DMA_Channel5
+//  EXTERN_C DMA_Channel_TypeDef     *DMA_Channel5;
+//#endif /*_DMA_Channel5 */
+//
+//#ifdef _DMA_Channel6
+//  EXTERN_C DMA_Channel_TypeDef     *DMA_Channel6;
+//#endif /*_DMA_Channel6 */
+//
+//#ifdef _DMA_Channel7
+//  EXTERN_C DMA_Channel_TypeDef     *DMA_Channel7;
+//#endif /*_DMA_Channel7 */
+//
+//#ifdef _FLASH
+//  EXTERN_C FLASH_TypeDef            *FLASH;
+//  EXTERN_C OB_TypeDef               *OB;
+//#endif /*_FLASH */
+//
+//#ifdef _RCC
+//  EXTERN_C RCC_TypeDef             *RCC;
+//#endif /*_RCC */
+//
+//#ifdef _SysTick
+//  EXTERN_C SysTick_TypeDef         *SysTick;
+//#endif /*_SysTick */
+//
+//#ifdef _NVIC
+//  EXTERN_C NVIC_TypeDef            *NVIC;
+//#endif /*_NVIC */
+//
+//#ifdef _SCB
+//  EXTERN_C SCB_TypeDef             *SCB;
+//#endif /*_SCB */
+//
+//#endif  /* DEBUG */
 
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/

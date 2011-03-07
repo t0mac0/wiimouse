@@ -35,8 +35,12 @@
  *                    If expr is true, it returns no value.
  * Return         : None
  *******************************************************************************/
-#define ASSERT(expr) ((expr) ? (void)0 : ASSERT_failed((uint8 *)__FILE__, __LINE__))
+#ifndef ASSERT
+#define ASSERT(expr)( (expr) ? (void)0 : ASSERT_failed((uint8 *)__FILE__, __LINE__) )
+#endif
+#ifndef ASSERT_PARAM
 #define ASSERT_PARAM(expr) ((expr) ? (void)0 : ASSERT_failed((uint8 *)__FILE__, __LINE__))
+#endif
 
 /*-----------------------------------------------------------------------------
  Typedefs

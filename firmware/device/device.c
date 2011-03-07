@@ -54,5 +54,8 @@ int main(int argc, char *argv[])
 PUBLIC void ASSERT_failed(uint8* file, uint32 line)
 {
     LOG_Printf("Assertion Failed: File: %s, line: %d", file, line);
+    UNUSED(file);
+    UNUSED(line);
     for(;;);
 }
+

@@ -17,6 +17,9 @@
 #ifdef DEV_MOD_HW_MGR
 #include "hw_mgr.h"
 #endif
+#ifdef DEV_MOD_OS
+#include "os.h"
+#endif
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -50,6 +53,9 @@
 ModMgrModules modMgrModules[MOD_MGR_MODULE_COUNT] = {
 #ifdef DEV_MOD_HW_MGR
         ADD_MODULE(HW_MGR),                                     // Hardware Module
+#endif
+#ifdef DEV_MOD_OS
+      ADD_MODULE(OS),                                           // Operating System Module
 #endif
 };
 

@@ -15,13 +15,14 @@
 #include <stdarg.h>
 #include "log.h"
 #include "hw_mgr/hw_mgr.h"
+#include "os/os.h"
 
 #ifdef DEV_MOD_LOG
 
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
-#define TOTAL_MODULE_COUNT (MOD_MGR_MODULE_COUNT+HW_MGR_MODULE_COUNT)
+#define TOTAL_MODULE_COUNT (MOD_MGR_MODULE_COUNT+HW_MGR_MODULE_COUNT+OS_MODULE_COUNT)
 
 /*-----------------------------------------------------------------------------
  Macros

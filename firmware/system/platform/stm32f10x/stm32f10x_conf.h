@@ -17,6 +17,7 @@
 #ifndef __STM32F10x_CONF_H
 #define __STM32F10x_CONF_H
 
+#if (SYSTEM_PLATFORM == STM32F10X_MD)
 /* Includes ------------------------------------------------------------------*/
 
 /* Exported types ------------------------------------------------------------*/
@@ -153,6 +154,7 @@
 //#define _WWDG
 
 
+#endif
 
 #endif /* __STM32F10x_CONF_H */
 

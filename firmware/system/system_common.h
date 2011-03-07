@@ -15,6 +15,8 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
+#include "system_types.h"
+
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -32,7 +34,9 @@
 // specifies the variable/function a accessible only to current module
 #define PRIVATE static
 
+#ifndef NULL
 #define NULL 0
+#endif
 
 
 /*-----------------------------------------------------------------------------
@@ -55,6 +59,7 @@
 #define MIN(x, y) ( x < y ? x : y )
 
 
+PUBLIC inline void ZeroMemory(void *Mem, uint32 SizeBytes);
 
 
 

@@ -42,16 +42,20 @@
 PUBLIC typedef enum {
 #ifdef DEV_MOD_HW_MGR
     MOD_MGR_HW_MGR,
-#else
-#define MOD_MGR_HW_MGR 0xFFFFFFFF
+#endif
+#ifdef DEV_MOD_OS
+    MOD_MGR_OS,
 #endif
     MOD_MGR_MODULE_COUNT,
-    MOD_MGR_MOD_MGR, // not included in count
+
+    // MODULES NOT INCLUDED IN COUNT
+
+
+    MOD_MGR_MOD_MGR,
 #ifdef DEV_MOD_LOG
     MOD_MGR_LOG,
-#else
-#define MOD_MGR_LOG 0xFFFFFFFF
 #endif
+
     MOD_MGR_MAX_MODULE = 64 // this must come last
 } MOD_MGR_ModuleId;
 
