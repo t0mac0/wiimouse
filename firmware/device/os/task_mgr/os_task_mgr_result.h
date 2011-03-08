@@ -28,7 +28,9 @@ enum {
 
     // errors
     OS_TASK_MGR_RESULT_FAILURE = RESULT_ERROR(0),
-    OS_TASK_MGR_RESULT_NULL= RESULT_ERROR(0),
+    OS_TASK_MGR_RESULT_NULL= RESULT_ERROR(1),
+    OS_TASK_MGR_RESULT_NOT_ENOUGH_MEM = RESULT_ERROR(2),
+    OS_TASK_MGR_RESULT_INVALD_TASK_ID = RESULT_ERROR(3),
 };
 
 /*-----------------------------------------------------------------------------
@@ -56,9 +58,9 @@ enum {
  * /return The corresponding readable string describing the result code
  ******************************************************************************/
 #ifdef DEBUG
-PUBLIC GetResutCodeStrPrototype OS_TASK_MGR_GetResultCodeStr;
+PROTECTED GetResutCodeStrPrototype TASK_MGR_GetResultCodeStr;
 #else
-#define OS_TASK_MGR_GetResultCodeStr(x)((pGetResutCodeStrPrototype)NULL)
+#define TASK_MGR_GetResultCodeStr(x)((pGetResutCodeStrPrototype)NULL)
 #endif
 
 /*-----------------------------------------------------------------------------

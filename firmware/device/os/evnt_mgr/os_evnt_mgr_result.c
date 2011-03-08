@@ -48,7 +48,7 @@
 
 
 //*****************************************************************************//
-CString OS_EVNT_MGR_GetResultCodeStr(Result result)
+PROTECTED CString EVNT_MGR_GetResultCodeStr(Result result)
 {
    CString str;
 

@@ -34,7 +34,7 @@
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PROTECTED OsModuleInitPrototype OS_EVNT_MGR_Init;
+PROTECTED OsModuleInitPrototype EVNT_MGR_Init;
 
 /*-----------------------------------------------------------------------------
  External Data Members

@@ -29,17 +29,7 @@
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
-PUBLIC typedef void (OS_TASK_MGR_TaskProtoType)(void*);
-PUBLIC typedef void (*pOS_TASK_MGR_TaskProtoType)(void*);
 
-PUBLIC typedef struct {
-    char Name[OS_TASK_NAME_LEN];
-    pOS_TASK_MGR_TaskProtoType StartAddr;
-    uint32 StackSize;
-    uint32 Priority;
-    void* Parameter;
-    void* Handle;
-} OS_TASK_MGR_TaskInfo, *pOS_TASK_MGR_TaskInfo;
 
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes

@@ -42,7 +42,7 @@
 //*****************************************************************************
 
 /******************************************************************************/
-PROTECTED Result OS_MEM_MGR_Init( void )
+PROTECTED Result MEM_MGR_Init( void )
 {
     //Result result = HW_MGR_RESULT_INIT();
 

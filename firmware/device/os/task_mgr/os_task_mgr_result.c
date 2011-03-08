@@ -45,7 +45,7 @@
 
 
 //*****************************************************************************//
-CString OS_TASK_MGR_GetResultCodeStr(Result result)
+PROTECTED CString TASK_MGR_GetResultCodeStr(Result result)
 {
    CString str;
 

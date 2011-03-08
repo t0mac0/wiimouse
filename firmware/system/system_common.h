@@ -59,7 +59,9 @@
 #define MIN(x, y) ( x < y ? x : y )
 
 
-PUBLIC inline void ZeroMemory(void *Mem, uint32 SizeBytes);
+PUBLIC inline bool ZeroMemory(void *Mem, uint32 SizeBytes);
+
+PUBLIC inline bool CopyMemory(void *Dst, void *Src, uint32 SizeBytes);
 
 
 

@@ -58,7 +58,7 @@ USART_COUNT
 ------------------------------------------------------------------------------*/
 PUBLIC inline void HW_USART_DefaultInit( void);
 
-PUBLIC HwModuleInitPrototype HW_USART_Init;
+PUBLIC HwModuleInitPrototype USART_Init;
 
 PUBLIC HwModulePowerUpPrototype HW_USART_PowerUp;
 

@@ -34,7 +34,7 @@
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PROTECTED OsModuleInitPrototype OS_SEM_MGR_Init;
+PROTECTED OsModuleInitPrototype SEM_MGR_Init;
 
 /*-----------------------------------------------------------------------------
  External Data Members
