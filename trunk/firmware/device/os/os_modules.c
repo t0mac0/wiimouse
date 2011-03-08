@@ -24,8 +24,8 @@
 #define ADD_OS_MODULE(_name)        \
 {                                   \
     OS_##_name,                     \
-    &OS_##_name##_Init,             \
-    &OS_##_name##_GetResultCodeStr, \
+    &_name##_Init,                  \
+    &_name##_GetResultCodeStr,      \
     FALSE                           \
 }
 

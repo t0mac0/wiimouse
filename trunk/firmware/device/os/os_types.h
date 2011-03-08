@@ -28,8 +28,14 @@
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
-typedef Result (OsModuleInitPrototype)( void );
-typedef Result (*pOsModuleInitPrototype)( void );
+PROTECTED typedef Result (OsModuleInitPrototype)( void );
+PROTECTED typedef Result (*pOsModuleInitPrototype)( void );
+
+
+PUBLIC typedef void (OS_TaskProtoType)(void*);
+PUBLIC typedef void (*pOS_TaskProtoType)(void*);
+
+
 
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes

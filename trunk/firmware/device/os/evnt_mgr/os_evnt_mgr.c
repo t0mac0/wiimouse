@@ -42,7 +42,7 @@
 //*****************************************************************************
 
 /******************************************************************************/
-PROTECTED Result OS_EVNT_MGR_Init( void )
+PROTECTED Result EVNT_MGR_Init( void )
 {
     //Result result = HW_MGR_RESULT_INIT();
 

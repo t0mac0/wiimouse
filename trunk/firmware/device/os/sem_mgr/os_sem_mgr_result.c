@@ -48,7 +48,7 @@
 
 
 //*****************************************************************************//
-CString OS_SEM_MGR_GetResultCodeStr(Result result)
+PROTECTED CString SEM_MGR_GetResultCodeStr(Result result)
 {
    CString str;
 

@@ -48,7 +48,7 @@
 
 
 //*****************************************************************************//
-CString OS_MEM_MGR_GetResultCodeStr(Result result)
+PROTECTED CString MEM_MGR_GetResultCodeStr(Result result)
 {
    CString str;
 

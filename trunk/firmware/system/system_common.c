@@ -40,12 +40,34 @@
 // Exported Functions
 //
 //*****************************************************************************
-PUBLIC inline void ZeroMemory(void *Mem, uint32 SizeBytes)
+
+//*****************************************************************************//
+PUBLIC inline bool ZeroMemory(void *Mem, uint32 SizeBytes)
 {
     uint32 i;
 
+    if(Mem == NULL)
+        return FALSE;
+
     for( i = 0; i < SizeBytes; i++ )
         ((uint8*)(Mem))[i] = 0;
+
+    return TRUE;
+}
+
+
+//*****************************************************************************//
+PUBLIC inline bool CopyMemory(void *Dst, void *Src, uint32 SizeBytes)
+{
+    uint32 i;
+
+    if( (Dst == NULL) || (Src == NULL) )
+        return FALSE;
+
+    for( i = 0; i < SizeBytes; i++ )
+        ((uint8*)(Dst))[i] = ((uint8*)(Src))[i];
+
+    return TRUE;
 }
 
 

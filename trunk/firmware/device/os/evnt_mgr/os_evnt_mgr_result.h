@@ -56,9 +56,9 @@ enum {
  * /return The corresponding readable string describing the result code
  ******************************************************************************/
 #ifdef DEBUG
-PUBLIC GetResutCodeStrPrototype OS_EVNT_MGR_GetResultCodeStr;
+PROTECTED GetResutCodeStrPrototype EVNT_MGR_GetResultCodeStr;
 #else
-#define OS_EVNT_MGR_GetResultCodeStr(x)((pGetResutCodeStrPrototype)NULL)
+#define EVNT_MGR_GetResultCodeStr(x)((pGetResutCodeStrPrototype)NULL)
 #endif
 
 /*-----------------------------------------------------------------------------

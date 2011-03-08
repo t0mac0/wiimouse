@@ -17,6 +17,7 @@
 ------------------------------------------------------------------------------*/
 #include "os.h"
 #include "os_task_mgr_result.h"
+#include "os_tasks.h"
 #include "os_types.h"
 
 /*-----------------------------------------------------------------------------
@@ -34,11 +35,18 @@
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PROTECTED OsModuleInitPrototype OS_TASK_MGR_Init;
+PROTECTED OsModuleInitPrototype TASK_MGR_Init;
 
-PUBLIC inline void OS_TASK_MGR_StartScheduler( void );
-/*-------------------------------------------------------
- * ----------------------
+PUBLIC inline Result OS_TASK_MGR_StartScheduler( void );
+
+PUBLIC Result OS_TASK_MGR_AddTask(OS_TaskId Id,
+                                  char *Name,
+                                  pOS_TaskProtoType StartAddr,
+                                  uint32 StackSize,
+                                  OS_TaskPriorities Priority,
+                                  void *Parameter
+                                  );
+/*----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
 
