@@ -63,6 +63,10 @@ PUBLIC inline bool ZeroMemory(void *Mem, uint32 SizeBytes);
 
 PUBLIC inline bool CopyMemory(void *Dst, void *Src, uint32 SizeBytes);
 
+PUBLIC inline pVoid AllocMemory( uint32 SizeBytes );
+
+PUBLIC inline void FreeMemory( pVoid MemoryPointer );
+
 
 
 #endif /* SYSTEM_COMMON_H_ */
