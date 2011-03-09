@@ -21,7 +21,7 @@
 ------------------------------------------------------------------------------*/
 #define OS_MOD_TASK_MGR
 #define OS_MOD_SEM_MGR
-#define OS_MOD_MEM_MGR
+//#define OS_MOD_MEM_MGR
 #define OS_MOD_EVNT_MGR
 
 #define OS_TASK_NAME_LEN                16

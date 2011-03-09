@@ -42,6 +42,9 @@
 // Exported Functions
 //
 //*****************************************************************************
+
+
+//*****************************************************************************//
 PUBLIC void vApplicationStackOverflowHook( xTaskHandle *pxTask, signed char *pcTaskName )
 {
     /* This function will get called if a task overflows its stack.   If the
@@ -53,6 +56,20 @@ PUBLIC void vApplicationStackOverflowHook( xTaskHandle *pxTask, signed char *pcT
 
     ASSERT(0);
 
+}
+
+
+//*****************************************************************************//
+PUBLIC inline pVoid AllocMemory( uint32 SizeBytes )
+{
+    return pvPortMalloc((size_t) SizeBytes);
+}
+
+
+//*****************************************************************************//
+PUBLIC inline void FreeMemory( pVoid MemoryPointer )
+{
+    vPortFree(MemoryPointer);
 }
 
 

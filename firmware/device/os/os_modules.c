@@ -41,10 +41,18 @@
  Data Members
 ------------------------------------------------------------------------------*/
 OsModules osModules[OS_MODULE_COUNT] = {
+#ifdef OS_MOD_TASK_MGR
         ADD_OS_MODULE(TASK_MGR),
+#endif
+#ifdef OS_MOD_MEM_MGR
         ADD_OS_MODULE(MEM_MGR),
+#endif
+#ifdef OS_MOD_SEM_MGR
         ADD_OS_MODULE(SEM_MGR),
+#endif
+#ifdef OS_MOD_EVNT_MGR
         ADD_OS_MODULE(EVNT_MGR)
+#endif
 };
 
 

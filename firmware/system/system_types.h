@@ -86,5 +86,6 @@ typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
 
 
 typedef const char* CString;
+typedef void* pVoid;
 
 #endif /* SYSTEM_TYPES_H_ */
