@@ -20,7 +20,7 @@
  Defines
 ------------------------------------------------------------------------------*/
 #define OS_MOD_TASK_MGR
-#define OS_MOD_SEM_MGR
+//#define OS_MOD_SEM_MGR
 //#define OS_MOD_MEM_MGR
 #define OS_MOD_EVNT_MGR
 
