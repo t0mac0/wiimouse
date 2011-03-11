@@ -28,7 +28,11 @@ enum {
 
     // errors
     OS_RESULT_FAILURE = RESULT_ERROR(0),
-    OS_RESULT_NULL= RESULT_ERROR(0),
+    OS_RESULT_NULL= RESULT_ERROR(1),
+    OS_RESULT_SEM_INVALID_TYPE= RESULT_ERROR(2),
+    OS_RESULT_SEM_CREATE_FAIL = RESULT_ERROR(3),
+    OS_RESULT_SEM_TAKE_FAIL = RESULT_ERROR(4),
+    OS_RESULT_SEM_GIVE_FAIL = RESULT_ERROR(5),
 };
 
 /*-----------------------------------------------------------------------------
