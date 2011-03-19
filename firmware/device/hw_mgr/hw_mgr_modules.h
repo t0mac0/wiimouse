@@ -21,27 +21,17 @@
 #include "hw_mgr_types.h"
 
 //--------- System Critical Modules -------------------------------//
-#ifdef HW_MGR_MOD_SYSCLK
 #include "sysclk/hw_sysclk.h"
-#endif
-#ifdef HW_MGR_MOD_SYSINIT
 #include "sysinit/hw_sysinit.h"
-#endif
-#ifdef HW_MGR_MOD_INT
 #include "int/hw_int.h"
-#endif
-#ifdef HW_MGR_MOD_USART
 #include "usart/hw_usart.h"
-#endif
-#ifdef HW_MGR_MOD_RCC
 #include "rcc/hw_rcc.h"
-#endif
-#ifdef HW_MGR_MOD_GPIO
 #include "gpio/hw_gpio.h"
-#endif
+
+
 
 //--------- Non-System Critical Modules ---------------------------//
-// included in the .c file
+// included in the hw_mgr_modules.c file
 
 
 /*-----------------------------------------------------------------------------
@@ -56,8 +46,9 @@
  Typedefs
 ------------------------------------------------------------------------------*/
 PUBLIC typedef enum {
-#ifdef HW_MGR_MOD_USART
-    HW_MGR_USART,
+    HW_MGR_USART,           // usart included in count, but always enabled since sys critical
+#ifdef HW_MGR_MOD_USB
+    HW_MGR_USB,
 #endif
     HW_MGR_MODULE_COUNT,   // this must come second to last
     HW_MGR_MAX_MODULE = 1024 // this must come last

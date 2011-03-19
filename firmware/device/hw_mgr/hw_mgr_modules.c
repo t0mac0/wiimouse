@@ -12,7 +12,14 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
+#include "device.h"
+
+#ifdef DEV_MOD_HW_MGR
+
 #include "hw_mgr_modules.h"
+
+
+#include "usb/hw_usb.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -46,7 +53,10 @@
  Data Members
 ------------------------------------------------------------------------------*/
 HwMgrModules hwMgrModules[HW_MGR_MODULE_COUNT] = {
-        ADD_HW_MODULE(USART)
+        ADD_HW_MODULE(USART),
+#ifdef HW_MGR_MOD_USB
+        ADD_HW_MODULE(USB),
+#endif
 };
 
 
@@ -64,3 +74,5 @@ HwMgrModules hwMgrModules[HW_MGR_MODULE_COUNT] = {
 //
 //*****************************************************************************
 
+
+#endif

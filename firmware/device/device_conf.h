@@ -29,7 +29,7 @@
 #define DEV_MOD_OS                  // Operating System module
 #define DEV_MOD_SETTINGS            // Settings module
 #define DEV_MOD_COMM_MGR            // Communication Manager module
-#define DEV_MOD_COMP_MGR            // Component Manager module
+#define DEV_MOD_COMPS               // Components module
 
 #define OS_PLATFORM FREERTOS
 
