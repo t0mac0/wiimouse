@@ -84,7 +84,7 @@ typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
 
 #endif
 
-
+typedef volatile bool vbool;
 typedef const char* CString;
 typedef void* pVoid;
 

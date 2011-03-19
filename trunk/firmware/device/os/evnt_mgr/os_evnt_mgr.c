@@ -15,6 +15,8 @@
 #include "os_evnt_mgr.h"
 #include "list/lib_array_list.h"
 
+#ifdef OS_MOD_EVNT_MGR
+
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
@@ -122,3 +124,4 @@ PUBLIC Result OS_EVNT_MGR_GenerateEvent( OS_EVNT_MGR_EvntId EventId, void* Param
 //
 //*****************************************************************************
 
+#endif

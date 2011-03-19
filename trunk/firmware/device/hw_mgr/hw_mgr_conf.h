@@ -15,10 +15,12 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
+#include "device_conf.h"
+
+#ifdef DEV_MOD_HW_MGR
+
 #include "hw_mgr_gpio_conf.h"
 #include "usart/hw_usart.h"
-
-
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -37,9 +39,13 @@
 #define HW_MGR_MOD_GPIO
 
 //-------- Non-System Critical Modules  -------//
-
+#define HW_MGR_MOD_USB
 
 
 #define DEFAULT_USART HW_USART_2
+
+
+
+#endif
 
 #endif /* HW_CONFIG_H_ */

@@ -46,6 +46,9 @@ PUBLIC typedef enum {
 #ifdef DEV_MOD_OS
     MOD_MGR_OS,
 #endif
+#ifdef DEV_MOD_COMPS
+    MOD_MGR_COMPS,
+#endif
     MOD_MGR_MODULE_COUNT,
 
     // MODULES NOT INCLUDED IN COUNT

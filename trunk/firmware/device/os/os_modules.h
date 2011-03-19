@@ -21,18 +21,10 @@
 #include "os_types.h"
 
 
-#ifdef OS_MOD_TASK_MGR
 #include "task_mgr/os_task_mgr.h"
-#endif
-#ifdef OS_MOD_SEM_MGR
 #include "sem_mgr/os_sem_mgr.h"
-#endif
-#ifdef OS_MOD_MEM_MGR
 #include "mem_mgr/os_mem_mgr.h"
-#endif
-#ifdef OS_MOD_EVNT_MGR
 #include "evnt_mgr/os_evnt_mgr.h"
-#endif
 
 
 /*-----------------------------------------------------------------------------

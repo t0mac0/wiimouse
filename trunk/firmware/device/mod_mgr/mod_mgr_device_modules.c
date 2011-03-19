@@ -14,12 +14,10 @@
 ------------------------------------------------------------------------------*/
 #include "mod_mgr_device_modules.h"
 
-#ifdef DEV_MOD_HW_MGR
 #include "hw_mgr.h"
-#endif
-#ifdef DEV_MOD_OS
 #include "os.h"
-#endif
+#include "comps.h"
+
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -56,6 +54,9 @@ ModMgrModules modMgrModules[MOD_MGR_MODULE_COUNT] = {
 #endif
 #ifdef DEV_MOD_OS
       ADD_MODULE(OS),                                           // Operating System Module
+#endif
+#ifdef DEV_MOD_COMPS
+      ADD_MODULE(COMPS),
 #endif
 };
 

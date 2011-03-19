@@ -77,6 +77,13 @@ typedef enum {
 typedef Result (ModuleInitPrototype)( void );
 typedef Result (*pModuleInitPrototype)( void );
 
+typedef Result (ModulePowerUpPrototype)( void );
+typedef Result (*pModulePowerUpPrototype)( void );
+
+typedef Result (ModulePowerDownPrototype)( void );
+typedef Result (*pModulePowerDownPrototype)( void );
+
+
 typedef CString (GetResutCodeStrPrototype)(Result);
 typedef CString (*pGetResutCodeStrPrototype)(Result);
 
