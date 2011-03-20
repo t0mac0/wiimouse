@@ -66,14 +66,16 @@
 /* Application specific configuration options. */
 #include "FreeRTOSConfig.h"
 
+#ifdef FREERTOS
+
 /* Definitions specific to the port being used. */
 #include "portable.h"
+
 
 
 /* Defines the prototype to which the application task hook function must
 conform. */
 typedef portBASE_TYPE (*pdTASK_HOOK_CODE)( void * );
-
 
 
 
@@ -420,6 +422,8 @@ typedef portBASE_TYPE (*pdTASK_HOOK_CODE)( void * );
 
 #ifndef vPortFreeAligned
 	#define vPortFreeAligned( pvBlockToFree ) vPortFree( pvBlockToFree )
+#endif
+
 #endif
 
 #endif /* INC_FREERTOS_H */

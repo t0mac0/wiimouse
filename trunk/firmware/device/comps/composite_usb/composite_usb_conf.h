@@ -24,8 +24,18 @@
  Defines
 ------------------------------------------------------------------------------*/
 
+
+// USB Vendor Id
+#define COMPOSITE_USB_VEND_ID 0xF46D
+
+// USB Product Id
+#define COMPOSITE_USB_PROD_ID 0x052B
+
+
+
 // number of interfaces
 #define IFC_NUM                         (3)
+
 
 /*-----------------------------------------------------------------------------
  Macros

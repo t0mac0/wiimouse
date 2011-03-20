@@ -59,7 +59,7 @@ typedef enum {DISABLE = 0, ENABLE = !DISABLE} FunctionalState;
 
 typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
 
-#define __IO virtual
+#define __IO volatile
 
 #define UINT8_MAX    ((uint8)255)
 #define INT8_MAX     ((int8)127)

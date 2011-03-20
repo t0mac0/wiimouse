@@ -15,7 +15,7 @@
 #include <platform_lib.h>
 #include "sysclk/hw_sysclk.h"
 
-#if( SYSTEM_PLATFORM == STM32F10X_MD )
+#ifdef STM32F10X_MD
 #ifdef HW_MGR_MOD_SYSCLK
 /*-----------------------------------------------------------------------------
  Defines

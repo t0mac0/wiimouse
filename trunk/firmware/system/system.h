@@ -15,7 +15,7 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "system_config.h"
+#include "system_conf.h"
 #include "system_common.h"
 #include "system_types.h"
 

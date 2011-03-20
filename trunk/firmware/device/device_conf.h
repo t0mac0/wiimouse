@@ -31,9 +31,7 @@
 #define DEV_MOD_COMM_MGR            // Communication Manager module
 #define DEV_MOD_COMPS               // Components module
 
-#define OS_PLATFORM FREERTOS
-
-#if( SYSTEM_PLATFORM == STM32F10X_MD )
+#ifdef STM32F10X_MD
 
 /*!
  * \brief Default (logging) USART config

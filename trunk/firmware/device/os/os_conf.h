@@ -19,9 +19,16 @@
 
 #ifdef DEV_MOD_OS
 
+
+#ifndef FREERTOS
+#error OS Module enable but no RTOS defined. Define a preprocessor os platform. Supported OS platforms: FREERTOS
+#endif
+
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
+
+
 #define OS_MOD_TASK_MGR
 //#define OS_MOD_SEM_MGR
 //#define OS_MOD_MEM_MGR
@@ -48,6 +55,7 @@
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
+
 
 #endif
 

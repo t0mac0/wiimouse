@@ -62,8 +62,14 @@ task.h is included from an application file. */
 #define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 #include "FreeRTOS.h"
+
+#ifdef _TASKS
+
 #include "task.h"
 #include "StackMacros.h"
+
+
+
 
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
@@ -2380,4 +2386,4 @@ void vTaskExitCritical( void )
 
 
 
-
+#endif

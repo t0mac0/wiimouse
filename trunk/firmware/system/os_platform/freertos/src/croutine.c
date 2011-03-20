@@ -52,8 +52,13 @@
 */
 
 #include "FreeRTOS.h"
+
+#ifdef _CROUTINE
+
 #include "task.h"
 #include "croutine.h"
+
+
 
 /*
  * Some kernel aware debuggers require data to be viewed to be global, rather
@@ -369,3 +374,5 @@ signed portBASE_TYPE xReturn;
 	return xReturn;
 }
 
+
+#endif

@@ -60,8 +60,14 @@ task.h is included from an application file. */
 #define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 #include "FreeRTOS.h"
+
+#ifdef _QUEUE
+
 #include "task.h"
 #include "croutine.h"
+
+
+
 
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
@@ -1467,3 +1473,4 @@ signed portBASE_TYPE xReturn;
 
 #endif
 
+#endif

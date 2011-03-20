@@ -49,8 +49,10 @@
 /******************************************************************************/
 Result COMPS_Init( void )
 {
-    Result result;
+    Result result = COMPS_RESULT_INIT();
     uint32 i;
+
+    LOG_Printf("Initializing components\n");
 
     for( i = 0; i < COMPS_MODULE_COUNT; i++ )
     {

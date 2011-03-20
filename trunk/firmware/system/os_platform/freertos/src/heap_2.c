@@ -67,7 +67,12 @@ task.h is included from an application file. */
 #define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 #include "FreeRTOS.h"
+
+#ifdef _HEAP_2
+
 #include "task.h"
+
+
 
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
@@ -276,3 +281,6 @@ void vPortInitialiseBlocks( void )
 {
 	/* This just exists to keep the linker quiet. */
 }
+
+
+#endif

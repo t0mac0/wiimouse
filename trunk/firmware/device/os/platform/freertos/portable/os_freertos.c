@@ -15,7 +15,7 @@
 #include <os_platform.h>
 #include "os.h"
 
-#if( OS_PLATFORM == FREERTOS )
+#ifdef FREERTOS
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
@@ -77,7 +77,7 @@ PUBLIC inline void FreeMemory( pVoid MemoryPointer )
 PUBLIC Result OS_CreateSemaphore(pOS_Semaphore *Semaphore, OS_SemaphoreType SemType, uint32 InitValue, uint32 MaxCount )
 {
     Result result = OS_RESULT(OS_RESULT_SUCCESS);
-    xSemaphoreHandle semHandle;
+    xSemaphoreHandle semHandle = NULL;
 
     switch(SemType)
     {

@@ -56,6 +56,5 @@
 
 #include "platform/freertos/os_conf_freertos.h"
 
-
 #endif /* FREERTOS_CONFIG_H */
 

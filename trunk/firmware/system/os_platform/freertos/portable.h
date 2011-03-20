@@ -306,6 +306,8 @@ to find the path to the correct portmacro.h file. */
 #ifndef portENTER_CRITICAL
 	#include "portmacro.h"	
 #endif
+
+#ifdef FREERTOS
 	
 #if portBYTE_ALIGNMENT == 8
 	#define portBYTE_ALIGNMENT_MASK ( 0x0007 )
@@ -384,6 +386,8 @@ void vPortEndScheduler( void ) PRIVILEGED_FUNCTION;
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 
 #endif /* PORTABLE_H */

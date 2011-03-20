@@ -61,6 +61,8 @@ PROTECTED Result TASK_MGR_Init( void )
 {
     //Result result = HW_MGR_RESULT_INIT();
 
+    LOG_Printf("Initializing TaskMgr\n");
+
     LOG_RegisterModule(MOD_MGR_OS, OS_TASK_MGR, TRUE);
 
     ZeroMemory(taskList, sizeof(TaskInfo)*OS_TASK_COUNT);

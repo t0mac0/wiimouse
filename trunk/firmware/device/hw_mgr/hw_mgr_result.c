@@ -44,7 +44,7 @@
 /******************************************************************************/
 CString HW_MGR_GetResultCodeStr(Result result)
 {
-   CString str;
+   CString str = NULL;
 
    if( RESULT_MODULE_ID(result) == MOD_MGR_HW_MGR )
    {

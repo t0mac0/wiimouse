@@ -28,6 +28,11 @@
  Typedefs
 ------------------------------------------------------------------------------*/
 
+PUBLIC typedef void (COMPOSITE_USB_ReadVirComCallBack)(uint8 *, uint32);
+
+PUBLIC typedef void (*pCOMPOSITE_USB_ReadVirComCallBack)(uint8 *, uint32);
+
+
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/

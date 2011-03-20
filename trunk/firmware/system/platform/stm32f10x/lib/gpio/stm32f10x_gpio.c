@@ -55,7 +55,7 @@
 *******************************************************************************/
 void GPIO_DeInit(GPIO_TypeDef* GPIOx)
 {
-  switch (*(uint32*)&GPIOx)
+  switch ((uint32)GPIOx)
   {
     case GPIOA_BASE:
       RCC_APB2PeriphResetCmd(RCC_APB2Periph_GPIOA, ENABLE);

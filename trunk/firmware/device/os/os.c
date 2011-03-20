@@ -50,6 +50,8 @@ PUBLIC Result OS_Init( void )
     Result result = OS_RESULT_INIT();
     uint32 i;
 
+    LOG_Printf("Initializing OS\n");
+
     for( i = 0; i < OS_MODULE_COUNT; i++ )
     {
         if( osModules[i].Init != NULL && RESULT_SUCCESS(result, osModules[i].Init()) )

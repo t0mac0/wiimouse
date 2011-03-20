@@ -61,8 +61,9 @@
 #include "os.h"
 
 
-#if( SYSTEM_PLATFORM == STM32F10X_MD )
-#if( OS_PLATFORM == FREERTOS )
+
+#ifdef STM32F10X_MD
+#ifdef FREERTOS
 
 
 

@@ -35,9 +35,12 @@
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
 
+PROTECTED Result CompositeUsbEpInit( void );
+
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
 
+PROTECTED extern pCOMPOSITE_USB_ReadVirComCallBack CompositeUsbVirComCallback;
 
 #endif /* COMPOSITE_USB_EP_H_ */

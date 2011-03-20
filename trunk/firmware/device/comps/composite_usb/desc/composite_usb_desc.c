@@ -42,14 +42,14 @@ const uint8 Virtual_Com_Port_DeviceDescriptor[USB_DEVICE_DESCRIPTOR_SIZE] =
 {
         USB_DEVICE_DESCRIPTOR_SIZE,        /* bLength */
         USB_DEVICE_DESCRIPTOR_TYPE,        /* bDescriptorType */
-        WBVAL(0x0110), /* 2.0 */           /* bcdUSB */
-        USB_DEVICE_CLASS_MISC,              /* bDeviceClass */
+        WBVAL(0x0110), /* 1.1 */           /* bcdUSB */
+        USB_DEVICE_CLASS_MISC,             /* bDeviceClass */
         0x02,                              /* bDeviceSubClass: common */
         0x01,                              /* bDeviceProtocol: IAD */
         0x40,                              /* bMaxPacketSize0 (64 bytes) */
-        WBVAL(0xF46D),                      /* idVendor */
-        WBVAL(0xF52B),                      /* idProduct */
-        WBVAL(0x0000),                      /* 2.00 */   /* bcdDevice */
+        WBVAL(COMPOSITE_USB_VEND_ID),      /* idVendor */
+        WBVAL(COMPOSITE_USB_PROD_ID),      /* idProduct */
+        WBVAL(0x0000),                      /* 0.00 */   /* bcdDevice */
         1,                                  /*Index of string descriptor describing manufacturer */
         2,                                  /*Index of string descriptor describing product*/
         3,                                  /*Index of string descriptor describing the device serial number */

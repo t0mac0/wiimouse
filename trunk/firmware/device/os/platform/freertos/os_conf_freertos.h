@@ -58,9 +58,21 @@
 #include "os_conf.h"
 
 
-#if( SYSTEM_PLATFORM == STM32F10X_MD )
+#ifdef FREERTOS
+
+#define _CROUTINE
+#define _HEAP_2
+#define _LIST
+#define _QUEUE
+#define _TASKS
+
+
+#ifdef STM32F10X_MD
 #include "portable/stm32f10x/portmacro.h"
 #endif
+
+
+
 
 /*-----------------------------------------------------------
  * Application specific definitions.
@@ -123,5 +135,8 @@ NVIC value of 255. */
 #define configLIBRARY_KERNEL_INTERRUPT_PRIORITY	15
 
 
-#endif /* FREERTOS_CONFIG_H */
+#endif
+
+
+#endif/* FREERTOS_CONFIG_H */
 

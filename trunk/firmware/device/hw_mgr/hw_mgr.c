@@ -46,10 +46,16 @@
 /******************************************************************************/
 Result HW_MGR_Init( void )
 {
+    Result result;
+
     LOG_RegisterModule(MOD_MGR_HW_MGR, NULL_MOD, TRUE);
 
+    LOG_Printf("Initializing HW Mgr\n");
 
-    hwMgrModules[HW_MGR_USB].Init(0, 0);
+    if( !RESULT_SUCCESS(result, hwMgrModules[HW_MGR_USB].Init(0, 0)) )
+    {
+        result = HW_MGR_RESULT(HW_MGR_RESULT_USB_INIT_FAIL);
+    }
 
 
     return HW_MGR_RESULT(HW_MGR_RESULT_SUCCESS);

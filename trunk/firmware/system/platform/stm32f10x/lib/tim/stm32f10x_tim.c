@@ -91,6 +91,8 @@
 #define TIM_Pulse_Reset_Mask        ((uint16)0x0000)
 #define TIM_ICFilter_Mask           ((uint8)0x00)
 
+#ifdef _TIM
+
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 static ucint16 Tab_OCModeMask[4] = {0xFF00, 0x00FF, 0xFF00, 0x00FF};
@@ -110,7 +112,6 @@ static void ETR_Config(TIM_TypeDef* TIMx, uint16 TIM_ExtTRGPrescaler,
                        uint16 TIM_ExtTRGPolarity, uint8 ExtTRGFilter);
 /* Private functions ---------------------------------------------------------*/
 
-#ifdef _TIM
 
 /*******************************************************************************
 * Function Name  : TIM_DeInit
@@ -122,7 +123,7 @@ static void ETR_Config(TIM_TypeDef* TIMx, uint16 TIM_ExtTRGPrescaler,
 *******************************************************************************/
 void TIM_DeInit(TIM_TypeDef* TIMx)
 {  
-  switch (*(uint32*)&TIMx)
+  switch ((uint32)TIMx)
   {
     case TIM2_BASE:
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM2, ENABLE);

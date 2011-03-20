@@ -21,6 +21,8 @@
 #include "composite_usb_types.h"
 #include "composite_usb_conf.h"
 #include "usb/hw_usb.h"
+#include "usb/defs/usb_hid_mouse_defs.h"
+
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -42,6 +44,13 @@ PUBLIC ModuleInitPrototype COMPOSITE_USB_Init;
 PUBLIC ModulePowerUpPrototype COMPOSITE_USB_PowerUp;
 
 PUBLIC ModulePowerDownPrototype COMPOSITE_USB_PowerDown;
+
+PUBLIC Result COMPOSITE_USB_SendHidMouseReport(HID_MOUSE_REPORT *Report);
+
+PUBLIC Result COMPOSITE_USB_WriteVirCom(void *Buffer, uint32 StartIndex, uint32 EndIndex, uint32 MaxSize);
+
+PUBLIC Result COMPOSITE_USB_RegisterReadVirComCallback(pCOMPOSITE_USB_ReadVirComCallBack ReadVirCom);
+
 
 /*-----------------------------------------------------------------------------
  External Data Members

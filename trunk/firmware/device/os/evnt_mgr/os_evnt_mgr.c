@@ -49,6 +49,8 @@ PROTECTED Result EVNT_MGR_Init( void )
 {
     //Result result = HW_MGR_RESULT_INIT();
 
+    LOG_Printf("Initializing EventMgr\n");
+
     ZeroMemory(EventLists, sizeof(pLIB_ARRAY_LIST_List)*OS_EVNT_MGR_EVENT_ID_COUNT);
 
     LOG_RegisterModule(MOD_MGR_OS, OS_EVNT_MGR, TRUE);

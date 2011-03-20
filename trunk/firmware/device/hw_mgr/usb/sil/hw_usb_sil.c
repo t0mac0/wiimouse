@@ -53,7 +53,7 @@
 *******************************************************************************/
 uint32 USB_SIL_Init(void)
 {
-#ifndef STM32F10X_CL
+
 
   /* USB interrupts initialization */
   /* clear pending interrupts */
@@ -62,12 +62,6 @@ uint32 USB_SIL_Init(void)
   /* set interrupts mask */
   _SetCNTR(wInterrupt_Mask);
 
-#else
-
-  /* Perform OTG Device initialization procedure (including EP0 init) */
-  OTG_DEV_Init();
-
-#endif /* STM32F10X_CL */
 
   return 0;
 }
