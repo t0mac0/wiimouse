@@ -32,8 +32,7 @@
 /*-----------------------------------------------------------------------------
  Local Function Prototypes
 ------------------------------------------------------------------------------*/
-void Set_USBClock(void);
-void USB_Interrupts_Config(void);
+
 
 /*-----------------------------------------------------------------------------
  Data Members
@@ -49,24 +48,22 @@ void USB_Interrupts_Config(void);
 //****************************************************************************/
 PUBLIC Result HW_USB_Init(uint32 BlockId, void* InitInfo )
 {
-    Result result = HW_USART_RESULT_INIT();
+    //Result result = HW_USB_RESULT_INIT();
 
     UNUSED(InitInfo);
     UNUSED(BlockId);
 
-    USB_Interrupts_Config();
-
-    Set_USBClock();
+    LOG_Printf("Initializing HW USB\n");
 
     USB_Init();
 
-    return result;
+    return HW_USB_RESULT(HW_USB_RESULT_SUCCESS);
 }
 
 //****************************************************************************/
 PUBLIC Result HW_USB_PowerUp( uint32 BlockId )
 {
-    Result result = HW_USART_RESULT_INIT();
+    Result result = HW_USB_RESULT_INIT();
 
     UNUSED(BlockId);
 
@@ -77,7 +74,7 @@ PUBLIC Result HW_USB_PowerUp( uint32 BlockId )
 //****************************************************************************/
 PUBLIC Result HW_USB_PowerDown( uint32 BlockId )
 {
-    Result result = HW_USART_RESULT_INIT();
+    Result result = HW_USB_RESULT_INIT();
 
     UNUSED(BlockId);
 
@@ -94,47 +91,6 @@ PUBLIC Result HW_USB_PowerDown( uint32 BlockId )
 // Local Functions
 //
 //*****************************************************************************
-/*******************************************************************************
- * Function Name  : Set_USBClock
- * Description    : Configures USB Clock input (48MHz)
- * Input          : None.
- * Return         : None.
- *******************************************************************************/
-void Set_USBClock(void)
-{
 
-    /* Select USBCLK source */
-    RCC_USBCLKConfig(RCC_USBCLKSource_PLLCLK_1Div5);
-
-    /* Enable the USB clock */
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USB, ENABLE);
-
-}
-
-
-/*******************************************************************************
- * Function Name  : USB_Interrupts_Config
- * Description    : Configures the USB interrupts
- * Input          : None.
- * Return         : None.
- *******************************************************************************/
-void USB_Interrupts_Config(void)
-{
-    NVIC_InitTypeDef NVIC_InitStructure;
-
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-
-    NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN_RX0_IRQChannel;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-    NVIC_Init(&NVIC_InitStructure);
-
-
-    //  /* Enable USART Interrupt */
-    //  NVIC_InitStructure.NVIC_IRQChannel = EVAL_COM1_IRQn;
-    //  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-    //  NVIC_Init(&NVIC_InitStructure);
-}
 
 #endif

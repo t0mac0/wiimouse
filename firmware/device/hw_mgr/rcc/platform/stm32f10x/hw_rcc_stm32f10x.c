@@ -15,7 +15,7 @@
 #include <platform_lib.h>
 #include "rcc/hw_rcc.h"
 
-#if( SYSTEM_PLATFORM == STM32F10X_MD )
+#ifdef STM32F10X_MD
 #ifdef HW_MGR_MOD_RCC
 /*-----------------------------------------------------------------------------
  Defines

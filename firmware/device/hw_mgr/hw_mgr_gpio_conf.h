@@ -21,7 +21,7 @@
  Defines
 ------------------------------------------------------------------------------*/
 
-//--------- USART Pin Configures ----------------------------//
+//--------- USART Pin Configurations ----------------------------//
 
 // Default USART port/pin
 #define DEFAULT_USART_PORT    HW_GPIOA
@@ -31,6 +31,10 @@
  * \brief USART Pin Configuration
  */
 
+//--------- USB Pin Configuration ----------------------------//
+#define USB_DISCONNECT                      GPIOC
+#define USB_DISCONNECT_PIN                  GPIO_Pin_11
+#define RCC_APB2Periph_GPIO_DISCONNECT      RCC_APB2Periph_GPIOC
 
 /*-----------------------------------------------------------------------------
  Macros

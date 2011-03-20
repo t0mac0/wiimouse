@@ -35,6 +35,7 @@
  Data Members
 ------------------------------------------------------------------------------*/
 
+PROTECTED pCOMPOSITE_USB_ReadVirComCallBack CompositeUsbVirComCallback;
 
 //*****************************************************************************
 //
@@ -42,21 +43,12 @@
 //
 //*****************************************************************************
 
-void SOF_Callback(void)
+PROTECTED Result CompositeUsbEpInit( void )
 {
-  static uint32 FrameCount = 0;
 
-  if(bDeviceState == CONFIGURED)
-  {
-    if (FrameCount++ == VCOMPORT_IN_FRAME_INTERVAL)
-    {
-      /* Reset the frame counter */
-      FrameCount = 0;
+    CompositeUsbVirComCallback = NULL;
 
-      /* Check the data to be sent through IN pipe */
-      //Handle_USBAsynchXfer();
-    }
-  }
+    return COMPOSITE_USB_RESULT(COMPOSITE_USB_RESULT_SUCCESS);
 }
 
 

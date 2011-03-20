@@ -91,7 +91,7 @@
 *******************************************************************************/
 void USART_DeInit(USART_TypeDef* USARTx)
 {
-  switch (*(uint32*)&USARTx)
+  switch ((uint32)USARTx)
   {
     case USART1_BASE:
       RCC_APB2PeriphResetCmd(RCC_APB2Periph_USART1, ENABLE);
@@ -193,7 +193,7 @@ void USART_Init(USART_TypeDef* USARTx, USART_InitTypeDef* USART_InitStruct)
 
   /* Configure the USART Baud Rate -------------------------------------------*/
   RCC_GetClocksFreq(&RCC_ClocksStatus);
-  if ((*(uint32*)&USARTx) == USART1_BASE)
+  if ((uint32)USARTx == USART1_BASE)
   {
     apbclock = RCC_ClocksStatus.PCLK2_Frequency;
   }
@@ -301,7 +301,7 @@ void USART_ITConfig(USART_TypeDef* USARTx, uint16 USART_IT, FunctionalState NewS
   itpos = USART_IT & USART_IT_Mask;
 
   itmask = (((uint32)0x01) << itpos);
-  address = *(uint32*)&(USARTx);
+  address = (uint32)(USARTx);
 
   if (usartreg == 0x01) /* The IT  is in CR1 register */
   {

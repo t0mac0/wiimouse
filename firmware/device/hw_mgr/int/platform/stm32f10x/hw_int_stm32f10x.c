@@ -15,7 +15,7 @@
 #include <platform_lib.h>
 #include "int/hw_int.h"
 
-#if (SYSTEM_PLATFORM == STM32F10X_MD)
+#ifdef STM32F10X_MD
 
 
 /*-----------------------------------------------------------------------------

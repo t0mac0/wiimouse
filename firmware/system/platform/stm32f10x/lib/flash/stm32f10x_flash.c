@@ -80,6 +80,8 @@
 #define EraseTimeout             ((uint32)0x00000FFF)
 #define ProgramTimeout           ((uint32)0x0000000F)
 
+#ifdef _FLASH
+
 /**
   * @}
   */ 
@@ -112,7 +114,6 @@ static void delay(void);
 /** @defgroup FLASH_Private_Functions
   * @{
   */
-#ifdef _FLASH
 /**
   * @brief  Sets the code latency value.
   * @param FLASH_Latency: specifies the FLASH Latency value.

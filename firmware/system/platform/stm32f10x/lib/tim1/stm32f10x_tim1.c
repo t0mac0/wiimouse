@@ -254,6 +254,8 @@
 #define TIM1_ICFilter_Mask                   ((uint8)0x00)
 #define TIM1_DeadTime_Reset_Mask             ((uint16)0x0000)
 
+#ifdef _TIM1
+
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
@@ -268,7 +270,7 @@ static void TI3_Config(uint16 TIM1_ICPolarity, uint16 TIM1_ICSelection,
 static void TI4_Config(uint16 TIM1_ICPolarity, uint16 TIM1_ICSelection,
                        uint8 TIM1_ICFilter);
 
-#ifdef _TIM1
+
 
 /*******************************************************************************
 * Function Name  : TIM1_DeInit

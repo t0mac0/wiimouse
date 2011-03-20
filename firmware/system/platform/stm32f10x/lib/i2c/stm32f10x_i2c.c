@@ -112,7 +112,7 @@
 *******************************************************************************/
 void I2C_DeInit(I2C_TypeDef* I2Cx)
 {
-  switch (*(uint32*)&I2Cx)
+  switch ((uint32)I2Cx)
   {
     case I2C1_BASE:
       /* Enable I2C1 reset state */
@@ -622,7 +622,7 @@ uint16 I2C_ReadRegister(I2C_TypeDef* I2Cx, uint8 I2C_Register)
   ASSERT(IS_I2C_REGISTER(I2C_Register));
 
   /* Return the selected register value */
-  return (*(uint16 *)(*((uint32 *)&I2Cx) + I2C_Register));
+  return (*(uint16 *)(((uint32)I2Cx) + I2C_Register));
 }
 
 /*******************************************************************************

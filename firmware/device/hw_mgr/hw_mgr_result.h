@@ -28,8 +28,9 @@ enum {
     HW_MGR_RESULT_WARN = RESULT_WARN(0),
 
     // errors
-    HW_MGR_RESULT_FAILURE = RESULT_ERROR(0),
-    HW_MGR_RESULT_NULL= RESULT_ERROR(0),
+    HW_MGR_RESULT_FAILURE               = RESULT_ERROR(0),
+    HW_MGR_RESULT_NULL                  = RESULT_ERROR(1),
+    HW_MGR_RESULT_USB_INIT_FAIL         = RESULT_ERROR(1),
 };
 
 

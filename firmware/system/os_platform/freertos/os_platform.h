@@ -17,6 +17,8 @@
 ------------------------------------------------------------------------------*/
 #include "FreeRTOS.h"
 
+#ifdef FREERTOS
+
 #include "task.h"
 #include "queue.h"
 #include "semphr.h"
@@ -42,5 +44,6 @@
  External Data Members
 ------------------------------------------------------------------------------*/
 
+#endif
 
 #endif /* OS_PLATFORM_H_ */

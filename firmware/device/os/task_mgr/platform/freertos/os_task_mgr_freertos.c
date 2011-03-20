@@ -15,7 +15,7 @@
 #include <os_platform.h>
 #include "task_mgr/os_task_mgr.h"
 
-#if( OS_PLATFORM == FREERTOS )
+#ifdef FREERTOS
 #ifdef OS_MOD_TASK_MGR
 
 /*-----------------------------------------------------------------------------

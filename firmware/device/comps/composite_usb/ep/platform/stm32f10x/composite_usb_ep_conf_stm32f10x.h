@@ -38,7 +38,12 @@
 #define ENDP3_RXADDR        (0x110)
 #define ENDP4_TXADDR        (0x0C0)
 
-
+#define HID_MOUSE_REPORT_EP_NUM     1
+#define HID_MOUSE_REPORT_EP         EP1_IN
+#define VIR_COM_WRITE_EP_NUM        4
+#define VIR_COM_WRITE_EP            EP4_IN
+#define VIR_COM_READ_EP_NUM         3
+#define VIR_COM_READ_EP             EP3_OUT
 
 /* CTR service routines */
 /* associated to defined endpoints */

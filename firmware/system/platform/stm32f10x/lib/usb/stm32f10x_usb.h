@@ -48,19 +48,19 @@ enum EP_BUF_NUM
 /******************************************************************************/
 
 /* Control register */
-#define CNTR    ((vuint32 *)(RegBase + 0x40))
+#define CNTR    ((__IO unsigned *)(RegBase + 0x40))
 /* Interrupt status register */
-#define ISTR    ((vuint32 *)(RegBase + 0x44))
+#define ISTR    ((__IO unsigned *)(RegBase + 0x44))
 /* Frame number register */
-#define FNR     ((vuint32 *)(RegBase + 0x48))
+#define FNR     ((__IO unsigned *)(RegBase + 0x48))
 /* Device address register */
-#define DADDR   ((vuint32 *)(RegBase + 0x4C))
+#define DADDR   ((__IO unsigned *)(RegBase + 0x4C))
 /* Buffer Table address register */
-#define BTABLE  ((vuint32 *)(RegBase + 0x50))
+#define BTABLE  ((__IO unsigned *)(RegBase + 0x50))
 /******************************************************************************/
 /*                         Endpoint registers                                 */
 /******************************************************************************/
-#define EP0REG  ((vuint32 *)(RegBase)) /* endpoint 0 register address */
+#define EP0REG  ((__IO unsigned *)(RegBase)) /* endpoint 0 register address */
 
 /* Endpoint Addresses (w/direction) */
 #define EP0_OUT     ((uint8)0x00)

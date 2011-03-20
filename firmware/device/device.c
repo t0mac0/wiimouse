@@ -12,7 +12,9 @@
 /*-----------------------------------------------------------------------------
  Includes
  ------------------------------------------------------------------------------*/
+#include <string.h>
 #include "device.h"
+
 
 
 /*-----------------------------------------------------------------------------
@@ -46,16 +48,20 @@ int main(int argc, char *argv[])
     // initialize the device
     ASSERT(DeviceInit());
 
-    for(;;);
+
+    while(1)
+    {
+    }
 
     return 0;
 }
 
 PUBLIC void ASSERT_failed(uint8* file, uint32 line)
 {
-    LOG_Printf("Assertion Failed: File: %s, line: %d", file, line);
+    LOG_Printf("Assertion Failed: File: %s, line: %d\n", file, line);
     UNUSED(file);
     UNUSED(line);
-    for(;;);
+    while(1);
 }
+
 

@@ -54,7 +54,12 @@
 
 #include <stdlib.h>
 #include "FreeRTOS.h"
+
+#ifdef _LIST
+
 #include "list.h"
+
+
 
 /*-----------------------------------------------------------
  * PUBLIC LIST API documented in list.h
@@ -189,3 +194,4 @@ xList * pxList;
 }
 /*-----------------------------------------------------------*/
 
+#endif

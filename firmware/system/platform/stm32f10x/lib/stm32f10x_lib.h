@@ -22,7 +22,7 @@
 #ifndef __STM32F10x_LIB_H
 #define __STM32F10x_LIB_H
 
-#if (SYSTEM_PLATFORM == STM32F10X_MD)
+#ifdef STM32F10X_MD
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_map.h"

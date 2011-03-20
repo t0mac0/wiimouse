@@ -29,6 +29,9 @@
 /*-----------------------------------------------------------------------------
  Local Function Prototypes
 ------------------------------------------------------------------------------*/
+void Set_USBClock(void);
+void USB_Interrupts_Config(void);
+void DisconnectPin_Config(void);
 
 /*-----------------------------------------------------------------------------
  Data Members
@@ -68,6 +71,12 @@ USER_STANDARD_REQUESTS  *pUser_Standard_Requests;
  *******************************************************************************/
 void USB_Init(void)
 {
+    DisconnectPin_Config();
+
+    USB_Interrupts_Config();
+
+    Set_USBClock();
+
     pInformation = &Device_Info;
     pInformation->ControlState = 2;
     pProperty = &Device_Property;
@@ -82,3 +91,66 @@ void USB_Init(void)
 //
 //*****************************************************************************
 
+/*******************************************************************************
+ * Function Name  : Set_USBClock
+ * Description    : Configures USB Clock input (48MHz)
+ * Input          : None.
+ * Return         : None.
+ *******************************************************************************/
+void Set_USBClock(void)
+{
+
+    /* Select USBCLK source */
+    RCC_USBCLKConfig(RCC_USBCLKSource_PLLCLK_1Div5);
+
+    /* Enable the USB clock */
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USB, ENABLE);
+
+}
+
+
+
+/*******************************************************************************
+ * Function Name  : USB_Interrupts_Config
+ * Description    : Configures the USB interrupts
+ * Input          : None.
+ * Return         : None.
+ *******************************************************************************/
+void USB_Interrupts_Config(void)
+{
+    NVIC_InitTypeDef NVIC_InitStructure;
+
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+
+    NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN_RX0_IRQChannel;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+
+
+    //  /* Enable USART Interrupt */
+    //  NVIC_InitStructure.NVIC_IRQChannel = EVAL_COM1_IRQn;
+    //  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    //  NVIC_Init(&NVIC_InitStructure);
+}
+
+
+/*******************************************************************************
+ * Function Name  : USB_Interrupts_Config
+ * Description    : Configures the USB interrupts
+ * Input          : None.
+ * Return         : None.
+ *******************************************************************************/
+void DisconnectPin_Config(void)
+{
+    GPIO_InitTypeDef GPIO_InitStructure;
+
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIO_DISCONNECT, ENABLE);
+
+    /* Configure USB pull-up pin */
+    GPIO_InitStructure.GPIO_Pin = USB_DISCONNECT_PIN;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+    GPIO_Init(USB_DISCONNECT, &GPIO_InitStructure);
+}
