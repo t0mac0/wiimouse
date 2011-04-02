@@ -1,5 +1,5 @@
 /*!
- * \file system_config.h
+ * \file system_conf.h
  *
  * \brief 
  *
@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef _SYSTEM_CONFIG_H_
-#define _SYSTEM_CONFIG_H_
+#ifndef _SYSTEM_CONF_H_
+#define _SYSTEM_CONF_H_
 
 /*-----------------------------------------------------------------------------
  Includes
@@ -21,8 +21,8 @@
  Defines
 ------------------------------------------------------------------------------*/
 // Specifies the hardware architecture being used
-#ifndef SYSTEM_PLATFORM
-#error SYSTEM_PLATFORM has not been defined. This should be a preprocessor directive specifying the hardware architecture (ex STM32F10X_MD)
+#ifndef STM32F10X_MD
+#error A SYSTEM_PLATFORM has not been defined. This should be a preprocessor directive specifying the hardware architecture. Supported architectures are: STM32F10X_MD
 #endif
 
 /* In the following line adjust the value of External High Speed oscillator (HSE)
@@ -50,4 +50,4 @@
 ------------------------------------------------------------------------------*/
 
 
-#endif /* SYSTEM_CONFIG_H_ */
+#endif /* SYSTEM_CONF_H_ */
