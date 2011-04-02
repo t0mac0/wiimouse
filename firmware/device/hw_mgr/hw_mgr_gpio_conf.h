@@ -34,7 +34,11 @@
 //--------- USB Pin Configuration ----------------------------//
 #define USB_DISCONNECT                      GPIOC
 #define USB_DISCONNECT_PIN                  GPIO_Pin_11
-#define RCC_APB2Periph_GPIO_DISCONNECT      RCC_APB2Periph_GPIOC
+#define USB_DISCONNECT_RCC_APB2Periph       RCC_APB2Periph_GPIOC
+
+#define USB_ACTIVE_LED                   GPIOC
+#define USB_ACTIVE_LED_PIN               GPIO_Pin_12
+#define USB_ACTIVE_LED_RCC_APB2Periph    RCC_APB2Periph_GPIOC
 
 /*-----------------------------------------------------------------------------
  Macros

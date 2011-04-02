@@ -1,10 +1,10 @@
 /*!
- * \file composite_usb_result.c
+ * \file packet_mgr.c
  *
  * \brief 
  *
  *
- * \date Mar 18, 2011
+ * \date Apr 2, 2011
  * \author Dan Riedler
  *
  */
@@ -12,9 +12,7 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "composite_usb_result.h"
-
-#ifdef COMPS_MOD_COMPOSITE_USB
+#include "packet_mgr.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -44,17 +42,55 @@
 //*****************************************************************************
 
 
-PUBLIC CString COMPOSITE_USB_GetResultCodeStr(Result result)
+//****************************************************************************/
+PUBLIC Result PACKET_MGR_Init( void )
 {
-   CString str;
+    Result result = PACKET_MGR_RESULT_INIT();
 
-   switch(RESULT_CODE(result))
-   {
-   default:
-       str = "result code undefined!";
-   }
+    LOG_Printf("Initializing Packet Mgr component\n");
 
-   return str;
+
+    return result;
+}
+
+
+//****************************************************************************/
+PUBLIC Result PACKET_MGR_PowerUp( void )
+{
+    Result result = PACKET_MGR_RESULT_INIT();
+
+    return result;
+}
+
+
+//****************************************************************************/
+PUBLIC Result PACKET_MGR_PowerDown( void )
+{
+    Result result = PACKET_MGR_RESULT_INIT();
+
+    return result;
+}
+
+
+//****************************************************************************/
+PUBLIC Result PACKET_MGR_AddPacket(pLIB_XML_Tag PacketData)
+{
+    Result result = PACKET_MGR_RESULT_INIT();
+
+    UNUSED(PacketData);
+
+    return result;
+}
+
+
+//****************************************************************************/
+PUBLIC Result PACKET_MGR_RegisterListener(CString Tag, pPACKET_MGR_ListenerCallback CallBack){
+    Result result = PACKET_MGR_RESULT_INIT();
+
+    UNUSED(Tag);
+    UNUSED(CallBack);
+
+    return result;
 }
 
 
@@ -64,5 +100,3 @@ PUBLIC CString COMPOSITE_USB_GetResultCodeStr(Result result)
 //
 //*****************************************************************************
 
-
-#endif

@@ -34,6 +34,9 @@ PUBLIC typedef enum {
 #ifdef COMPS_MOD_COMPOSITE_USB
     COMPS_COMPOSITE_USB,
 #endif
+#ifdef COMPS_MOD_PACKET_MGR
+    COMPS_PACKET_MGR,
+#endif
     COMPS_MODULE_COUNT   // this must come second to last
 } COMPS_ModuleId;
 
