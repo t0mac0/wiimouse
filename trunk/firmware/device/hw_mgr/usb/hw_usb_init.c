@@ -99,7 +99,7 @@ void USB_Init(void)
  *******************************************************************************/
 void Set_USBClock(void)
 {
-
+    // TODO: PLATFORM specific
     /* Select USBCLK source */
     RCC_USBCLKConfig(RCC_USBCLKSource_PLLCLK_1Div5);
 
@@ -118,6 +118,7 @@ void Set_USBClock(void)
  *******************************************************************************/
 void USB_Interrupts_Config(void)
 {
+    // TODO: PLATFORM specific
     NVIC_InitTypeDef NVIC_InitStructure;
 
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
@@ -128,11 +129,6 @@ void USB_Interrupts_Config(void)
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 
-
-    //  /* Enable USART Interrupt */
-    //  NVIC_InitStructure.NVIC_IRQChannel = EVAL_COM1_IRQn;
-    //  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-    //  NVIC_Init(&NVIC_InitStructure);
 }
 
 
@@ -144,13 +140,19 @@ void USB_Interrupts_Config(void)
  *******************************************************************************/
 void DisconnectPin_Config(void)
 {
+    // TODO: PLATFORM specific
     GPIO_InitTypeDef GPIO_InitStructure;
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIO_DISCONNECT, ENABLE);
+    RCC_APB2PeriphClockCmd(USB_DISCONNECT_RCC_APB2Periph, ENABLE);
 
     /* Configure USB pull-up pin */
     GPIO_InitStructure.GPIO_Pin = USB_DISCONNECT_PIN;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
     GPIO_Init(USB_DISCONNECT, &GPIO_InitStructure);
+
+    GPIO_InitStructure.GPIO_Pin = USB_ACTIVE_LED_PIN;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+    GPIO_Init(USB_ACTIVE_LED, &GPIO_InitStructure);
 }

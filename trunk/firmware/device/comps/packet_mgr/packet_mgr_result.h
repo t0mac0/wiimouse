@@ -1,68 +1,59 @@
 /*!
- * \file composite_usb_result.c
+ * \file packet_mgr_result.h
  *
  * \brief 
  *
  *
- * \date Mar 18, 2011
+ * \date Apr 2, 2011
  * \author Dan Riedler
  *
  */
 
+#ifndef _PACKET_MGR_RESULT_H_
+#define _PACKET_MGR_RESULT_H_
+
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "composite_usb_result.h"
+#include "packet_mgr.h"
 
-#ifdef COMPS_MOD_COMPOSITE_USB
 
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
+enum {
+    PACKET_MGR_RESULT_SUCCESS = RESULT_SEVERITY_SUCCESS,
+
+    // warnings
+    PACKET_MGR_RESULT_WARN = RESULT_WARN(0),
+
+    // errors
+    PACKET_MGR_RESULT_FAILURE = RESULT_ERROR(0),
+    PACKET_MGR_RESULT_NULL= RESULT_ERROR(0),
+};
 
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
+#define PACKET_MGR_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_COMPS, COMPS_PACKET_MGR, code))
+
+#define PACKET_MGR_RESULT_INIT()(PACKET_MGR_RESULT(PACKET_MGR_RESULT_NULL))
 
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
 
 /*-----------------------------------------------------------------------------
- Local Function Prototypes
+ Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-
-/*-----------------------------------------------------------------------------
- Data Members
-------------------------------------------------------------------------------*/
-
-
-//*****************************************************************************
-//
-// Exported Functions
-//
-//*****************************************************************************
-
-
-PUBLIC CString COMPOSITE_USB_GetResultCodeStr(Result result)
-{
-   CString str;
-
-   switch(RESULT_CODE(result))
-   {
-   default:
-       str = "result code undefined!";
-   }
-
-   return str;
-}
-
-
-//*****************************************************************************
-//
-// Local Functions
-//
-//*****************************************************************************
-
-
+#ifdef DEBUG
+PUBLIC GetResutCodeStrPrototype PACKET_MGR_GetResultCodeStr;
+#else
+#define PACKET_MGR_GetResultCodeStr(x)((pGetResutCodeStrPrototype)NULL)
 #endif
+/*-----------------------------------------------------------------------------
+ External Data Members
+------------------------------------------------------------------------------*/
+
+
+#endif /* PACKET_MGR_RESULT_H_ */

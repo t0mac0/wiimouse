@@ -12,7 +12,11 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
+//#include <platform_lib.h>
+
 #include "hw_usb_pwr.h"
+
+
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -84,16 +88,14 @@ void Leave_LowPowerMode(void)
  *******************************************************************************/
 void USB_Cable_Config (FunctionalState NewState)
 {
-
-        UNUSED(NewState);
-//    if (NewState != DISABLE)
-//    {
-//        GPIO_ResetBits(USB_DISCONNECT, USB_DISCONNECT_PIN);
-//    }
-//    else
-//    {
-//        GPIO_SetBits(USB_DISCONNECT, USB_DISCONNECT_PIN);
-//    }
+    if (NewState != DISABLE)
+    {
+        GPIO_WriteBit(USB_DISCONNECT, USB_DISCONNECT_PIN, Bit_RESET); // on
+    }
+    else
+    {
+        GPIO_WriteBit(USB_DISCONNECT, USB_DISCONNECT_PIN, Bit_SET); // off
+    }
 
 }
 

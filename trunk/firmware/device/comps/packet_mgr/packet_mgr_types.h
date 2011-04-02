@@ -1,20 +1,22 @@
 /*!
- * \file composite_usb_result.c
+ * \file packet_mgr_types.h
  *
  * \brief 
  *
  *
- * \date Mar 18, 2011
+ * \date Apr 2, 2011
  * \author Dan Riedler
  *
  */
 
+#ifndef _PACKET_MGR_TYPES_H_
+#define _PACKET_MGR_TYPES_H_
+
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "composite_usb_result.h"
-
-#ifdef COMPS_MOD_COMPOSITE_USB
+#include "device.h"
+#include "xml/lib_xml.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -27,42 +29,16 @@
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
+PUBLIC typedef void (PACKET_MGR_ListenerCallback)(pLIB_XML_Tag PacketData, uint32 PacketId);
+PUBLIC typedef void (*pPACKET_MGR_ListenerCallback)(pLIB_XML_Tag PacketData, uint32 PacketId);
 
 /*-----------------------------------------------------------------------------
- Local Function Prototypes
+ Exported Function Prototypes
 ------------------------------------------------------------------------------*/
 
 /*-----------------------------------------------------------------------------
- Data Members
+ External Data Members
 ------------------------------------------------------------------------------*/
 
 
-//*****************************************************************************
-//
-// Exported Functions
-//
-//*****************************************************************************
-
-
-PUBLIC CString COMPOSITE_USB_GetResultCodeStr(Result result)
-{
-   CString str;
-
-   switch(RESULT_CODE(result))
-   {
-   default:
-       str = "result code undefined!";
-   }
-
-   return str;
-}
-
-
-//*****************************************************************************
-//
-// Local Functions
-//
-//*****************************************************************************
-
-
-#endif
+#endif /* PACKET_MGR_TYPES_H_ */

@@ -1,10 +1,10 @@
 /*!
- * \file composite_usb_result.c
+ * \file packet_mgr_result.c
  *
  * \brief 
  *
  *
- * \date Mar 18, 2011
+ * \date Apr 2, 2011
  * \author Dan Riedler
  *
  */
@@ -12,9 +12,7 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "composite_usb_result.h"
-
-#ifdef COMPS_MOD_COMPOSITE_USB
+#include "packet_mgr_result.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -43,8 +41,7 @@
 //
 //*****************************************************************************
 
-
-PUBLIC CString COMPOSITE_USB_GetResultCodeStr(Result result)
+PUBLIC CString PACKET_MGR_GetResultCodeStr(Result result)
 {
    CString str;
 
@@ -64,5 +61,3 @@ PUBLIC CString COMPOSITE_USB_GetResultCodeStr(Result result)
 //
 //*****************************************************************************
 
-
-#endif
