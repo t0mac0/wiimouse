@@ -48,8 +48,8 @@
 #define RESULT_WARN(code)( ((uint32)RESULT_SEVERITY_WARN << 8) | code )
 #define RESULT_ERROR(code)( ((uint32)RESULT_SEVERITY_ERROR << 8) | code )
 
-#define RESULT_SUCCESS(result, func)( RESULT_SEVERITY((result=func)) == RESULT_SEVERITY_SUCCESS )
-
+#define RESULT_IS_SUCCESS(result, func)( RESULT_SEVERITY((result=func)) == RESULT_SEVERITY_SUCCESS )
+#define RESULT_IS_ERROR(result, func)( RESULT_SEVERITY((result=func)) == RESULT_SEVERITY_ERROR )
 
 #define UNUSED(x)(x= x);
 /*-----------------------------------------------------------------------------

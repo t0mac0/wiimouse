@@ -50,7 +50,7 @@ PUBLIC Result MOD_MGR_Init( void )
 
     for( i = 0; i < MOD_MGR_MODULE_COUNT; i++ )
     {
-        if( modMgrModules[i].Init != NULL && RESULT_SUCCESS(result, modMgrModules[i].Init()) )
+        if( modMgrModules[i].Init != NULL && RESULT_IS_SUCCESS(result, modMgrModules[i].Init()) )
         {
             modMgrModules[i].Initialized = TRUE;
         }

@@ -54,7 +54,7 @@ PUBLIC Result OS_Init( void )
 
     for( i = 0; i < OS_MODULE_COUNT; i++ )
     {
-        if( osModules[i].Init != NULL && RESULT_SUCCESS(result, osModules[i].Init()) )
+        if( osModules[i].Init != NULL && RESULT_IS_SUCCESS(result, osModules[i].Init()) )
         {
             osModules[i].IsInitialized = TRUE;
         }

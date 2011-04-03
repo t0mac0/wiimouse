@@ -52,7 +52,7 @@ Result HW_MGR_Init( void )
 
     LOG_Printf("Initializing HW Mgr\n");
 
-    if( !RESULT_SUCCESS(result, hwMgrModules[HW_MGR_USB].Init(0, 0)) )
+    if( RESULT_IS_ERROR(result, hwMgrModules[HW_MGR_USB].Init(0, 0)) )
     {
         result = HW_MGR_RESULT(HW_MGR_RESULT_USB_INIT_FAIL);
     }

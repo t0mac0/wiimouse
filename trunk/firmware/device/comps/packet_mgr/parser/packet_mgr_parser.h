@@ -1,21 +1,23 @@
 /*!
- * \file os_evnt_mgr_events.h
+ * \file packet_mgr_parser.h
  *
  * \brief 
  *
  *
- * \date Mar 11, 2011
+ * \date Apr 2, 2011
  * \author Dan Riedler
  *
  */
 
-#ifndef _OS_EVNT_MGR_EVENTS_H_
-#define _OS_EVNT_MGR_EVENTS_H_
+#ifndef _PACKET_MGR_PARSER_H_
+#define _PACKET_MGR_PARSER_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "os.h"
+#include "packet_mgr/packet_mgr.h"
+#include "util/xml/lib_xml.h"
+
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -28,17 +30,16 @@
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
-PUBLIC typedef enum {
-    OS_EVNT_MGR_EVENT_ID_COUNT
-} OS_EVNT_MGR_EvntId;
 
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
+PROTECTED Result PacketMgrParsePacket(pLIB_XML_Tag *tag, uint32 *packetId);
+
 
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
 
 
-#endif /* OS_EVNT_MGR_EVENTS_H_ */
+#endif /* PACKET_MGR_PARSER_H_ */

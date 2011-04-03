@@ -38,7 +38,7 @@
 #define OS_TICK_RATE_HZ                 1000
 #define OS_MAX_PRIORITIES               5
 #define OS_MIN_STACK_SIZE               120
-#define OS_TOTAL_HEAP_SIZE              ( 16 * 1024 )
+#define OS_TOTAL_HEAP_SIZE              ( 4 * 1024 )
 
 /*-----------------------------------------------------------------------------
  Macros

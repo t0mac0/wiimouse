@@ -25,11 +25,16 @@ enum {
     PACKET_MGR_RESULT_SUCCESS = RESULT_SEVERITY_SUCCESS,
 
     // warnings
-    PACKET_MGR_RESULT_WARN = RESULT_WARN(0),
+    PACKET_MGR_RESULT_WARN                      = RESULT_WARN(0),
+    PACKET_MGR_RESULT_OUT_BUF_FULL              = RESULT_WARN(1),
 
     // errors
-    PACKET_MGR_RESULT_FAILURE = RESULT_ERROR(0),
-    PACKET_MGR_RESULT_NULL= RESULT_ERROR(0),
+    PACKET_MGR_RESULT_FAILURE                   = RESULT_ERROR(0),
+    PACKET_MGR_RESULT_NULL                      = RESULT_ERROR(1),
+    PACKET_MGR_RESULT_CREATE_LIS_LIST_FAIL      = RESULT_ERROR(2),
+    PACKET_MGR_RESULT_ADD_LISTENER_FAIL         = RESULT_ERROR(3),
+    PACKET_MGR_RESULT_MEM_ALLOC_FAIL            = RESULT_ERROR(4),
+    PACKET_MGR_RESULT_BAD_PACKET                = RESULT_ERROR(5),
 };
 
 /*-----------------------------------------------------------------------------

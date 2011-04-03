@@ -56,7 +56,7 @@ Result COMPS_Init( void )
 
     for( i = 0; i < COMPS_MODULE_COUNT; i++ )
     {
-        if( compsModules[i].Init != NULL && RESULT_SUCCESS(result, compsModules[i].Init()) )
+        if( compsModules[i].Init != NULL && RESULT_IS_SUCCESS(result, compsModules[i].Init()) )
         {
             compsModules[i].IsInitialized = TRUE;
         }

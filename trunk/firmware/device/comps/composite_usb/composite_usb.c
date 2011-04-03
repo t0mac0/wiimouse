@@ -54,7 +54,7 @@ PUBLIC Result COMPOSITE_USB_Init( void )
 
     LOG_Printf("Initializing Composite USB component\n");
 
-    if( !RESULT_SUCCESS(result, CompositeUsbEpInit()))
+    if( RESULT_IS_ERROR(result, CompositeUsbEpInit()))
     {
 
     }
@@ -99,7 +99,7 @@ PUBLIC Result COMPOSITE_USB_WriteVirCom(void *Buffer, uint32 StartIndex, uint32 
 
     if( StartIndex < EndIndex )
     {
-        byteCount = EndIndex - StartIndex + 1;
+        byteCount = EndIndex - StartIndex;
         USB_SIL_Write(VIR_COM_WRITE_EP, &((uint8*)Buffer)[StartIndex], byteCount);
         SetEPTxValid(VIR_COM_WRITE_EP_NUM);
     }
@@ -109,8 +109,7 @@ PUBLIC Result COMPOSITE_USB_WriteVirCom(void *Buffer, uint32 StartIndex, uint32 
         USB_SIL_Write(VIR_COM_WRITE_EP,  &((uint8*)Buffer)[StartIndex], byteCount);
         SetEPTxValid(VIR_COM_WRITE_EP_NUM);
 
-        byteCount = EndIndex + 1;
-        USB_SIL_Write(VIR_COM_WRITE_EP,  &((uint8*)Buffer)[0], byteCount);
+        USB_SIL_Write(VIR_COM_WRITE_EP,  &((uint8*)Buffer)[0], EndIndex);
         SetEPTxValid(VIR_COM_WRITE_EP_NUM);
     }
 
