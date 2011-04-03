@@ -78,6 +78,7 @@ uint32 USB_SIL_Init(void)
  *******************************************************************************/
 uint32 USB_SIL_Write(uint8 bEpAddr, uint8* pBufferPointer, uint32 wBufferSize)
 {
+    // TODO: USB limits buffer size to 1024 bytes, allow for multi-buffer copy
 #ifndef STM32F10X_CL
 
     /* Use the memory interface function to write to the selected endpoint */

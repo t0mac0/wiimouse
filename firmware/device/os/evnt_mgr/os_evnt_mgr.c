@@ -64,29 +64,27 @@ PROTECTED Result EVNT_MGR_Init( void )
 PUBLIC Result OS_EVNT_MGR_RegisterEventListener( OS_EVNT_MGR_EvntId EventId, pOS_EVNT_MGR_EventListener Listener)
 {
 
+    Result result = OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_SUCCESS);
+
     if( EventId > OS_EVNT_MGR_EVENT_ID_COUNT )
     {
-        return OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_INVALID_EVENT_ID);
+        result = OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_INVALID_EVENT_ID);
     }
     else if( Listener == NULL )
     {
-        return OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_NULL_LISTENER);
+        result = OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_NULL_LISTENER);
     }
-
-    if( EventLists[EventId] == NULL )
+    else if( EventLists[EventId] == NULL &&
+            (EventLists[EventId] = LIB_ARRAY_LIST_CreateList(sizeof(pOS_EVNT_MGR_EventListener), OS_EVNT_MGR_EVENT_LIST_INIT_SIZE)) == NULL )
     {
-        if( (EventLists[EventId] = LIB_ARRAY_LIST_CreateList(sizeof(pOS_EVNT_MGR_EventListener), OS_EVNT_MGR_EVENT_LIST_INIT_SIZE)) == NULL )
-        {
-            return OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_CREATE_EVENT_LIST_FAIL);
-        }
+        result = OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_CREATE_EVENT_LIST_FAIL);
     }
-
-    if( LIB_ARRAY_LIST_AddItem(EventLists[EventId], Listener) < 0 )
+    else if( LIB_ARRAY_LIST_AddItem(EventLists[EventId], Listener) < 0 )
     {
-        return OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_ADD_EVENT_TO_LIST_FAIL);
+        result = OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_ADD_EVENT_TO_LIST_FAIL);
     }
 
-    return OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_SUCCESS);
+    return result;
 }
 
 

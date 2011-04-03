@@ -1,26 +1,29 @@
 /*!
- * \file os_evnt_mgr_events.h
+ * \file packet_mgr_task.h
  *
  * \brief 
  *
  *
- * \date Mar 11, 2011
+ * \date Apr 2, 2011
  * \author Dan Riedler
  *
  */
 
-#ifndef _OS_EVNT_MGR_EVENTS_H_
-#define _OS_EVNT_MGR_EVENTS_H_
+#ifndef _PACKET_MGR_TASK_H_
+#define _PACKET_MGR_TASK_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "os.h"
+#include "packet_mgr.h"
+
 
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
-
+#define PACKET_MGR_TASK_NAME "PacketMgr"
+#define PACKET_MGR_TASK_PRIORITY OS_TASK_PRIORITY_MEDIUM
+#define PACKET_MGR_STACK_SIZE OS_MIN_STACK_SIZE
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
@@ -28,17 +31,17 @@
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
-PUBLIC typedef enum {
-    OS_EVNT_MGR_EVENT_ID_COUNT
-} OS_EVNT_MGR_EvntId;
 
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
+PROTECTED Result PacketMgrCreateTask( void );
+
+
 
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
 
 
-#endif /* OS_EVNT_MGR_EVENTS_H_ */
+#endif /* PACKET_MGR_TASK_H_ */

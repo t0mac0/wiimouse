@@ -30,6 +30,7 @@
 ------------------------------------------------------------------------------*/
 PUBLIC typedef enum {
     OS_TASK_IDLE,
+    OS_TASK_PACKET_MGR,
     OS_TASK_COUNT
 } OS_TaskId;
 
@@ -37,6 +38,9 @@ PUBLIC typedef enum {
 
 PUBLIC typedef enum {
     OS_TASK_PRIORITY_IDLE  = 0,
+    OS_TASK_PRIORITY_LOWEST = OS_TASK_PRIORITY_IDLE,
+    OS_TASK_PRIORITY_HIGHEST = (OS_MAX_PRIORITIES-1),
+    OS_TASK_PRIORITY_MEDIUM = ((OS_TASK_PRIORITY_HIGHEST - OS_TASK_PRIORITY_LOWEST)/2),
 } OS_TaskPriorities;
 
 

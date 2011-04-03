@@ -42,7 +42,7 @@
 //*****************************************************************************
 
 //*****************************************************************************//
-PUBLIC inline bool ZeroMemory(void *Mem, uint32 SizeBytes)
+PUBLIC bool ZeroMemory(void *Mem, uint32 SizeBytes)
 {
     uint32 i;
 
@@ -57,7 +57,22 @@ PUBLIC inline bool ZeroMemory(void *Mem, uint32 SizeBytes)
 
 
 //*****************************************************************************//
-PUBLIC inline bool CopyMemory(void *Dst, void *Src, uint32 SizeBytes)
+PUBLIC bool SetMemory(void *Mem, uint32 Value, uint32 SizeBytes)
+{
+    uint32 i;
+
+    if(Mem == NULL)
+        return FALSE;
+
+    for( i = 0; i < SizeBytes; i++ )
+        ((uint8*)(Mem))[i] = Value;
+
+    return TRUE;
+}
+
+
+//*****************************************************************************//
+PUBLIC bool CopyMemory(void *Dst, void *Src, uint32 SizeBytes)
 {
     uint32 i;
 

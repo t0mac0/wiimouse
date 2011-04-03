@@ -25,6 +25,10 @@
 ------------------------------------------------------------------------------*/
 #define OS_SEM_WAIT_INFINITE 0xffffffff
 
+#define OS_CREATE_MUTEX(_sem) OS_CreateSemaphore(_sem, OS_SEM_TYPE_MUTEX, 0, 0)
+#define OS_TAKE_MUTEX(_sem) OS_TakeSemaphore(_sem, OS_SEM_WAIT_INFINITE)
+#define OS_GIVE_MUTEX(_sem) OS_GiveSemaphore(_sem)
+
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/

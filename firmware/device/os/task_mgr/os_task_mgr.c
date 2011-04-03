@@ -88,7 +88,7 @@ PUBLIC Result OS_TASK_MGR_AddTask(OS_TaskId Id,
     {
         result = OS_TASK_MGR_RESULT(OS_TASK_MGR_RESULT_INVALD_TASK_ID);
     }
-    else if( RESULT_SUCCESS(result, TaskMgrCreateTask(StartAddr, Name, StackSize, Parameter, Priority, &Handle)) )
+    else if( RESULT_IS_SUCCESS(result, TaskMgrCreateTask(StartAddr, Name, StackSize, Parameter, Priority, &Handle)) )
     {
         taskList[Id].Handle = Handle;
         taskList[Id].Priority = Priority;
