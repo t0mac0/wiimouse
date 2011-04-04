@@ -51,6 +51,8 @@
 #define RESULT_IS_SUCCESS(result, func)( RESULT_SEVERITY((result=func)) == RESULT_SEVERITY_SUCCESS )
 #define RESULT_IS_ERROR(result, func)( RESULT_SEVERITY((result=func)) == RESULT_SEVERITY_ERROR )
 
+#define IS_RESULT_SUCCESS(result)( RESULT_SEVERITY(result) == RESULT_SEVERITY_SUCCESS )
+
 #define UNUSED(x)(x= x);
 /*-----------------------------------------------------------------------------
  Typedefs

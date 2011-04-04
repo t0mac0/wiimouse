@@ -19,6 +19,7 @@
 #include "hw_mgr_modules.h"
 #include "hw_mgr_result.h"
 #include "hw_mgr_types.h"
+#include "hw_mgr_conf.h"
 
 
 /*-----------------------------------------------------------------------------

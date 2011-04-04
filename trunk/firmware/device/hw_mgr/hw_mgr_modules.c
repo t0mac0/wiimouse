@@ -20,6 +20,9 @@
 
 
 #include "usb/hw_usb.h"
+#include "timer/hw_timer.h"
+#include "i2c/hw_i2c.h"
+#include "flash/hw_flash.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -56,6 +59,15 @@ HwMgrModules hwMgrModules[HW_MGR_MODULE_COUNT] = {
         ADD_HW_MODULE(USART),
 #ifdef HW_MGR_MOD_USB
         ADD_HW_MODULE(USB),
+#endif
+#ifdef HW_MGR_MOD_TIMER
+        ADD_HW_MODULE(TIMER),
+#endif
+#ifdef HW_MGR_MOD_I2C
+        ADD_HW_MODULE(I2C),
+#endif
+#ifdef HW_MGR_MOD_FLASH
+        ADD_HW_MODULE(FLASH),
 #endif
 };
 

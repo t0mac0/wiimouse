@@ -27,6 +27,7 @@
 /*!
  * \brief This defines which component modules to use
  */
+#define COMPS_MOD_SETTINGS_MGR
 #define COMPS_MOD_NUNCHUCK
 #define COMPS_MOD_COMPOSITE_USB
 #define COMPS_MOD_PACKET_MGR

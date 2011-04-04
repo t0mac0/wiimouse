@@ -50,6 +50,15 @@ PUBLIC typedef enum {
 #ifdef HW_MGR_MOD_USB
     HW_MGR_USB,
 #endif
+#ifdef HW_MGR_MOD_TIMER
+    HW_MGR_TIMER,
+#endif
+#ifdef HW_MGR_MOD_I2C
+    HW_MGR_I2C,
+#endif
+#ifdef HW_MGR_MOD_FLASH
+    HW_MGR_FLASH,
+#endif
     HW_MGR_MODULE_COUNT,   // this must come second to last
     HW_MGR_MAX_MODULE = 1024 // this must come last
 } HW_MGR_ModuleId;

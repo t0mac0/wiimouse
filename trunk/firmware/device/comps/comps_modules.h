@@ -31,6 +31,9 @@
  Typedefs
 ------------------------------------------------------------------------------*/
 PUBLIC typedef enum {
+#ifdef COMPS_MOD_SETTINGS_MGR
+    COMPS_SETTINGS_MGR,
+#endif
 #ifdef COMPS_MOD_COMPOSITE_USB
     COMPS_COMPOSITE_USB,
 #endif

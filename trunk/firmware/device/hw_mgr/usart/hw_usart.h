@@ -49,20 +49,21 @@ HW_USART_2,
 HW_USART_3,
 HW_USART_4,
 HW_USART_5,
-USART_COUNT
+HW_USART_COUNT
 } HW_USART_BlockId;
 
 
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PUBLIC inline void HW_USART_DefaultInit( void);
 
 PUBLIC HwModuleInitPrototype HW_USART_Init;
 
 PUBLIC HwModulePowerUpPrototype HW_USART_PowerUp;
 
 PUBLIC HwModulePowerDownPrototype HW_USART_PowerDown;
+
+PUBLIC inline void HW_USART_DefaultInit( void);
 
 PUBLIC Result HW_USART_WriteByte(HW_USART_BlockId Id, uint8 Bytes);
 
