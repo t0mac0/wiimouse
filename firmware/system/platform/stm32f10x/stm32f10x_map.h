@@ -352,90 +352,51 @@ typedef struct
   vucint32 CALIB;
 } SysTick_TypeDef;
 
-/*------------------------ Advanced Control Timer ----------------------------*/
-typedef struct
-{
-  vuint16 CR1;
-  uint16 RESERVED0;
-  vuint16 CR2;
-  uint16 RESERVED1;
-  vuint16 SMCR;
-  uint16 RESERVED2;
-  vuint16 DIER;
-  uint16 RESERVED3;
-  vuint16 SR;
-  uint16 RESERVED4;
-  vuint16 EGR;
-  uint16 RESERVED5;
-  vuint16 CCMR1;
-  uint16 RESERVED6;
-  vuint16 CCMR2;
-  uint16 RESERVED7;
-  vuint16 CCER;
-  uint16 RESERVED8;
-  vuint16 CNT;
-  uint16 RESERVED9;
-  vuint16 PSC;
-  uint16 RESERVED10;
-  vuint16 ARR;
-  uint16 RESERVED11;
-  vuint16 RCR;
-  uint16 RESERVED12;
-  vuint16 CCR1;
-  uint16 RESERVED13;
-  vuint16 CCR2;
-  uint16 RESERVED14;
-  vuint16 CCR3;
-  uint16 RESERVED15;
-  vuint16 CCR4;
-  uint16 RESERVED16;
-  vuint16 BDTR;
-  uint16 RESERVED17;
-  vuint16 DCR;
-  uint16 RESERVED18;
-  vuint16 DMAR;
-  uint16 RESERVED19;
-} TIM1_TypeDef;
+
 
 /*------------------------ General Purpose Timer -----------------------------*/
 typedef struct
 {
   vuint16 CR1;
-  uint16 RESERVED0;
+  uint16  RESERVED0;
   vuint16 CR2;
-  uint16 RESERVED1;
+  uint16  RESERVED1;
   vuint16 SMCR;
-  uint16 RESERVED2;
+  uint16  RESERVED2;
   vuint16 DIER;
-  uint16 RESERVED3;
+  uint16  RESERVED3;
   vuint16 SR;
-  uint16 RESERVED4;
+  uint16  RESERVED4;
   vuint16 EGR;
-  uint16 RESERVED5;
+  uint16  RESERVED5;
   vuint16 CCMR1;
-  uint16 RESERVED6;
+  uint16  RESERVED6;
   vuint16 CCMR2;
-  uint16 RESERVED7;
+  uint16  RESERVED7;
   vuint16 CCER;
-  uint16 RESERVED8;
+  uint16  RESERVED8;
   vuint16 CNT;
-  uint16 RESERVED9;
+  uint16  RESERVED9;
   vuint16 PSC;
-  uint16 RESERVED10;
+  uint16  RESERVED10;
   vuint16 ARR;
-  uint16 RESERVED11[3];
+  uint16  RESERVED11;
+  vuint16 RCR;
+  uint16  RESERVED12;
   vuint16 CCR1;
-  uint16 RESERVED12;
+  uint16  RESERVED13;
   vuint16 CCR2;
-  uint16 RESERVED13;
+  uint16  RESERVED14;
   vuint16 CCR3;
-  uint16 RESERVED14;
+  uint16  RESERVED15;
   vuint16 CCR4;
-  uint16 RESERVED15[3];
+  uint16  RESERVED16;
+  vuint16 BDTR;
+  uint16  RESERVED17;
   vuint16 DCR;
-  uint16 RESERVED16;
+  uint16  RESERVED18;
   vuint16 DMAR;
-  uint16 RESERVED17;
+  uint16  RESERVED19;
 } TIM_TypeDef;
 
 /*----------------- Universal Synchronous Asynchronous Receiver Transmitter --*/
@@ -537,7 +498,11 @@ typedef struct
 /******************************************************************************/
 
 /*------------------- Non Debug Mode -----------------------------------------*/
-//#ifndef DEBUG
+
+#ifdef _TIM1
+  #define TIM1                  ((TIM_TypeDef *) TIM1_BASE)
+#endif /*_TIM1 */
+
 #ifdef _TIM2
   #define TIM2                  ((TIM_TypeDef *) TIM2_BASE)
 #endif /*_TIM2 */
@@ -629,10 +594,6 @@ typedef struct
 #ifdef _ADC2
   #define ADC2                  ((ADC_TypeDef *) ADC2_BASE)
 #endif /*_ADC2 */
-
-#ifdef _TIM1
-  #define TIM1                  ((TIM1_TypeDef *) TIM1_BASE)
-#endif /*_TIM1 */
 
 #ifdef _SPI1
   #define SPI1                  ((SPI_TypeDef *) SPI1_BASE)

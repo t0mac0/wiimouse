@@ -37,7 +37,7 @@
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
-PRIVATE USART_TypeDef* usartBase[USART_COUNT] =
+PRIVATE USART_TypeDef* usartBase[HW_USART_COUNT] =
 {
 #ifdef USART1
         USART1,
@@ -66,7 +66,7 @@ PRIVATE USART_TypeDef* usartBase[USART_COUNT] =
 #endif
 };
 
-PRIVATE uint32 HW_RCC_ApbPeriphUsart[USART_COUNT] =
+PRIVATE uint32 HW_RCC_ApbPeriphUsart[HW_USART_COUNT] =
 {
 #ifdef RCC_APB2Periph_USART1
         RCC_APB2Periph_USART1,
@@ -101,6 +101,42 @@ PRIVATE uint32 HW_RCC_ApbPeriphUsart[USART_COUNT] =
 // Exported Functions
 //
 //****************************************************************************
+
+
+//****************************************************************************/
+PUBLIC Result HW_USART_Init(uint32 BlockId, void* InitInfo )
+{
+    Result result = HW_USART_RESULT_INIT();
+
+    UNUSED(BlockId);
+    UNUSED(InitInfo);
+
+
+    return result;
+}
+
+
+//****************************************************************************/
+PUBLIC Result HW_USART_PowerUp( uint32 BlockId )
+{
+    Result result = HW_USART_RESULT_INIT();
+
+    UNUSED(BlockId);
+
+    return result;
+}
+
+
+//****************************************************************************/
+PUBLIC Result HW_USART_PowerDown( uint32 BlockId )
+{
+    Result result = HW_USART_RESULT_INIT();
+
+    UNUSED(BlockId);
+
+    return result;
+}
+
 
 //****************************************************************************/
 PUBLIC inline void HW_USART_DefaultInit( void )
@@ -142,41 +178,6 @@ PUBLIC inline void HW_USART_DefaultInit( void )
 
 
     USART_Init(usartBase[DEFAULT_USART], &USART_InitStructure);
-}
-
-
-//****************************************************************************/
-PUBLIC Result HW_USART_Init(uint32 BlockId, void* InitInfo )
-{
-    Result result = HW_USART_RESULT_INIT();
-
-    UNUSED(BlockId);
-    UNUSED(InitInfo);
-
-
-    return result;
-}
-
-
-//****************************************************************************/
-PUBLIC Result HW_USART_PowerUp( uint32 BlockId )
-{
-    Result result = HW_USART_RESULT_INIT();
-
-    UNUSED(BlockId);
-
-    return result;
-}
-
-
-//****************************************************************************/
-PUBLIC Result HW_USART_PowerDown( uint32 BlockId )
-{
-    Result result = HW_USART_RESULT_INIT();
-
-    UNUSED(BlockId);
-
-    return result;
 }
 
 

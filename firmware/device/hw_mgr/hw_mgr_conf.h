@@ -16,11 +16,10 @@
  Includes
 ------------------------------------------------------------------------------*/
 #include "device_conf.h"
+#include "hw_mgr_gpio_conf.h"
 
 #ifdef DEV_MOD_HW_MGR
 
-#include "hw_mgr_gpio_conf.h"
-#include "usart/hw_usart.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -40,11 +39,18 @@
 
 //-------- Non-System Critical Modules  -------//
 #define HW_MGR_MOD_USB
+#define HW_MGR_MOD_TIMER
+#define HW_MGR_MOD_I2C
+#define HW_MGR_MOD_FLASH
 
 
-#define DEFAULT_USART HW_USART_2
 
 
+#define DEFAULT_USART       HW_USART_2
+
+
+#define NUNCHUCK_READ_TIMER HW_TIMER_2
+#define NUNCHUCK_I2C        HW_I2C_2
 
 #endif
 

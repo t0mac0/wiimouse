@@ -16,7 +16,7 @@
 #include <string.h>
 
 #include "packet_mgr.h"
-#include "packet_mgr_task.h"
+#include "task/packet_mgr_task.h"
 #include "os.h"
 #include "composite_usb.h"
 

@@ -95,10 +95,6 @@
 #include "systick/stm32f10x_systick.h"
 #endif /*_SysTick */
 
-#ifdef _TIM1
-#include "tim1/stm32f10x_tim1.h"
-#endif /*_TIM1 */
-
 #ifdef _TIM
 #include "tim/stm32f10x_tim.h"
 #endif /*_TIM */

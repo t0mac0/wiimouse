@@ -19,6 +19,7 @@
 
 #include "comps_modules.h"
 
+#include "settings_mgr/settings_mgr.h"
 #include "composite_usb/composite_usb.h"
 #include "packet_mgr/packet_mgr.h"
 
@@ -53,6 +54,9 @@
  Data Members
 ------------------------------------------------------------------------------*/
 CompsModules compsModules[COMPS_MODULE_COUNT] = {
+#ifdef COMPS_MOD_SETTINGS_MGR
+        ADD_COMPS_MODULE(SETTINGS_MGR),
+#endif
 #ifdef COMPS_MOD_COMPOSITE_USB
         ADD_COMPS_MODULE(COMPOSITE_USB),
 #endif
