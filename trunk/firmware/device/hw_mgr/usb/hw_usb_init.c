@@ -149,10 +149,10 @@ void DisconnectPin_Config(void)
     GPIO_InitStructure.GPIO_Pin = USB_DISCONNECT_PIN;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
-    GPIO_Init(USB_DISCONNECT, &GPIO_InitStructure);
+    GPIO_Init(USB_DISCONNECT_PORT, &GPIO_InitStructure);
 
     GPIO_InitStructure.GPIO_Pin = USB_ACTIVE_LED_PIN;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
-    GPIO_Init(USB_ACTIVE_LED, &GPIO_InitStructure);
+    GPIO_Init(USB_ACTIVE_LED_PORT, &GPIO_InitStructure);
 }

@@ -19,6 +19,7 @@
 #include "hw_mgr.h"
 #include "hw_i2c_result.h"
 #include "hw_mgr_types.h"
+#include "hw_i2c_types.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -43,6 +44,9 @@ PUBLIC HwModulePowerUpPrototype HW_I2C_PowerUp;
 
 PUBLIC HwModulePowerDownPrototype HW_I2C_PowerDown;
 
+PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Register, uint8 *Buffer, uint32 BytesToRead, uint32 *BytesRead);
+
+PUBLIC Result HW_I2C_WriteSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 *Buffer, uint32 BytesToWrite, uint32 *ByteWritten);
 
 /*-----------------------------------------------------------------------------
  External Data Members
