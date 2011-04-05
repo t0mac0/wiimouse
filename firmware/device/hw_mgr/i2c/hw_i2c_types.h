@@ -1,22 +1,21 @@
 /*!
- * \file hw_timer_types.h
+ * \file hw_i2c_types.h
  *
  * \brief 
  *
  *
- * \date Apr 3, 2011
+ * \date Apr 4, 2011
  * \author Dan Riedler
  *
  */
 
-#ifndef _HW_TIMER_TYPES_H_
-#define _HW_TIMER_TYPES_H_
+#ifndef _HW_I2C_TYPES_H_
+#define _HW_I2C_TYPES_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
 #include "hw_mgr.h"
-
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -29,42 +28,36 @@
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
-PUBLIC typedef enum {
-HW_TIMER_MODE_NULL,
-HW_TIMER_MODE_COUNTER,
-HW_TIMER_MODE_INPUT_COMPARE,
-HW_TIMER_MODE_OUTPUT_COMPARE,
-} HW_TIMER_Mode;
-
-PUBLIC typedef enum {
-HW_TIMER_TYPE_NULL,
-HW_TIMER_TYPE_BASIC,
-HW_TIMER_TYPE_GENERAL,
-HW_TIMER_TYPE_ADVANCED,
-} HW_TIMER_Type;
-
-
-PUBLIC typedef struct {
-    HW_TIMER_Type Type;
-    HW_TIMER_Mode Mode;
-    void *config;
-} HW_TIMER_ConfigInfo;
-
-
-
-// generic Timer defines, depended on
+// generic I2C defines, depended on
 // enabled hardware
 PUBLIC typedef enum {
-HW_TIMER_1,
-HW_TIMER_2,
-HW_TIMER_3,
-HW_TIMER_4,
-HW_TIMER_5,
-HW_TIMER_6,
-HW_TIMER_7,
-HW_TIMER_8,
-HW_TIMER_COUNT,
-} HW_TIMER_BlockId;
+HW_I2C_1,
+HW_I2C_2,
+HW_I2C_COUNT,
+} HW_I2C_BlockId;
+
+PUBLIC typedef enum {
+HW_I2C_ACK_ADDR_BIT_7,
+HW_I2C_ACK_ADDR_BIT_10,
+} HW_I2C_AckAddressBitCount;
+
+PUBLIC typedef enum {
+HW_I2C_DUTY_CYCLE_2
+} HW_I2C_DutyCyle;
+
+PUBLIC typedef enum {
+HW_I2C_MODE_NULL,
+HW_I2C_MODE_I2C,
+HW_I2C_MODE_COUNT
+} HW_I2C_Mode;
+
+PUBLIC typedef struct {
+    HW_I2C_Mode Mode;
+    bool AckEnable;
+    HW_I2C_AckAddressBitCount AckAddrBitCount;
+    HW_I2C_DutyCyle DutyCycle;
+    uint32 ClockSpeed;
+} HW_I2C_ConfigInfo;
 
 
 
@@ -77,4 +70,4 @@ HW_TIMER_COUNT,
 ------------------------------------------------------------------------------*/
 
 
-#endif /* HW_TIMER_TYPES_H_ */
+#endif /* HW_I2C_TYPES_H_ */

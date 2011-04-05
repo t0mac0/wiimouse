@@ -1,22 +1,29 @@
 /*!
- * \file hw_timer_types.h
+ * \file util_timeout.h
  *
  * \brief 
  *
  *
- * \date Apr 3, 2011
+ * \date Apr 4, 2011
  * \author Dan Riedler
  *
  */
 
-#ifndef _HW_TIMER_TYPES_H_
-#define _HW_TIMER_TYPES_H_
+#ifndef _UTIL_TIMEOUT_H_
+#define _UTIL_TIMEOUT_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "hw_mgr.h"
+#include "device.h"
+#include "util/timer/util_timer.h"
 
+#ifdef DEV_UTIL_TIMEOUT
+
+
+#ifndef DEV_UTIL_TIMER
+#error The timer utility should be enabled to use the Timeout Utility
+#endif
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -25,56 +32,26 @@
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
+#define UTIL_TIMEOUT_INIT(_timer, _timeoutval)          \
+{                                                       \
+    _timer = UTIL_TIMER_Ticker + _timeoutval;           \
+}
+
+#define UTIL_TIMEOUT_TIMED_OUT(_timer) ( UTIL_TIMER_Ticker -  _timer >= 0 )
 
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
-PUBLIC typedef enum {
-HW_TIMER_MODE_NULL,
-HW_TIMER_MODE_COUNTER,
-HW_TIMER_MODE_INPUT_COMPARE,
-HW_TIMER_MODE_OUTPUT_COMPARE,
-} HW_TIMER_Mode;
-
-PUBLIC typedef enum {
-HW_TIMER_TYPE_NULL,
-HW_TIMER_TYPE_BASIC,
-HW_TIMER_TYPE_GENERAL,
-HW_TIMER_TYPE_ADVANCED,
-} HW_TIMER_Type;
-
-
-PUBLIC typedef struct {
-    HW_TIMER_Type Type;
-    HW_TIMER_Mode Mode;
-    void *config;
-} HW_TIMER_ConfigInfo;
-
-
-
-// generic Timer defines, depended on
-// enabled hardware
-PUBLIC typedef enum {
-HW_TIMER_1,
-HW_TIMER_2,
-HW_TIMER_3,
-HW_TIMER_4,
-HW_TIMER_5,
-HW_TIMER_6,
-HW_TIMER_7,
-HW_TIMER_8,
-HW_TIMER_COUNT,
-} HW_TIMER_BlockId;
-
-
+typedef UTIL_TIMER_Timer UTIL_TIMEOUT_Timer;
 
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
 
+
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
 
-
-#endif /* HW_TIMER_TYPES_H_ */
+#endif
+#endif /* UTIL_TIMEOUT_H_ */

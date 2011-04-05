@@ -1,26 +1,27 @@
 /*!
- * \file hw_timer_types.h
+ * \file lib_xml.h
  *
  * \brief 
  *
  *
- * \date Apr 3, 2011
+ * \date Apr 2, 2011
  * \author Dan Riedler
  *
  */
 
-#ifndef _HW_TIMER_TYPES_H_
-#define _HW_TIMER_TYPES_H_
+#ifndef _LIB_XML_H_
+#define _LIB_XML_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "hw_mgr.h"
+#include "system.h"
 
 
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
+#define LIB_XML_MAX_TAG_LEN 16
 
 /*-----------------------------------------------------------------------------
  Macros
@@ -29,52 +30,27 @@
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
-PUBLIC typedef enum {
-HW_TIMER_MODE_NULL,
-HW_TIMER_MODE_COUNTER,
-HW_TIMER_MODE_INPUT_COMPARE,
-HW_TIMER_MODE_OUTPUT_COMPARE,
-} HW_TIMER_Mode;
-
-PUBLIC typedef enum {
-HW_TIMER_TYPE_NULL,
-HW_TIMER_TYPE_BASIC,
-HW_TIMER_TYPE_GENERAL,
-HW_TIMER_TYPE_ADVANCED,
-} HW_TIMER_Type;
 
 
 PUBLIC typedef struct {
-    HW_TIMER_Type Type;
-    HW_TIMER_Mode Mode;
-    void *config;
-} HW_TIMER_ConfigInfo;
-
-
-
-// generic Timer defines, depended on
-// enabled hardware
-PUBLIC typedef enum {
-HW_TIMER_1,
-HW_TIMER_2,
-HW_TIMER_3,
-HW_TIMER_4,
-HW_TIMER_5,
-HW_TIMER_6,
-HW_TIMER_7,
-HW_TIMER_8,
-HW_TIMER_COUNT,
-} HW_TIMER_BlockId;
-
+    char Tag[LIB_XML_MAX_TAG_LEN];
+    void *Data;
+    uint32 ChildCount;
+} LIB_XML_Tag, *pLIB_XML_Tag;
 
 
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
+PUBLIC extern bool LIB_XML_ParseUint32(pLIB_XML_Tag Tag, uint32 *Val);
+PUBLIC extern bool LIB_XML_AddUint32(pLIB_XML_Tag Tag, uint32 Val);
+
+PUBLIC extern bool LIB_XML_ParseBool(pLIB_XML_Tag Tag, bool *Val);
+PUBLIC extern bool LIB_XML_AddBool(pLIB_XML_Tag Tag, bool Val);
 
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
 
 
-#endif /* HW_TIMER_TYPES_H_ */
+#endif /* LIB_XML_H_ */

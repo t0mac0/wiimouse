@@ -90,11 +90,11 @@ void USB_Cable_Config (FunctionalState NewState)
 {
     if (NewState != DISABLE)
     {
-        GPIO_WriteBit(USB_DISCONNECT, USB_DISCONNECT_PIN, Bit_RESET); // on
+        GPIO_WriteBit(USB_DISCONNECT_PORT, USB_DISCONNECT_PIN, Bit_RESET); // on
     }
     else
     {
-        GPIO_WriteBit(USB_DISCONNECT, USB_DISCONNECT_PIN, Bit_SET); // off
+        GPIO_WriteBit(USB_DISCONNECT_PORT, USB_DISCONNECT_PIN, Bit_SET); // off
     }
 
 }

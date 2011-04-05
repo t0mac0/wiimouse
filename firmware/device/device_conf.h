@@ -31,6 +31,12 @@
 #define DEV_MOD_COMM_MGR            // Communication Manager module
 #define DEV_MOD_COMPS               // Components module
 
+#define DEV_UTIL_TIMER              // Timer utility
+#define DEV_UTIL_TIMEOUT            // Timeout utility
+#define DEV_UTIL_DELAY              // Delay utility
+
+
+
 #ifdef STM32F10X_MD
 
 /*!
@@ -53,6 +59,7 @@
  * from the base of memory
  */
 #define DEVICE_VECTOR_TABLE_OFFSET 0x00000000
+
 
 
 #endif

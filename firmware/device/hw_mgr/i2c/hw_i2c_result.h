@@ -24,11 +24,18 @@ enum {
     HW_I2C_RESULT_SUCCESS = RESULT_SEVERITY_SUCCESS,
 
     // warnings
-    HW_I2C_RESULT_WARN = RESULT_WARN(0),
+    HW_I2C_RESULT_WARN                              = RESULT_WARN(0),
 
     // errors
-    HW_I2C_RESULT_FAILURE = RESULT_ERROR(0),
-    HW_I2C_RESULT_NULL= RESULT_ERROR(0),
+    HW_I2C_RESULT_FAILURE                           = RESULT_ERROR(0),
+    HW_I2C_RESULT_NULL                              = RESULT_ERROR(1),
+    HW_I2C_RESULT_BUS_TIMEOUT                       = RESULT_ERROR(2),
+    HW_I2C_RESULT_MASTER_MODE_SELECT_TIMEOUT        = RESULT_ERROR(3),
+    HW_I2C_RESULT_MASTER_TRANSMIITER_SELECT_TIMEOUT = RESULT_ERROR(4),
+    HW_I2C_RESULT_SET_REGISTER_TIMEOUT              = RESULT_ERROR(5),
+    HW_I2C_RESULT_RECEIVER_MODE_SELECT_TIMEOUT      = RESULT_ERROR(6),
+    HW_I2C_RESULT_RECEIVE_TIMEOUT                   = RESULT_ERROR(7),
+    HW_I2C_RESULT_TRANSMIT_TIMEOUT                  = RESULT_ERROR(8),
 };
 
 /*-----------------------------------------------------------------------------

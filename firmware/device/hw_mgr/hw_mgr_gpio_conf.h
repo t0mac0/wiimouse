@@ -32,13 +32,20 @@
  */
 
 //--------- USB Pin Configuration ----------------------------//
-#define USB_DISCONNECT                      GPIOC
+#define USB_DISCONNECT_PORT                 GPIOC
 #define USB_DISCONNECT_PIN                  GPIO_Pin_11
 #define USB_DISCONNECT_RCC_APB2Periph       RCC_APB2Periph_GPIOC
 
-#define USB_ACTIVE_LED                   GPIOC
-#define USB_ACTIVE_LED_PIN               GPIO_Pin_12
-#define USB_ACTIVE_LED_RCC_APB2Periph    RCC_APB2Periph_GPIOC
+#define USB_ACTIVE_LED_PORT                 GPIOC
+#define USB_ACTIVE_LED_PIN                  GPIO_Pin_12
+#define USB_ACTIVE_LED_RCC_APB2Periph       RCC_APB2Periph_GPIOC
+
+
+//--------- Nunchunk I2C Pin Configuration --------------------//
+#define NUNCHUCK_I2C_PORT                   GPIOB
+#define NUNCHUCK_I2C_SCL_PIN                GPIO_Pin_10
+#define NUNCHUCK_I2C_SDA_PIN                GPIO_Pin_11
+
 
 /*-----------------------------------------------------------------------------
  Macros
