@@ -35,9 +35,9 @@ enum {
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-#define COMPOSITE_USB_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_COMPS, COMPS_COMPOSITE_USB, code))
+#define COMPOSITE_USB_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_COMPS, COMPS_COMPOSITE_USB, COMPOSITE_USB_RESULT_##code))
 
-#define COMPOSITE_USB_RESULT_INIT()(COMPOSITE_USB_RESULT(COMPOSITE_USB_RESULT_NULL))
+#define COMPOSITE_USB_RESULT_INIT()(COMPOSITE_USB_RESULT(NULL))
 
 /*-----------------------------------------------------------------------------
  Typedefs

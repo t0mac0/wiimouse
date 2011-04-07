@@ -41,9 +41,9 @@ enum {
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-#define HW_I2C_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_HW_MGR, HW_MGR_I2C, code))
+#define HW_I2C_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_HW_MGR, HW_MGR_I2C, HW_I2C_RESULT_##code))
 
-#define HW_I2C_RESULT_INIT()(HW_I2C_RESULT(HW_I2C_RESULT_NULL))
+#define HW_I2C_RESULT_INIT()(HW_I2C_RESULT(NULL))
 
 /*-----------------------------------------------------------------------------
  Typedefs

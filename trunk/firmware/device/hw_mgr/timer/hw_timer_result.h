@@ -35,9 +35,9 @@ enum {
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-#define HW_TIMER_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_HW_MGR, HW_MGR_USART, code))
+#define HW_TIMER_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_HW_MGR, HW_MGR_USART, HW_TIMER_RESULT_##code))
 
-#define HW_TIMER_RESULT_INIT()(HW_TIMER_RESULT(HW_TIMER_RESULT_NULL))
+#define HW_TIMER_RESULT_INIT()(HW_TIMER_RESULT(NULL))
 
 /*-----------------------------------------------------------------------------
  Typedefs

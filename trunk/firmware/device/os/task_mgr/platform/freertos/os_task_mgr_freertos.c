@@ -51,7 +51,7 @@ PUBLIC inline Result OS_TASK_MGR_StartScheduler( void )
 {
     vTaskStartScheduler();
 
-    return OS_TASK_MGR_RESULT(OS_TASK_MGR_RESULT_SUCCESS);
+    return OS_TASK_MGR_RESULT(SUCCESS);
 }
 
 PROTECTED inline Result TaskMgrCreateTask( pOS_TaskProtoType StartAddress,
@@ -60,7 +60,7 @@ PROTECTED inline Result TaskMgrCreateTask( pOS_TaskProtoType StartAddress,
                                            OS_TaskPriorities Priority,
                                            void** Handle )
 {
-    Result result =  OS_TASK_MGR_RESULT(OS_TASK_MGR_RESULT_SUCCESS);
+    Result result =  OS_TASK_MGR_RESULT(SUCCESS);
     signed portBASE_TYPE retval;
 
     if( (retval = xTaskCreate( (pdTASK_CODE)StartAddress, ( signed char * ) Name, StackSize, Parameter, Priority, (xTaskHandle)Handle )) != pdPASS )
@@ -68,7 +68,7 @@ PROTECTED inline Result TaskMgrCreateTask( pOS_TaskProtoType StartAddress,
         switch( retval )
         {
         case errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY:
-            result = OS_TASK_MGR_RESULT(OS_TASK_MGR_RESULT_NOT_ENOUGH_MEM);
+            result = OS_TASK_MGR_RESULT(NOT_ENOUGH_MEM);
         }
     }
 

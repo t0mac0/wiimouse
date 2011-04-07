@@ -18,6 +18,7 @@
 #include "device.h"
 #include "comps.h"
 #include "settings_mgr_result.h"
+#include "settings_mgr_entry.h"
 
 
 /*-----------------------------------------------------------------------------

@@ -33,6 +33,7 @@
  Typedefs
 ------------------------------------------------------------------------------*/
 
+
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
@@ -42,6 +43,15 @@ PUBLIC HwModulePowerUpPrototype HW_FLASH_PowerUp;
 
 PUBLIC HwModulePowerDownPrototype HW_FLASH_PowerDown;
 
+PUBLIC Result HW_FLASH_Write32Bit(uint32 Address, uint32 *Data, uint32 WordCount);
+
+PUBLIC Result HW_FLASH_Write16Bit(uint32 Address, uint16 *Data, uint32 WordCount);
+
+PUBLIC Result HW_FLASH_Read32Bit(uint32 Address, uint32 *Data, uint32 WordCount);
+
+PUBLIC Result HW_FLASH_Read16Bit(uint32 Address, uint16 *Data, uint32 WordCount);
+
+PUBLIC Result HW_FLASH_ErasePages(uint32 FirstPage, uint32 PageCount);
 
 
 /*-----------------------------------------------------------------------------

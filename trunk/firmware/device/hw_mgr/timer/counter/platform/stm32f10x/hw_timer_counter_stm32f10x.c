@@ -49,7 +49,7 @@ PROTECTED extern TIM_TypeDef* HwTimerCounterBase[HW_TIMER_COUNT];
 /******************************************************************************/
 PROTECTED Result HwTimerCounterInit(HW_TIMER_BlockId BlockId, HW_TIMER_ConfigInfo *Config)
 {
-    Result result = HW_TIMER_RESULT(HW_TIMER_RESULT_SUCCESS);
+    Result result = HW_TIMER_RESULT(SUCCESS);
     //TIM_TimeBaseInitTypeDef config;
 
 
@@ -68,7 +68,7 @@ UNUSED(BlockId);
 /******************************************************************************/
 PROTECTED Result HwTimerCounterStart(HW_TIMER_BlockId BlockId)
 {
-    Result result = HW_TIMER_RESULT(HW_TIMER_RESULT_SUCCESS);
+    Result result = HW_TIMER_RESULT(SUCCESS);
 
     UNUSED(BlockId);
 
@@ -79,7 +79,7 @@ PROTECTED Result HwTimerCounterStart(HW_TIMER_BlockId BlockId)
 /******************************************************************************/
 PROTECTED Result HwTimerCounterStop(HW_TIMER_BlockId BlockId)
 {
-    Result result = HW_TIMER_RESULT(HW_TIMER_RESULT_SUCCESS);
+    Result result = HW_TIMER_RESULT(SUCCESS);
 
     UNUSED(BlockId);
 
@@ -90,7 +90,7 @@ PROTECTED Result HwTimerCounterStop(HW_TIMER_BlockId BlockId)
 /******************************************************************************/
 PROTECTED Result HwTimerCounterReset(HW_TIMER_BlockId BlockId)
 {
-    Result result = HW_TIMER_RESULT(HW_TIMER_RESULT_SUCCESS);
+    Result result = HW_TIMER_RESULT(SUCCESS);
 
     UNUSED(BlockId);
 

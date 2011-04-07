@@ -76,7 +76,7 @@ PUBLIC inline void FreeMemory( pVoid MemoryPointer )
 //*****************************************************************************//
 PUBLIC Result OS_CreateSemaphore(pOS_Semaphore *Semaphore, OS_SemaphoreType SemType, uint32 InitValue, uint32 MaxCount )
 {
-    Result result = OS_RESULT(OS_RESULT_SUCCESS);
+    Result result = OS_RESULT(SUCCESS);
     xSemaphoreHandle semHandle = NULL;
 
     switch(SemType)
@@ -94,7 +94,7 @@ PUBLIC Result OS_CreateSemaphore(pOS_Semaphore *Semaphore, OS_SemaphoreType SemT
         break;
 
     default:
-        result = OS_RESULT(OS_RESULT_SEM_CREATE_FAIL);
+        result = OS_RESULT(SEM_CREATE_FAIL);
     }
 
     if( semHandle != NULL )
@@ -103,7 +103,7 @@ PUBLIC Result OS_CreateSemaphore(pOS_Semaphore *Semaphore, OS_SemaphoreType SemT
     }
     else
     {
-        result = OS_RESULT(OS_RESULT_SEM_CREATE_FAIL);
+        result = OS_RESULT(SEM_CREATE_FAIL);
     }
 
     return result;
@@ -115,7 +115,7 @@ PUBLIC Result OS_DestroySemaphore(pOS_Semaphore Semaphore)
 {
     UNUSED(Semaphore);
 
-    return OS_RESULT(OS_RESULT_SUCCESS);
+    return OS_RESULT(SUCCESS);
 }
 
 
@@ -126,11 +126,11 @@ PUBLIC Result OS_GiveSemaphore(pOS_Semaphore Semaphore)
 
     if( xSemaphoreGive( (xSemaphoreHandle)Semaphore ) )
     {
-        result = OS_RESULT(OS_RESULT_SUCCESS);
+        result = OS_RESULT(SUCCESS);
     }
     else
     {
-        result = OS_RESULT(OS_RESULT_SEM_GIVE_FAIL);
+        result = OS_RESULT(SEM_GIVE_FAIL);
     }
 
     return result;
@@ -146,11 +146,11 @@ PUBLIC Result OS_TakeSemaphore(pOS_Semaphore Semaphore, uint32 BlockTime )
 
     if( xSemaphoreTake( (xSemaphoreHandle)Semaphore, BlockTime ) )
     {
-        result = OS_RESULT(OS_RESULT_SUCCESS);
+        result = OS_RESULT(SUCCESS);
     }
     else
     {
-        result = OS_RESULT(OS_RESULT_SEM_TAKE_FAIL);
+        result = OS_RESULT(SEM_TAKE_FAIL);
     }
 
     return result;

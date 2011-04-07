@@ -69,7 +69,7 @@ Result COMPS_Init( void )
     LOG_RegisterModule(MOD_MGR_COMPS, NULL_MOD, TRUE);
 
 
-    return COMPS_RESULT(COMPS_RESULT_SUCCESS);
+    return COMPS_RESULT(SUCCESS);
 }
 
 

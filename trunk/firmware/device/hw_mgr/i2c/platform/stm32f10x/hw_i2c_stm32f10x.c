@@ -99,7 +99,7 @@ PRIVATE I2C_TypeDef* I2C_Base[HW_I2C_COUNT] = {
 //****************************************************************************/
 PUBLIC Result HW_I2C_Init(uint32 BlockId, void* InitInfo )
 {
-    Result result = HW_I2C_RESULT(HW_I2C_RESULT_SUCCESS);
+    Result result = HW_I2C_RESULT(SUCCESS);
     HW_I2C_ConfigInfo *config;
     GPIO_InitTypeDef  GPIO_InitStructure;
     I2C_InitTypeDef  I2C_InitStructure;
@@ -166,7 +166,7 @@ PUBLIC Result HW_I2C_PowerDown( uint32 BlockId )
 //****************************************************************************/
 PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Register, uint8 *Buffer, uint32 BytesToRead, uint32 *BytesRead)
 {
-    Result result = HW_I2C_RESULT(HW_I2C_RESULT_SUCCESS);
+    Result result = HW_I2C_RESULT(SUCCESS);
     UTIL_TIMEOUT_Timer timeout;
 
     *BytesRead = 0;
@@ -178,7 +178,7 @@ PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Regi
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
             I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
-            return HW_I2C_RESULT(HW_I2C_RESULT_BUS_TIMEOUT);
+            return HW_I2C_RESULT(BUS_TIMEOUT);
         }
     }
 
@@ -192,7 +192,7 @@ PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Regi
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
             I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
-            return HW_I2C_RESULT(HW_I2C_RESULT_MASTER_MODE_SELECT_TIMEOUT);
+            return HW_I2C_RESULT(MASTER_MODE_SELECT_TIMEOUT);
         }
     }
 
@@ -206,7 +206,7 @@ PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Regi
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
             I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
-            return HW_I2C_RESULT(HW_I2C_RESULT_MASTER_TRANSMIITER_SELECT_TIMEOUT);
+            return HW_I2C_RESULT(MASTER_TRANSMIITER_SELECT_TIMEOUT);
         }
     }
 
@@ -220,7 +220,7 @@ PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Regi
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
             I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
-            return HW_I2C_RESULT(HW_I2C_RESULT_SET_REGISTER_TIMEOUT);
+            return HW_I2C_RESULT(SET_REGISTER_TIMEOUT);
         }
     }
 
@@ -238,7 +238,7 @@ PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Regi
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
             I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
-            return HW_I2C_RESULT(HW_I2C_RESULT_MASTER_MODE_SELECT_TIMEOUT);
+            return HW_I2C_RESULT(MASTER_MODE_SELECT_TIMEOUT);
         }
     }
 
@@ -252,7 +252,7 @@ PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Regi
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
             I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
-            return HW_I2C_RESULT(HW_I2C_RESULT_RECEIVER_MODE_SELECT_TIMEOUT);
+            return HW_I2C_RESULT(RECEIVER_MODE_SELECT_TIMEOUT);
         }
     }
 
@@ -266,7 +266,7 @@ PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Regi
             if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
             {
                 I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
-                return HW_I2C_RESULT(HW_I2C_RESULT_RECEIVE_TIMEOUT);
+                return HW_I2C_RESULT(RECEIVE_TIMEOUT);
             }
         }
         /*!< Read the byte received from the I2C device */
@@ -291,7 +291,7 @@ PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Regi
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
             I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
-            return HW_I2C_RESULT(HW_I2C_RESULT_RECEIVE_TIMEOUT);
+            return HW_I2C_RESULT(RECEIVE_TIMEOUT);
         }
     }
 
@@ -318,7 +318,7 @@ PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Regi
 //****************************************************************************/
 PUBLIC Result HW_I2C_WriteSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 *Buffer, uint32 BytesToWrite, uint32 *BytesWritten)
 {
-    Result result = HW_I2C_RESULT(HW_I2C_RESULT_SUCCESS);
+    Result result = HW_I2C_RESULT(SUCCESS);
     UTIL_TIMEOUT_Timer timeout;
 
     *BytesWritten = 0;
@@ -330,7 +330,7 @@ PUBLIC Result HW_I2C_WriteSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 *Bu
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
             I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
-            return HW_I2C_RESULT(HW_I2C_RESULT_BUS_TIMEOUT);
+            return HW_I2C_RESULT(BUS_TIMEOUT);
         }
     }
 
@@ -344,7 +344,7 @@ PUBLIC Result HW_I2C_WriteSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 *Bu
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
             I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
-            return HW_I2C_RESULT(HW_I2C_RESULT_MASTER_MODE_SELECT_TIMEOUT);
+            return HW_I2C_RESULT(MASTER_MODE_SELECT_TIMEOUT);
         }
     }
 
@@ -358,7 +358,7 @@ PUBLIC Result HW_I2C_WriteSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 *Bu
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
             I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
-            return HW_I2C_RESULT(HW_I2C_RESULT_MASTER_TRANSMIITER_SELECT_TIMEOUT);
+            return HW_I2C_RESULT(MASTER_TRANSMIITER_SELECT_TIMEOUT);
         }
     }
 
@@ -374,7 +374,7 @@ PUBLIC Result HW_I2C_WriteSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 *Bu
             if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
             {
                 I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
-                return HW_I2C_RESULT(HW_I2C_RESULT_TRANSMIT_TIMEOUT);
+                return HW_I2C_RESULT(TRANSMIT_TIMEOUT);
             }
         }
     }
