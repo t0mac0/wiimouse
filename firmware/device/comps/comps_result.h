@@ -31,9 +31,9 @@ enum {
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-#define COMPS_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_COMPS, NULL_MOD, code))
+#define COMPS_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_COMPS, NULL_MOD, COMPS_RESULT_##code))
 
-#define COMPS_RESULT_INIT()(COMPS_RESULT(COMPS_RESULT_NULL))
+#define COMPS_RESULT_INIT()(COMPS_RESULT(NULL))
 
 /*-----------------------------------------------------------------------------
  Typedefs

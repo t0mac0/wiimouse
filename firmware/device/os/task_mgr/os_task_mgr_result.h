@@ -37,9 +37,9 @@ enum {
  Macros
 ------------------------------------------------------------------------------*/
 
-#define OS_TASK_MGR_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_OS, NULL_MOD, code))
+#define OS_TASK_MGR_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_OS, NULL_MOD, OS_TASK_MGR_RESULT_##code))
 
-#define OS_TASK_MGR_RESULT_INIT()(OS_TASK_MGR_RESULT(OS_TASK_MGR_RESULT_NULL))
+#define OS_TASK_MGR_RESULT_INIT()(OS_TASK_MGR_RESULT(NULL))
 
 /*-----------------------------------------------------------------------------
  Typedefs

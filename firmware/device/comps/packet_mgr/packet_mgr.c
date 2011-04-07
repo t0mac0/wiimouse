@@ -63,7 +63,7 @@ PROTECTED pLIB_ARRAY_LIST_List packetMgrTagListenerList;
 //****************************************************************************/
 PUBLIC Result PACKET_MGR_Init( void )
 {
-    Result result = PACKET_MGR_RESULT(PACKET_MGR_RESULT_SUCCESS);
+    Result result = PACKET_MGR_RESULT(SUCCESS);
 
     LOG_Printf("Initializing Packet Mgr component\n");
 
@@ -92,7 +92,7 @@ PUBLIC Result PACKET_MGR_Init( void )
     }
     else if( (packetMgrTagListenerList = LIB_ARRAY_LIST_CreateList(sizeof(PacketMgrTagListenerInfo), 1)) == NULL )
     {
-        result = PACKET_MGR_RESULT(PACKET_MGR_RESULT_CREATE_LIS_LIST_FAIL);
+        result = PACKET_MGR_RESULT(CREATE_LIS_LIST_FAIL);
         LOG_Printf("Failed to create array list\n");
     }
 
@@ -121,7 +121,7 @@ PUBLIC Result PACKET_MGR_PowerDown( void )
 //****************************************************************************/
 PUBLIC Result PACKET_MGR_AddPacket(pLIB_XML_Tag PacketData, uint32 PacketId)
 {
-    Result result = PACKET_MGR_RESULT(PACKET_MGR_RESULT_SUCCESS);
+    Result result = PACKET_MGR_RESULT(SUCCESS);
     uint32 packetSize, dataSize, pi, byteCount;
 
     dataSize = strnlen(PacketData->Data, PACKET_MGR_OUTPUT_BUFFER_SIZE);
@@ -161,7 +161,7 @@ PUBLIC Result PACKET_MGR_AddPacket(pLIB_XML_Tag PacketData, uint32 PacketId)
     }
     else
     {
-        result = PACKET_MGR_RESULT(PACKET_MGR_RESULT_OUT_BUF_FULL);
+        result = PACKET_MGR_RESULT(OUT_BUF_FULL);
         LOG_Printf("Warning: PacketMgr Input Buffer Full\n");
     }
 
@@ -174,7 +174,7 @@ PUBLIC Result PACKET_MGR_AddPacket(pLIB_XML_Tag PacketData, uint32 PacketId)
 
 //****************************************************************************/
 PUBLIC Result PACKET_MGR_RegisterListener(CString Tag, pPACKET_MGR_ListenerCallback CallBack){
-    Result result = PACKET_MGR_RESULT(PACKET_MGR_RESULT_SUCCESS);
+    Result result = PACKET_MGR_RESULT(SUCCESS);
 
     PacketMgrTagListenerInfo listenerInfo;
 
@@ -183,7 +183,7 @@ PUBLIC Result PACKET_MGR_RegisterListener(CString Tag, pPACKET_MGR_ListenerCallb
 
     if( LIB_ARRAY_LIST_AddItem(packetMgrTagListenerList, &listenerInfo) < 0 )
     {
-        result = PACKET_MGR_RESULT(PACKET_MGR_RESULT_ADD_LISTENER_FAIL);
+        result = PACKET_MGR_RESULT(ADD_LISTENER_FAIL);
         LOG_Printf("Failed to add listener\n");
     }
 

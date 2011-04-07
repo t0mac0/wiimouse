@@ -1,20 +1,23 @@
 /*!
- * \file feeprom_preprocess_enty.h
+ * \file settings_mgr_types.h
  *
  * \brief 
  *
  *
- * \date Apr 3, 2011
+ * \date Apr 5, 2011
  * \author Dan Riedler
  *
  */
 
-#ifndef _FEEPROM_PREPROCESS_ENTY_H_
-#define _FEEPROM_PREPROCESS_ENTY_H_
+#ifndef _SETTINGS_MGR_TYPES_H_
+#define _SETTINGS_MGR_TYPES_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
+#include "comps.h"
+#include "feeprom/feeprom_types.h"
+
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -27,6 +30,13 @@
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
+PUBLIC typedef enum {
+    SETTINGS_MGR_ENTRY_FLAG_PROTECTED                   = FEEPROM_ENTRY_FLAG_PROTECTED,
+    SETTINGS_MGR_ENTRY_FLAG_FORCE_UPDATE                = FEEPROM_ENTRY_FLAG_FORCE_UPDATE,
+    SETTINGS_MGR_ENTRY_FLAG_FORCE_WRITE                 = FEEPROM_ENTRY_FLAG_FORCE_WRITE
+} SETTINGS_MGR_EntryFlag;
+
+
 
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
@@ -37,4 +47,4 @@
 ------------------------------------------------------------------------------*/
 
 
-#endif /* FEEPROM_PREPROCESS_ENTY_H_ */
+#endif /* SETTINGS_MGR_TYPES_H_ */

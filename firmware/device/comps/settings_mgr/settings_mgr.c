@@ -45,7 +45,7 @@
 //****************************************************************************/
 PUBLIC Result SETTINGS_MGR_Init( void )
 {
-    Result result = SETTINGS_MGR_RESULT(SETTINGS_MGR_RESULT_SUCCESS);
+    Result result = SETTINGS_MGR_RESULT(SUCCESS);
 
 
     return result;

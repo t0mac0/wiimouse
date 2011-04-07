@@ -48,7 +48,7 @@ PROTECTED Result CompositeUsbEpInit( void )
 
     CompositeUsbVirComCallback = NULL;
 
-    return COMPOSITE_USB_RESULT(COMPOSITE_USB_RESULT_SUCCESS);
+    return COMPOSITE_USB_RESULT(SUCCESS);
 }
 
 

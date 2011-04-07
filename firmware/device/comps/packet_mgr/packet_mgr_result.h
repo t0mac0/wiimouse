@@ -40,9 +40,9 @@ enum {
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-#define PACKET_MGR_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_COMPS, COMPS_PACKET_MGR, code))
+#define PACKET_MGR_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_COMPS, COMPS_PACKET_MGR, PACKET_MGR_RESULT_##code))
 
-#define PACKET_MGR_RESULT_INIT()(PACKET_MGR_RESULT(PACKET_MGR_RESULT_NULL))
+#define PACKET_MGR_RESULT_INIT()(PACKET_MGR_RESULT(NULL))
 
 /*-----------------------------------------------------------------------------
  Typedefs

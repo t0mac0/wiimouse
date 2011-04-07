@@ -51,7 +51,7 @@ PROTECTED Result SEM_MGR_Init( void )
     LOG_RegisterModule(MOD_MGR_OS, OS_SEM_MGR, TRUE);
 
 
-    return OS_SEM_MGR_RESULT(OS_SEM_MGR_RESULT_SUCCESS);
+    return OS_SEM_MGR_RESULT(SUCCESS);
 }
 
 //*****************************************************************************

@@ -190,7 +190,7 @@ PUBLIC Result HW_USART_WriteByte(HW_USART_BlockId Id, uint8 Byte)
     USART_SendData(usartBase[Id], (uint16)Byte);
     while(USART_GetFlagStatus(usartBase[Id], USART_FLAG_TXE) == RESET);
 
-    return HW_USART_RESULT(HW_USART_RESULT_SUCCESS);
+    return HW_USART_RESULT(SUCCESS);
 }
 
 
@@ -208,7 +208,7 @@ PUBLIC Result HW_USART_WriteBytes(HW_USART_BlockId Id, uint8* Bytes, uint32 Coun
         while(USART_GetFlagStatus(usartBase[Id], USART_FLAG_TXE) == RESET);
     }
 
-    return HW_USART_RESULT(HW_USART_RESULT_SUCCESS);
+    return HW_USART_RESULT(SUCCESS);
 }
 
 
@@ -221,7 +221,7 @@ PUBLIC Result HW_USART_ReadByte(HW_USART_BlockId Id, uint8 *Byte)
     while(USART_GetFlagStatus(usartBase[Id], USART_FLAG_RXNE) == RESET);
     *Byte =  (uint8)USART_ReceiveData(usartBase[Id]);
 
-    return HW_USART_RESULT(HW_USART_RESULT_SUCCESS);
+    return HW_USART_RESULT(SUCCESS);
 }
 
 
@@ -239,7 +239,7 @@ PUBLIC Result HW_USART_ReadBytes(HW_USART_BlockId Id, uint8 *Bytes, uint32 Count
         Bytes[i] =  (uint8)USART_ReceiveData(usartBase[Id]);
     }
 
-    return HW_USART_RESULT(HW_USART_RESULT_SUCCESS);
+    return HW_USART_RESULT(SUCCESS);
 }
 
 

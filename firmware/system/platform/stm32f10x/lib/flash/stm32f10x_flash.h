@@ -178,6 +178,8 @@ typedef enum
 
 #define IS_OB_DATA_ADDRESS(ADDRESS) (((ADDRESS) == 0x1FFFF804) || ((ADDRESS) == 0x1FFFF806))
 
+#define FLASH_PAGE_SIZE     0x400
+
 /******************************************************************************/
 /*                                                                            */
 /*                      FLASH and Option Bytes Registers                      */

@@ -49,7 +49,7 @@ PROTECTED extern PacketMgrInputBufferInfo packetMgrInputBuffer;
 //****************************************************************************/
 PROTECTED Result PacketMgrParsePacket(pLIB_XML_Tag *Tag, uint32 *PacketId)
 {
-    Result result = PACKET_MGR_RESULT(PACKET_MGR_RESULT_SUCCESS);
+    Result result = PACKET_MGR_RESULT(SUCCESS);
     uint32 packetSizeBytes;
     uint32 pi;
     pLIB_XML_Tag tag;
@@ -69,7 +69,7 @@ PROTECTED Result PacketMgrParsePacket(pLIB_XML_Tag *Tag, uint32 *PacketId)
 
     if( (tag = (pLIB_XML_Tag) AllocMemory(sizeof(LIB_XML_Tag) + packetSizeBytes)) == NULL )
     {
-        result = PACKET_MGR_RESULT(PACKET_MGR_RESULT_MEM_ALLOC_FAIL);
+        result = PACKET_MGR_RESULT(MEM_ALLOC_FAIL);
     }
     else
     {
@@ -91,7 +91,7 @@ PROTECTED Result PacketMgrParsePacket(pLIB_XML_Tag *Tag, uint32 *PacketId)
 
         if( sscanf(tag->Data, "<%s>", tag->Tag) != 1 )
         {
-            result = PACKET_MGR_RESULT(PACKET_MGR_RESULT_BAD_PACKET);
+            result = PACKET_MGR_RESULT(BAD_PACKET);
         }
     }
 

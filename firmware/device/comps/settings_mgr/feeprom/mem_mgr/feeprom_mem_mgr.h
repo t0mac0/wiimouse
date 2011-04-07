@@ -15,6 +15,8 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
+#include "settings_mgr/feeprom/feeprom.h"
+
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -31,6 +33,12 @@
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
+PROTECTED Result FeepromMemWrite(FEEPROM_EntryKey key, void *data, uint16 size, FEEPROM_EntryFlag flags);
+
+PROTECTED Result FeepromMemRead(FEEPROM_EntryKey key, void *data, uint16 size, uint16 *bytesRead);
+
+
+
 
 /*-----------------------------------------------------------------------------
  External Data Members

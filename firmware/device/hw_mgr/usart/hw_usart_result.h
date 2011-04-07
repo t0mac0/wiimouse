@@ -34,9 +34,9 @@ enum {
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-#define HW_USART_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_HW_MGR, HW_MGR_USART, code))
+#define HW_USART_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_HW_MGR, HW_MGR_USART, HW_USART_RESULT_##code))
 
-#define HW_USART_RESULT_INIT()(HW_USART_RESULT(HW_USART_RESULT_NULL))
+#define HW_USART_RESULT_INIT()(HW_USART_RESULT(NULL))
 
 /*-----------------------------------------------------------------------------
  Typedefs

@@ -68,7 +68,7 @@ PROTECTED Result TASK_MGR_Init( void )
     ZeroMemory(taskList, sizeof(TaskInfo)*OS_TASK_COUNT);
 
 
-    return OS_TASK_MGR_RESULT(OS_TASK_MGR_RESULT_SUCCESS);
+    return OS_TASK_MGR_RESULT(SUCCESS);
 }
 
 
@@ -86,7 +86,7 @@ PUBLIC Result OS_TASK_MGR_AddTask(OS_TaskId Id,
 
     if( Id >= OS_TASK_COUNT )
     {
-        result = OS_TASK_MGR_RESULT(OS_TASK_MGR_RESULT_INVALD_TASK_ID);
+        result = OS_TASK_MGR_RESULT(INVALD_TASK_ID);
     }
     else if( RESULT_IS_SUCCESS(result, TaskMgrCreateTask(StartAddr, Name, StackSize, Parameter, Priority, &Handle)) )
     {

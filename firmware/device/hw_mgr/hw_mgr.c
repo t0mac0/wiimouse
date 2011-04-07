@@ -54,11 +54,11 @@ Result HW_MGR_Init( void )
 
     if( RESULT_IS_ERROR(result, hwMgrModules[HW_MGR_USB].Init(0, 0)) )
     {
-        result = HW_MGR_RESULT(HW_MGR_RESULT_USB_INIT_FAIL);
+        result = HW_MGR_RESULT(USB_INIT_FAIL);
     }
 
 
-    return HW_MGR_RESULT(HW_MGR_RESULT_SUCCESS);
+    return HW_MGR_RESULT(SUCCESS);
 }
 
 

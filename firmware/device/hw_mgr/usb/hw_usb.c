@@ -57,7 +57,7 @@ PUBLIC Result HW_USB_Init(uint32 BlockId, void* InitInfo )
 
     USB_Init();
 
-    return HW_USB_RESULT(HW_USB_RESULT_SUCCESS);
+    return HW_USB_RESULT(SUCCESS);
 }
 
 //****************************************************************************/

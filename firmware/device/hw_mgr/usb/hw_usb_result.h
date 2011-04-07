@@ -36,9 +36,9 @@ enum {
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-#define HW_USB_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_HW_MGR, HW_MGR_USB, code))
+#define HW_USB_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_HW_MGR, HW_MGR_USB, HW_USB_RESULT_##code))
 
-#define HW_USB_RESULT_INIT()(HW_USB_RESULT(HW_USB_RESULT_NULL))
+#define HW_USB_RESULT_INIT()(HW_USB_RESULT(NULL))
 
 /*-----------------------------------------------------------------------------
  Typedefs

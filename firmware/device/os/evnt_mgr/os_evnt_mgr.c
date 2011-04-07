@@ -56,7 +56,7 @@ PROTECTED Result EVNT_MGR_Init( void )
     LOG_RegisterModule(MOD_MGR_OS, OS_EVNT_MGR, TRUE);
 
 
-    return OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_SUCCESS);
+    return OS_EVNT_MGR_RESULT(SUCCESS);
 }
 
 
@@ -64,24 +64,24 @@ PROTECTED Result EVNT_MGR_Init( void )
 PUBLIC Result OS_EVNT_MGR_RegisterEventListener( OS_EVNT_MGR_EvntId EventId, pOS_EVNT_MGR_EventListener Listener)
 {
 
-    Result result = OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_SUCCESS);
+    Result result = OS_EVNT_MGR_RESULT(SUCCESS);
 
     if( EventId > OS_EVNT_MGR_EVENT_ID_COUNT )
     {
-        result = OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_INVALID_EVENT_ID);
+        result = OS_EVNT_MGR_RESULT(INVALID_EVENT_ID);
     }
     else if( Listener == NULL )
     {
-        result = OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_NULL_LISTENER);
+        result = OS_EVNT_MGR_RESULT(NULL_LISTENER);
     }
     else if( EventLists[EventId] == NULL &&
             (EventLists[EventId] = LIB_ARRAY_LIST_CreateList(sizeof(pOS_EVNT_MGR_EventListener), OS_EVNT_MGR_EVENT_LIST_INIT_SIZE)) == NULL )
     {
-        result = OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_CREATE_EVENT_LIST_FAIL);
+        result = OS_EVNT_MGR_RESULT(CREATE_EVENT_LIST_FAIL);
     }
     else if( LIB_ARRAY_LIST_AddItem(EventLists[EventId], Listener) < 0 )
     {
-        result = OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_ADD_EVENT_TO_LIST_FAIL);
+        result = OS_EVNT_MGR_RESULT(ADD_EVENT_TO_LIST_FAIL);
     }
 
     return result;
@@ -94,12 +94,12 @@ PUBLIC Result OS_EVNT_MGR_GenerateEvent( OS_EVNT_MGR_EvntId EventId, void* Param
 {
     if( EventId > OS_EVNT_MGR_EVENT_ID_COUNT )
     {
-        return OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_INVALID_EVENT_ID);
+        return OS_EVNT_MGR_RESULT(INVALID_EVENT_ID);
     }
 
     if( EventLists[EventId] == NULL )
     {
-        return OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_NO_LISTENERS);
+        return OS_EVNT_MGR_RESULT(NO_LISTENERS);
     }
     else
     {
@@ -115,7 +115,7 @@ PUBLIC Result OS_EVNT_MGR_GenerateEvent( OS_EVNT_MGR_EvntId EventId, void* Param
         }
     }
 
-    return OS_EVNT_MGR_RESULT(OS_EVNT_MGR_RESULT_SUCCESS);
+    return OS_EVNT_MGR_RESULT(SUCCESS);
 }
 
 //*****************************************************************************

@@ -52,6 +52,7 @@
 // finds the offset in bytes of the data member in a structure
 #define OFFSETOF(s, m) ( (uint32)&(((s *)0)->m) )
 
+
 // returns the maximum of two values
 #define MAX(x, y) (  x > y ? x : y )
 

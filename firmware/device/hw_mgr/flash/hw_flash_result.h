@@ -24,19 +24,21 @@ enum {
     HW_FLASH_RESULT_SUCCESS = RESULT_SEVERITY_SUCCESS,
 
     // warnings
-    HW_FLASH_RESULT_WARN = RESULT_WARN(0),
+    HW_FLASH_RESULT_WARN                        = RESULT_WARN(0),
 
     // errors
-    HW_FLASH_RESULT_FAILURE = RESULT_ERROR(0),
-    HW_FLASH_RESULT_NULL= RESULT_ERROR(0),
+    HW_FLASH_RESULT_FAILURE                     = RESULT_ERROR(0),
+    HW_FLASH_RESULT_NULL                        = RESULT_ERROR(1),
+    HW_FLASH_RESULT_INVALID_PAGE_ADDR           = RESULT_ERROR(2),
+    HW_FLASH_RESULT_ERASE_FAIL                  = RESULT_ERROR(3),
 };
 
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-#define HW_FLASH_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_HW_MGR, HW_MGR_FLASH, code))
+#define HW_FLASH_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_HW_MGR, HW_MGR_FLASH, HW_FLASH_RESULT_##code))
 
-#define HW_FLASH_RESULT_INIT()(HW_FLASH_RESULT(HW_FLASH_RESULT_NULL))
+#define HW_FLASH_RESULT_INIT()(HW_FLASH_RESULT(NULL))
 
 /*-----------------------------------------------------------------------------
  Typedefs
