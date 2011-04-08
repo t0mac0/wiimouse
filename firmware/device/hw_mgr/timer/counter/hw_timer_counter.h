@@ -38,7 +38,7 @@ PUBLIC typedef enum {
 PUBLIC typedef struct {
     uint32 Frequnecy; // Hz
     HW_TIMER_CounterMode Mode;
-    bool EnableOverflowInterrupt;
+    bool EnableUpdateInterrupt;
 } HW_TIMER_CounterConfig;
 
 

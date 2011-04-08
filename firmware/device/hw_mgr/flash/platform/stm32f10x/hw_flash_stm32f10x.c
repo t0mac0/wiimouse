@@ -79,11 +79,18 @@ PUBLIC Result HW_FLASH_PowerDown( uint32 BlockId )
 //****************************************************************************/
 PUBLIC Result HW_FLASH_Write32Bit(uint32 Address, uint32 *Data, uint32 WordCount)
 {
-    Result result = HW_FLASH_RESULT_INIT();
+    Result result = HW_FLASH_RESULT(SUCCESS);
+    uint32 i;
 
-    UNUSED(Address);
-    UNUSED(Data);
-    UNUSED(WordCount);
+
+    for(i = 0; i < WordCount; i++)
+    {
+        if( FLASH_ProgramWord(Address|FLASH_BASE, Data[i]) != FLASH_COMPLETE )
+        {
+            result = HW_FLASH_RESULT(WRITE_FAIL);
+            break;
+        }
+    }
 
     return result;
 }
@@ -92,11 +99,18 @@ PUBLIC Result HW_FLASH_Write32Bit(uint32 Address, uint32 *Data, uint32 WordCount
 //****************************************************************************/
 PUBLIC Result HW_FLASH_Write16Bit(uint32 Address, uint16 *Data, uint32 WordCount)
 {
-    Result result = HW_FLASH_RESULT_INIT();
+    Result result = HW_FLASH_RESULT(SUCCESS);
+    uint32 i;
 
-    UNUSED(Address);
-    UNUSED(Data);
-    UNUSED(WordCount);
+
+    for(i = 0; i < WordCount; i++)
+    {
+        if( FLASH_ProgramHalfWord(Address|FLASH_BASE, Data[i]) != FLASH_COMPLETE )
+        {
+            result = HW_FLASH_RESULT(WRITE_FAIL);
+            break;
+        }
+    }
 
     return result;
 }
@@ -105,11 +119,13 @@ PUBLIC Result HW_FLASH_Write16Bit(uint32 Address, uint16 *Data, uint32 WordCount
 //****************************************************************************/
 PUBLIC Result HW_FLASH_Read32Bit(uint32 Address, uint32 *Data, uint32 WordCount)
 {
-    Result result = HW_FLASH_RESULT_INIT();
+    Result result = HW_FLASH_RESULT(SUCCESS);
+    uint32 i;
 
-    UNUSED(Address);
-    UNUSED(Data);
-    UNUSED(WordCount);
+    for( i= 0; i < WordCount; i++)
+    {
+        *(uint32*)(Data + i) = *(uint32*)(Address + i);
+    };
 
     return result;
 }
@@ -118,11 +134,13 @@ PUBLIC Result HW_FLASH_Read32Bit(uint32 Address, uint32 *Data, uint32 WordCount)
 //****************************************************************************/
 PUBLIC Result HW_FLASH_Read16Bit(uint32 Address, uint16 *Data, uint32 WordCount)
 {
-    Result result = HW_FLASH_RESULT_INIT();
+    Result result = HW_FLASH_RESULT(SUCCESS);
+    uint32 i;
 
-    UNUSED(Address);
-    UNUSED(Data);
-    UNUSED(WordCount);
+    for( i = 0; i < WordCount; i++)
+    {
+        *(uint16*)(Data + i) = *(uint16*)(Address + i);
+    };
 
     return result;
 }

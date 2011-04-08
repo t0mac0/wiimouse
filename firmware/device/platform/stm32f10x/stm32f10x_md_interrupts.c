@@ -1,10 +1,10 @@
 /*!
- * \file util_timer.c
+ * \file stm32f10x_md_interrupts.c
  *
  * \brief 
  *
  *
- * \date Apr 4, 2011
+ * \date Mar 19, 2011
  * \author Dan Riedler
  *
  */
@@ -12,10 +12,9 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "util_timer.h"
-#include "timer/hw_timer.h"
-
-#ifdef DEV_UTIL_TIMER
+#include "device.h"
+#include "composite_usb/isr/composite_usb_isr.h"
+#include "util/timer/util_timer.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -36,7 +35,6 @@
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
-PUBLIC vint32 UTIL_TIMER_Ticker;
 
 
 //*****************************************************************************
@@ -46,64 +44,43 @@ PUBLIC vint32 UTIL_TIMER_Ticker;
 //*****************************************************************************
 
 
-/******************************************************************************/
-PUBLIC bool UTIL_TIMER_Init( void )
+/*******************************************************************************
+ * Function Name  : USB_LP_CAN1_RX0_IRQHandler
+ * Description    : This function handles USB Low Priority or CAN RX0 interrupts
+ *                  requests.
+ * Input          : None
+ * Output         : None
+ * Return         : None
+ *******************************************************************************/
+PUBLIC void USB_LP_CAN_RX0_IRQHandler( void )
 {
-    Result result;
-    HW_TIMER_ConfigInfo timerConfig;
-    HW_TIMER_CounterConfig counterConfig;
-
-
-    counterConfig.EnableUpdateInterrupt = TRUE;
-    counterConfig.Frequnecy = UTIL_TIMER_FREQ;
-    counterConfig.Mode = HW_TIMER_COUNTER_MODE_UP;
-
-    timerConfig.ClkSrc = HW_TIMER_CLK_SRC_INT;
-    timerConfig.Mode = HW_TIMER_MODE_COUNTER;
-    timerConfig.Type = HW_TIMER_TYPE_GENERAL;
-    timerConfig.config = &counterConfig;
-    timerConfig.Enable = TRUE;
-
-    if( RESULT_IS_ERROR(result, HW_TIMER_Init(UTIL_TIMER, &timerConfig)) )
-    {
-        return FALSE;
-    }
-
-    UTIL_TIMER_Ticker = 0;
-
-    return TRUE;
+    USB_Istr();
 }
 
 
 /******************************************************************************/
-PUBLIC bool UTIL_TIMER_Start( void )
+PUBLIC void TIM2_IRQHandler( void )
 {
 
-    HW_TIMER_Start(UTIL_TIMER);
-
-    return TRUE;
+    // Read nunchuck
 }
 
 
 /******************************************************************************/
-PUBLIC bool UTIL_TIMER_Stop( void )
+PUBLIC void TIM3_IRQHandler( void )
 {
-
-    HW_TIMER_Stop(UTIL_TIMER);
-
-    return TRUE;
+#ifdef DEV_UTIL_TIMER
+#if( UTIL_TIMER != HW_TIMER_3 )
+#error Utility timer not configured properly
+#endif
+    if( UTIL_TIMER_Ticker == (1 << 30) )
+        UTIL_TIMER_Ticker = 0;
+    else
+        UTIL_TIMER_Ticker++;
+    TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
+#endif
 }
 
-
-/******************************************************************************/
-PUBLIC bool UTIL_TIMER_Reset( void )
-{
-    UTIL_TIMER_Ticker = 0;
-
-    HW_TIMER_Reset(UTIL_TIMER);
-
-    return TRUE;
-}
 
 
 //*****************************************************************************
@@ -112,5 +89,3 @@ PUBLIC bool UTIL_TIMER_Reset( void )
 //
 //*****************************************************************************
 
-
-#endif

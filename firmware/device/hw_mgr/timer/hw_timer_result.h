@@ -25,11 +25,12 @@ enum {
     HW_TIMER_RESULT_SUCCESS = RESULT_SEVERITY_SUCCESS,
 
     // warnings
-    HW_TIMER_RESULT_WARN = RESULT_WARN(0),
+    HW_TIMER_RESULT_WARN                = RESULT_WARN(0),
 
     // errors
-    HW_TIMER_RESULT_FAILURE = RESULT_ERROR(0),
-    HW_TIMER_RESULT_NULL= RESULT_ERROR(0),
+    HW_TIMER_RESULT_FAILURE             = RESULT_ERROR(0),
+    HW_TIMER_RESULT_NULL                = RESULT_ERROR(1),
+    HW_TIMER_RESULT_BAD_FREQ            = RESULT_ERROR(2),
 };
 
 /*-----------------------------------------------------------------------------

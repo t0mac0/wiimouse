@@ -44,9 +44,15 @@ HW_TIMER_TYPE_ADVANCED,
 } HW_TIMER_Type;
 
 
+PUBLIC typedef enum {
+    HW_TIMER_CLK_SRC_INT,
+} HW_TIMER_ClockSource;
+
 PUBLIC typedef struct {
     HW_TIMER_Type Type;
     HW_TIMER_Mode Mode;
+    HW_TIMER_ClockSource ClkSrc;
+    bool Enable;
     void *config;
 } HW_TIMER_ConfigInfo;
 

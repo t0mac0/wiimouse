@@ -43,7 +43,7 @@
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
-extern uint32 DeviceSystemClock;
+extern uint32 DeviceSystemClock; // frequency in Hz
 
 
 #endif /* DEVICE_H_ */
