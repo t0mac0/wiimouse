@@ -31,6 +31,7 @@ enum {
     HW_FLASH_RESULT_NULL                        = RESULT_ERROR(1),
     HW_FLASH_RESULT_INVALID_PAGE_ADDR           = RESULT_ERROR(2),
     HW_FLASH_RESULT_ERASE_FAIL                  = RESULT_ERROR(3),
+    HW_FLASH_RESULT_WRITE_FAIL                  = RESULT_ERROR(3),
 };
 
 /*-----------------------------------------------------------------------------
