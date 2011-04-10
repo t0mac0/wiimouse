@@ -14,6 +14,7 @@
 ------------------------------------------------------------------------------*/
 #include "device.h"
 #include "hw_mgr/hw_mgr.h"
+#include "util/timer/util_timer.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -65,6 +66,9 @@ PROTECTED bool DeviceInit( void )
         LOG_CatchError(result);
         ASSERT(0);
     }
+
+    // initialize the system timer
+    ASSERT(UTIL_TIMER_Init());
 
     return retval;
 }

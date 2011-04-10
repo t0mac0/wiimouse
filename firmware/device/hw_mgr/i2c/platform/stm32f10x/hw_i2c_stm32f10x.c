@@ -164,6 +164,16 @@ PUBLIC Result HW_I2C_PowerDown( uint32 BlockId )
 
 
 //****************************************************************************/
+PUBLIC Result HW_I2C_Deinit(HW_I2C_BlockId BlockId)
+{
+    Result result = HW_I2C_RESULT(SUCCESS);
+
+    I2C_DeInit(I2C_Base[BlockId]);
+
+    return result;
+}
+
+//****************************************************************************/
 PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Register, uint8 *Buffer, uint32 BytesToRead, uint32 *BytesRead)
 {
     Result result = HW_I2C_RESULT(SUCCESS);

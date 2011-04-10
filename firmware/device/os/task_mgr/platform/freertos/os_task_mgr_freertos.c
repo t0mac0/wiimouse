@@ -51,7 +51,7 @@ PUBLIC inline Result OS_TASK_MGR_StartScheduler( void )
 {
     vTaskStartScheduler();
 
-    return OS_TASK_MGR_RESULT(SUCCESS);
+    return OS_TASK_MGR_RESULT(START_SCHEDULER_FAIL);
 }
 
 PROTECTED inline Result TaskMgrCreateTask( pOS_TaskProtoType StartAddress,

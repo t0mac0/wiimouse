@@ -27,10 +27,15 @@ _estack = 0x20005000;    /* end of 20K RAM */
 _Min_Heap_Size = 0;      /* required amount of heap  */
 _Min_Stack_Size = 0x200; /* required amount of stack */
 
+_Flash_Eeprom_Page_Size = 0x4000;
+_Flash_Eeprom_Page_Count = 2;
+
+
 MEMORY
 {
   RAM (rwx) : ORIGIN = 0x20000000, LENGTH = 20K
-  FLASH (rx) : ORIGIN = 0x00000000, LENGTH = 128K
+  BOOTLOADER (rx) : ORIGIN = 0x00000000, LENGTH = 16k
+  FLASH (rx) : ORIGIN = 0x00004000, LENGTH = 128K-16k
 }
 SECTIONS
   {
@@ -97,6 +102,16 @@ SECTIONS
         KEEP (*(.fini_array*))
         KEEP (*(SORT(.fini_array.*)))
         PROVIDE_HIDDEN (__fini_array_end = .);
+    } >FLASH
+    
+    . = ALIGN(_Flash_Eeprom_Page_Size);
+    _flash_eeprom_base = .;
+    
+    . = ALIGN(_Flash_Eeprom_Page_Size);
+    .flash_eeprom :
+    {
+        . = ALIGN(_Flash_Eeprom_Page_Size);
+        *(.flash_eeprom) 
     } >FLASH
 
     /* used by the startup to initialize data */

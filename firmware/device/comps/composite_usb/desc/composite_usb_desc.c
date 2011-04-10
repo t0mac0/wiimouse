@@ -102,7 +102,7 @@ const uint8 Virtual_Com_Port_ConfigDescriptor[DEVICE_CONFIGURATION_DESCRIPTOR_SI
         USB_ENDPOINT_IN(1),                 /* bEndpointAddress */
         USB_ENDPOINT_TYPE_INTERRUPT,        /* bmAttributes */
         WBVAL(HID_MOUSE_REPORT_SIZE),       /* wMaxPacketSize */
-        0x20,                               /* bInterval  (32 ms) */
+        COMPOSITE_USB_HID_REPORT_INTERVAL,  /* bInterval  (in ms) */
 
 /********************************************************************************
  CDC Interface Association Descriptor

@@ -1,37 +1,46 @@
 /*!
- * \file settings_mgr.h
+ * \file nunchuck_result.h
  *
  * \brief 
  *
  *
- * \date Apr 3, 2011
+ * \date Apr 9, 2011
  * \author Dan Riedler
  *
  */
 
-#ifndef _SETTINGS_MGR_H_
-#define _SETTINGS_MGR_H_
+#ifndef _NUNCHUCK_RESULT_H_
+#define _NUNCHUCK_RESULT_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "device.h"
 #include "comps.h"
-#include "settings_mgr_result.h"
-#include "settings_mgr_entry.h"
-#include "settings_mgr/feeprom/feeprom.h"
+
+
 
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
+enum {
+    NUNCHUCK_RESULT_SUCCESS = RESULT_SEVERITY_SUCCESS,
+
+    // warnings
+    NUNCHUCK_RESULT_WARN                        = RESULT_WARN(0),
+
+    // errors
+    NUNCHUCK_RESULT_FAILURE                     = RESULT_ERROR(0),
+    NUNCHUCK_RESULT_NULL                        = RESULT_ERROR(1),
+    NUNCHUCK_RESULT_MEMORY_ALLOC_FAIL           = RESULT_ERROR(2),
+    NUNCHUCK_RESULT_READ_TIMER_INIT_FAIL        = RESULT_ERROR(3),
+};
 
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-#define SETTINGS_MGR_Write(_key, _data, _size, _flags) FEEPROM_Write( (FEEPROM_EntryKey)_key, (void*)_data, _size, (FEEPROM_EntryFlag)_flags);
+#define NUNCHUCK_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_COMPS, COMPS_NUNCHUCK, NUNCHUCK_RESULT_##code))
 
-#define SETTINGS_MGR_Read(_key, _data, _size, _bytes_read) FEEPROM_Read( (FEEPROM_EntryKey)_key, (void*)_data, _size, _bytes_read);
-
+#define NUNCHUCK_RESULT_INIT()(NUNCHUCK_RESULT(NULL))
 
 /*-----------------------------------------------------------------------------
  Typedefs
@@ -40,16 +49,14 @@
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PUBLIC ModuleInitPrototype SETTINGS_MGR_Init;
-
-PUBLIC ModulePowerUpPrototype SETTINGS_MGR_PowerUp;
-
-PUBLIC ModulePowerDownPrototype SETTINGS_MGR_PowerDown;
-
-
+#ifdef DEBUG
+PUBLIC GetResutCodeStrPrototype NUNCHUCK_GetResultCodeStr;
+#else
+#define NUNCHUCK_GetResultCodeStr(x)((pGetResutCodeStrPrototype)NULL)
+#endif
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
 
 
-#endif /* SETTINGS_MGR_H_ */
+#endif /* NUNCHUCK_RESULT_H_ */

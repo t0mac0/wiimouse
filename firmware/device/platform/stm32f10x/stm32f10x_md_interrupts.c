@@ -15,6 +15,7 @@
 #include "device.h"
 #include "composite_usb/isr/composite_usb_isr.h"
 #include "util/timer/util_timer.h"
+#include "nunchuck/nunchuck.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -63,6 +64,7 @@ PUBLIC void TIM2_IRQHandler( void )
 {
 
     // Read nunchuck
+    NUNCHUCK_READER_ReadDataPoint();
 }
 
 

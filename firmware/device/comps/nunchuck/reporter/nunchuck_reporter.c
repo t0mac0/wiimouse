@@ -1,10 +1,10 @@
 /*!
- * \file comps_modules.c
+ * \file nunchuck_reporter.c
  *
  * \brief 
  *
  *
- * \date Mar 18, 2011
+ * \date Apr 9, 2011
  * \author Dan Riedler
  *
  */
@@ -12,17 +12,10 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "device.h"
-
-#ifdef DEV_MOD_COMPS
-
-
-#include "comps_modules.h"
-
-#include "settings_mgr/settings_mgr.h"
-#include "composite_usb/composite_usb.h"
-#include "packet_mgr/packet_mgr.h"
-#include "nunchuck/nunchuck.h"
+#include "nunchuck_reporter.h"
+#include "os.h"
+#include "nunchuck/processor/nunchuck_processor.h"
+#include "nunchuck/settings/nunchuck_settings.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -32,17 +25,6 @@
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-#define ADD_COMPS_MODULE(_name)         \
-{                                       \
-    COMPS_##_name,                      \
-    &_name##_PowerUp,                   \
-    &_name##_PowerDown,                 \
-    &_name##_Init,                      \
-    &_name##_GetResultCodeStr,          \
-    FALSE,                              \
-    FALSE                               \
-}
-
 
 /*-----------------------------------------------------------------------------
  Typedefs
@@ -51,25 +33,12 @@
 /*-----------------------------------------------------------------------------
  Local Function Prototypes
 ------------------------------------------------------------------------------*/
+PRIVATE OS_TaskProtoType DataReporterTask;
+
 
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
-CompsModules compsModules[COMPS_MODULE_COUNT] = {
-#ifdef COMPS_MOD_SETTINGS_MGR
-        ADD_COMPS_MODULE(SETTINGS_MGR),
-#endif
-#ifdef COMPS_MOD_COMPOSITE_USB
-        ADD_COMPS_MODULE(COMPOSITE_USB),
-#endif
-#ifdef COMPS_MOD_PACKET_MGR
-        ADD_COMPS_MODULE(PACKET_MGR),
-#endif
-#ifdef COMPS_MOD_NUNCHUCK
-        ADD_COMPS_MODULE(NUNCHUCK),
-#endif
-};
-
 
 
 //*****************************************************************************
@@ -78,6 +47,27 @@ CompsModules compsModules[COMPS_MODULE_COUNT] = {
 //
 //*****************************************************************************
 
+//****************************************************************************/
+PROTECTED Result NunchuckReporterInit( void )
+{
+    Result result = NUNCHUCK_RESULT(SUCCESS);
+
+    ZeroMemory(&NunchuckProcessedData, sizeof(NunchuckProcessedDataInfo));
+
+    if( RESULT_IS_ERROR(result, OS_TASK_MGR_AddTask(OS_TASK_NUNCHUCK_DATA_REPORTER,
+                                                    NUNCHUCK_REPORTER_TASK_NAME,
+                                                    DataReporterTask,
+                                                    NUNCHUCK_REPORTER_STACK_SIZE,
+                                                    NUNCHUCK_REPORTER_TASK_PRIORITY,
+                                                    NULL)) )
+    {
+        LOG_Printf("Failed to create the nunchuck data reporter task\n");
+    }
+
+
+
+    return result;
+}
 
 
 //*****************************************************************************
@@ -86,5 +76,16 @@ CompsModules compsModules[COMPS_MODULE_COUNT] = {
 //
 //*****************************************************************************
 
+//*****************************************************************************//
+PRIVATE void DataReporterTask(void *Params)
+{
+    UNUSED(Params);
 
-#endif
+    for(;;)
+    {
+        if( NunchuckProcessedData.PointsProcessed == NunchuckSettings.DataPointsPerHidReport )
+        {
+            NunchuckProcessedData.PointsProcessed = 0;
+        }
+    }
+}
