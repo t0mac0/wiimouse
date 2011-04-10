@@ -1,0 +1,12 @@
+#Sun Apr 10 02:08:34 PDT 2011
+eclipse.preferences.version=1
+environment/project/org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.debug.2036672642/CYGWIN/delimiter=;
+environment/project/org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.debug.2036672642/CYGWIN/operation=append
+environment/project/org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.debug.2036672642/CYGWIN/value=nodosfilewarning
+environment/project/org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.debug.2036672642/append=true
+environment/project/org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.debug.2036672642/appendContributed=true
+environment/project/org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.release.979088924/CYGWIN/delimiter=;
+environment/project/org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.release.979088924/CYGWIN/operation=append
+environment/project/org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.release.979088924/CYGWIN/value=nodosfilewarning
+environment/project/org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.release.979088924/append=true
+environment/project/org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.release.979088924/appendContributed=true
