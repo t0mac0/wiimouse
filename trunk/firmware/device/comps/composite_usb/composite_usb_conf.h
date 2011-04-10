@@ -31,6 +31,7 @@
 // USB Product Id
 #define COMPOSITE_USB_PROD_ID 0x052B
 
+#define COMPOSITE_USB_HID_REPORT_INTERVAL 0x20 // 32ms
 
 
 // number of interfaces

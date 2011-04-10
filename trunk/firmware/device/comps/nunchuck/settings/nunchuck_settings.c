@@ -1,10 +1,10 @@
 /*!
- * \file comps_modules.c
+ * \file nunchuck_settings.c
  *
  * \brief 
  *
  *
- * \date Mar 18, 2011
+ * \date Apr 9, 2011
  * \author Dan Riedler
  *
  */
@@ -12,17 +12,8 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "device.h"
-
-#ifdef DEV_MOD_COMPS
-
-
-#include "comps_modules.h"
-
+#include "nunchuck_settings.h"
 #include "settings_mgr/settings_mgr.h"
-#include "composite_usb/composite_usb.h"
-#include "packet_mgr/packet_mgr.h"
-#include "nunchuck/nunchuck.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -32,17 +23,6 @@
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-#define ADD_COMPS_MODULE(_name)         \
-{                                       \
-    COMPS_##_name,                      \
-    &_name##_PowerUp,                   \
-    &_name##_PowerDown,                 \
-    &_name##_Init,                      \
-    &_name##_GetResultCodeStr,          \
-    FALSE,                              \
-    FALSE                               \
-}
-
 
 /*-----------------------------------------------------------------------------
  Typedefs
@@ -55,20 +35,7 @@
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
-CompsModules compsModules[COMPS_MODULE_COUNT] = {
-#ifdef COMPS_MOD_SETTINGS_MGR
-        ADD_COMPS_MODULE(SETTINGS_MGR),
-#endif
-#ifdef COMPS_MOD_COMPOSITE_USB
-        ADD_COMPS_MODULE(COMPOSITE_USB),
-#endif
-#ifdef COMPS_MOD_PACKET_MGR
-        ADD_COMPS_MODULE(PACKET_MGR),
-#endif
-#ifdef COMPS_MOD_NUNCHUCK
-        ADD_COMPS_MODULE(NUNCHUCK),
-#endif
-};
+PROTECTED NunchuckSettingsInfo NunchuckSettings;
 
 
 
@@ -79,6 +46,22 @@ CompsModules compsModules[COMPS_MODULE_COUNT] = {
 //*****************************************************************************
 
 
+//****************************************************************************/
+PROTECTED Result NunchuckSettingsInit( void )
+{
+    uint16 bytesRead;
+
+    return SETTINGS_MGR_Read(SETTINGS_MGR_ENTRY_NUNCHUCK_SETTINGS, &NunchuckSettings, sizeof(NunchuckSettingsInfo), &bytesRead);
+}
+
+
+//****************************************************************************/
+PROTECTED Result NunchuckSettingsUpdate( void )
+{
+    return SETTINGS_MGR_Write(SETTINGS_MGR_ENTRY_NUNCHUCK_SETTINGS, &NunchuckSettings, sizeof(NunchuckSettingsInfo), FEEPROM_ENTRY_FLAG_FORCE_WRITE);
+}
+
+
 
 //*****************************************************************************
 //
@@ -86,5 +69,3 @@ CompsModules compsModules[COMPS_MODULE_COUNT] = {
 //
 //*****************************************************************************
 
-
-#endif

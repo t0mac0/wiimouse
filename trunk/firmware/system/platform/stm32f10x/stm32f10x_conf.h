@@ -140,6 +140,17 @@
 //#define _TIM7
 //#define _TIM8
 
+//#define _TIM_COUNTER
+//#define _TIM_COMPARE
+//#define _TIM_OUTPUT_COMPARE
+//#define _TIM_INPUT_COMPARE
+//#define _TIM_DMA
+//#define _TIM_BDR
+//#define _TIM_ENCODER
+//#define _TIM_HALL_SENSOR
+//#define _TIM_EXTCLK
+
+
 /************************************* USART **********************************/
 #define _USART
 //#define _USART1

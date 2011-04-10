@@ -1,25 +1,22 @@
 /*!
- * \file settings_mgr.h
+ * \file nunchuck_reader.h
  *
  * \brief 
  *
  *
- * \date Apr 3, 2011
+ * \date Apr 9, 2011
  * \author Dan Riedler
  *
  */
 
-#ifndef _SETTINGS_MGR_H_
-#define _SETTINGS_MGR_H_
+#ifndef _NUNCHUCK_READER_H_
+#define _NUNCHUCK_READER_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "device.h"
-#include "comps.h"
-#include "settings_mgr_result.h"
-#include "settings_mgr_entry.h"
-#include "settings_mgr/feeprom/feeprom.h"
+#include "nunchuck/nunchuck.h"
+
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -28,28 +25,29 @@
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-#define SETTINGS_MGR_Write(_key, _data, _size, _flags) FEEPROM_Write( (FEEPROM_EntryKey)_key, (void*)_data, _size, (FEEPROM_EntryFlag)_flags);
-
-#define SETTINGS_MGR_Read(_key, _data, _size, _bytes_read) FEEPROM_Read( (FEEPROM_EntryKey)_key, (void*)_data, _size, _bytes_read);
-
 
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
+PROTECTED typedef struct {
+    uint8 TotalDataPtCount;
+    uint8 LastPoint;
+    bool NewDataAvailable;
+    pNunchuckData DataPts;
+} NunchuckRawDataInfo;
+
 
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PUBLIC ModuleInitPrototype SETTINGS_MGR_Init;
+PROTECTED Result NunchuckReaderInit( void );
 
-PUBLIC ModulePowerUpPrototype SETTINGS_MGR_PowerUp;
-
-PUBLIC ModulePowerDownPrototype SETTINGS_MGR_PowerDown;
+PUBLIC void NUNCHUCK_READER_ReadDataPoint( void );
 
 
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
+PROTECTED extern NunchuckRawDataInfo NunchuckRawData;
 
-
-#endif /* SETTINGS_MGR_H_ */
+#endif /* NUNCHUCK_READER_H_ */

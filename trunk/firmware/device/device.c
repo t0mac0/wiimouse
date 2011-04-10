@@ -14,7 +14,7 @@
  ------------------------------------------------------------------------------*/
 #include <string.h>
 #include "device.h"
-
+#include "os.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -42,12 +42,18 @@ uint32 DeviceSystemClock = 0;
 
 int main(int argc, char *argv[])
 {
+    Result result;
+
     UNUSED(argc);
     UNUSED(argv);
 
     // initialize the device
     ASSERT(DeviceInit());
 
+    if( RESULT_IS_ERROR(result, OS_TASK_MGR_StartScheduler()) )
+    {
+        LOG_Printf("failed to start the task scheduler\n");
+    }
 
     while(1)
     {

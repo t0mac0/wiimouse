@@ -79,18 +79,29 @@ PUBLIC Result OS_CreateSemaphore(pOS_Semaphore *Semaphore, OS_SemaphoreType SemT
     Result result = OS_RESULT(SUCCESS);
     xSemaphoreHandle semHandle = NULL;
 
+
+
     switch(SemType)
     {
     case OS_SEM_TYPE_BINARY:
         vSemaphoreCreateBinary( semHandle );
         break;
 
+#if configUSE_MUTEXES
     case OS_SEM_TYPE_MUTEX:
         semHandle = xSemaphoreCreateMutex();
         break;
+#endif
+
 
     case OS_SEM_TYPE_COUNT:
+#if configUSE_COUNTING_SEMAPHORES
         semHandle = xSemaphoreCreateCounting( MaxCount, InitValue );
+#else
+        UNUSED(MaxCount);
+        UNUSED(InitValue);
+        result = OS_RESULT(SEM_CREATE_FAIL);
+#endif
         break;
 
     default:

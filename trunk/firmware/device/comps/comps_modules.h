@@ -40,6 +40,9 @@ PUBLIC typedef enum {
 #ifdef COMPS_MOD_PACKET_MGR
     COMPS_PACKET_MGR,
 #endif
+#ifdef COMPS_MOD_NUNCHUCK
+    COMPS_NUNCHUCK,
+#endif
     COMPS_MODULE_COUNT   // this must come second to last
 } COMPS_ModuleId;
 

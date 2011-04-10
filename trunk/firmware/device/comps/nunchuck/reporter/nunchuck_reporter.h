@@ -1,37 +1,34 @@
 /*!
- * \file settings_mgr.h
+ * \file nunchuck_reporter.h
  *
  * \brief 
  *
  *
- * \date Apr 3, 2011
+ * \date Apr 9, 2011
  * \author Dan Riedler
  *
  */
 
-#ifndef _SETTINGS_MGR_H_
-#define _SETTINGS_MGR_H_
+#ifndef _NUNCHUCK_REPORTER_H_
+#define _NUNCHUCK_REPORTER_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "device.h"
-#include "comps.h"
-#include "settings_mgr_result.h"
-#include "settings_mgr_entry.h"
-#include "settings_mgr/feeprom/feeprom.h"
+#include "nunchuck/nunchuck.h"
+
 
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
+#define NUNCHUCK_REPORTER_TASK_NAME "NunchukReporter"
+#define NUNCHUCK_REPORTER_STACK_SIZE OS_MIN_STACK_SIZE
+#define NUNCHUCK_REPORTER_TASK_PRIORITY OS_TASK_PRIORITY_MEDIUM
+
 
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-#define SETTINGS_MGR_Write(_key, _data, _size, _flags) FEEPROM_Write( (FEEPROM_EntryKey)_key, (void*)_data, _size, (FEEPROM_EntryFlag)_flags);
-
-#define SETTINGS_MGR_Read(_key, _data, _size, _bytes_read) FEEPROM_Read( (FEEPROM_EntryKey)_key, (void*)_data, _size, _bytes_read);
-
 
 /*-----------------------------------------------------------------------------
  Typedefs
@@ -40,11 +37,7 @@
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PUBLIC ModuleInitPrototype SETTINGS_MGR_Init;
-
-PUBLIC ModulePowerUpPrototype SETTINGS_MGR_PowerUp;
-
-PUBLIC ModulePowerDownPrototype SETTINGS_MGR_PowerDown;
+PROTECTED Result NunchuckReporterInit( void );
 
 
 /*-----------------------------------------------------------------------------
@@ -52,4 +45,4 @@ PUBLIC ModulePowerDownPrototype SETTINGS_MGR_PowerDown;
 ------------------------------------------------------------------------------*/
 
 
-#endif /* SETTINGS_MGR_H_ */
+#endif /* NUNCHUCK_REPORTER_H_ */

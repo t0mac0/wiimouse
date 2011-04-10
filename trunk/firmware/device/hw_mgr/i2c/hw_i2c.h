@@ -44,6 +44,8 @@ PUBLIC HwModulePowerUpPrototype HW_I2C_PowerUp;
 
 PUBLIC HwModulePowerDownPrototype HW_I2C_PowerDown;
 
+PUBLIC Result HW_I2C_Deinit(HW_I2C_BlockId Id);
+
 PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Register, uint8 *Buffer, uint32 BytesToRead, uint32 *BytesRead);
 
 PUBLIC Result HW_I2C_WriteSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 *Buffer, uint32 BytesToWrite, uint32 *ByteWritten);
