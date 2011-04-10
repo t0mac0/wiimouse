@@ -96,7 +96,7 @@ For further details see source code.
  Includes
 ------------------------------------------------------------------------------*/
 #include <stdarg.h>
-#include "device.h"
+#include "system.h"
 
 /*-----------------------------------------------------------------------------
  Defines

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>firmware</name>
+	<name>bootloader</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -35,7 +35,7 @@
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.buildLocation</key>
-					<value>${workspace_loc:/firmware/Debug}</value>
+					<value>${workspace_loc:/bootloader/Debug}</value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.cleanBuildTarget</key>
@@ -85,15 +85,14 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>printf</name>
+			<type>2</type>
+			<location>C:/Users/Reed/Programming/wiiMouse_prj/wiimouse/firmware/device/util/printf</location>
+		</link>
+		<link>
 			<name>system</name>
 			<type>2</type>
-			<locationURI>system</locationURI>
+			<location>C:/Users/Reed/Programming/wiiMouse_prj/wiimouse/firmware/system</location>
 		</link>
 	</linkedResources>
-	<variableList>
-		<variable>
-			<name>system</name>
-			<value>$%7BPARENT-1-PROJECT_LOC%7D/system</value>
-		</variable>
-	</variableList>
 </projectDescription>
