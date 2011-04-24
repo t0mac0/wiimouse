@@ -53,7 +53,6 @@
 
 #define IS_RESULT_SUCCESS(result)( RESULT_SEVERITY(result) == RESULT_SEVERITY_SUCCESS )
 
-#define UNUSED(x)(x= x);
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/

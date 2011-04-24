@@ -29,7 +29,8 @@
    used in your application */
 #define HSE_VALUE    ((uint32)8000000) /* Value of the External oscillator in Hz*/
 
-
+#define BOOTLOADER_START_ADDR       0x08000000
+#define DEVICE_START_ADDR           0x08004000
 
 /*-----------------------------------------------------------------------------
  Macros

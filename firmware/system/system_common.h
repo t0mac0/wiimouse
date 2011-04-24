@@ -60,6 +60,11 @@
 #define MIN(x, y) ( x < y ? x : y )
 
 
+#define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
+
+#define UNUSED(x)(x= x);
+
+
 PUBLIC bool ZeroMemory(void *Mem, uint32 SizeBytes);
 
 PUBLIC bool SetMemory(void *Mem, uint32 Value, uint32 SizeBytes);
