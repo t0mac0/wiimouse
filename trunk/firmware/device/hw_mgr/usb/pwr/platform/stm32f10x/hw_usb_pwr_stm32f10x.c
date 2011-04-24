@@ -12,6 +12,9 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
+
+// TODO: move this to usb/platform/stm32f10x
+
 #include "usb/pwr/hw_usb_pwr.h"
 
 #include "composite_usb/composite_usb_conf.h" // TODO: bad includes

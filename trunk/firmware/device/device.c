@@ -39,7 +39,7 @@ PROTECTED bool DeviceInit( void );
  ------------------------------------------------------------------------------*/
 uint32 DeviceSystemClock = 0;
 
-
+/******************************************************************************/
 int main(int argc, char *argv[])
 {
     Result result;
@@ -62,6 +62,8 @@ int main(int argc, char *argv[])
     return 0;
 }
 
+
+/******************************************************************************/
 PUBLIC void ASSERT_failed(uint8* file, uint32 line)
 {
     LOG_Printf("Assertion Failed: File: %s, line: %d\n", file, line);

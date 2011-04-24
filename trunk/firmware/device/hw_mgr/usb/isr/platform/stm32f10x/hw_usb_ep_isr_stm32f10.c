@@ -12,6 +12,9 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
+
+// TODO: move to usb/platform/stm32f10x
+
 #include "hw_mgr.h"
 #include "usb/core/hw_usb_core.h"
 #include "usb/hw_usb_init.h"
