@@ -1,35 +1,27 @@
 /*!
- * \file composite_usb_conf.h
+ * \file dfu_com.h
  *
  * \brief 
  *
- * Composite USB device for STM32F10x
  *
- * \date Mar 19, 2011
+ * \date Apr 17, 2011
  * \author Dan Riedler
  *
  */
 
-#ifndef _COMPOSITE_USB_CONF_H_
-#define _COMPOSITE_USB_CONF_H_
+#ifndef _DFU_COM_H_
+#define _DFU_COM_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "ep/platform/stm32f10x/composite_usb_ep_conf_stm32f10x.h"
-#include "isr/platform/stm32f10x/composite_usb_isr_conf_stm32f10x.h"
+#include "system.h"
 
 
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
-
-
-#define COMPOSITE_USB_HID_REPORT_INTERVAL 0x20 // 32ms
-
-
-// number of interfaces
-#define IFC_NUM                         (3)
+#define DFU_COM_TRANSFER_SIZE 60
 
 
 /*-----------------------------------------------------------------------------
@@ -43,10 +35,16 @@
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
+PROTECTED void DfuComReceiveCommand( void );
+
+PROTECTED void DfuComSendResponse( void );
+
+PROTECTED void DfuComSendData( uint32 ByteCount );
+
 
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
 
 
-#endif /* COMPOSITE_USB_CONF_H_ */
+#endif /* DFU_COM_H_ */

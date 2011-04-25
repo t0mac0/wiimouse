@@ -415,6 +415,7 @@ void NVIC_SetVectorTable(uint32 NVIC_VectTab, uint32 Offset)
 void NVIC_GenerateSystemReset(void)
 {
   SCB->AIRC = AIRC_VECTKEY_MASK | (uint32)0x04;
+  while(1);
 }
 
 /*******************************************************************************

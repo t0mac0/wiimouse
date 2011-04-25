@@ -21,7 +21,7 @@
  Defines
 ------------------------------------------------------------------------------*/
 #define FEEPROM_PAGE_COUNT 2
-#define FEEPROM_PAGE_SIZE 0x4000
+#define FEEPROM_PAGE_SIZE 0x400
 #define FEEPROM_ENTRY_COUNT SETTINGS_MGR_ENTRY_COUNT
 #define FEEPROM_ENTRY_TABLE_HEADER SETTINGS_MGR_ENTRY_NULL
 

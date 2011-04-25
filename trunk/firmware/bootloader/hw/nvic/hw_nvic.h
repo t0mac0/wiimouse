@@ -37,6 +37,7 @@
 
 PUBLIC void HW_NVIC_Init(void);
 
+PUBLIC void HW_NVIC_SystemReset(void);
 
 /*-----------------------------------------------------------------------------
  External Data Members

@@ -30,7 +30,20 @@
 #define HSE_VALUE    ((uint32)8000000) /* Value of the External oscillator in Hz*/
 
 #define BOOTLOADER_START_ADDR       0x08000000
+#define BOOTLOADER_VERSION_ADDR     0x08000130
+#define BOOTLOADER_VERSION          0x00000001
+
 #define DEVICE_START_ADDR           0x08004000
+#define DEVICE_MEM_SIZE             0x00012000
+
+#define DEVICE_MODE_ADDR            0x08004130
+#define DEVICE_VERSION_ADDR         0x08004134
+#define DEVICE_FIRMWARE_VERSION     0x00000001
+
+#define USB_VENDOR_ID               0xF46D
+#define USB_PRODUCT_ID              0x052B
+#define USB_BOOTLOADER_ID           0x0001
+#define USB_DEVICE_ID               0x0002
 
 /*-----------------------------------------------------------------------------
  Macros

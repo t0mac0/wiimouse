@@ -1,10 +1,10 @@
 /*!
- * \file bootloader.c
+ * \file dfu_com.c
  *
  * \brief 
  *
  *
- * \date Apr 10, 2011
+ * \date Apr 17, 2011
  * \author Dan Riedler
  *
  */
@@ -12,10 +12,8 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "bootloader.h"
-#include "lib_printf.h"
-#include "hw/usart/hw_usart.h"
-
+#include "dfu/dfu.h"
+#include "usb/hw_usb.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -36,8 +34,10 @@
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
+PRIVATE uint32 readCount = 0;
 
-PUBLIC uint32 BootloaderVersion  __attribute ((section(".bootloader_version"))) = BOOTLOADER_VERSION;
+PRIVATE DFU_Command *commandBuffer = (DFU_Command*)&DfuMalBuffer[0];
+PRIVATE DFU_Response *responseBuffer = (DFU_Response*)&DfuMalBuffer[DFU_COMMAND_SIZE];
 
 
 //*****************************************************************************
@@ -47,21 +47,53 @@ PUBLIC uint32 BootloaderVersion  __attribute ((section(".bootloader_version"))) 
 //*****************************************************************************
 
 /******************************************************************************/
-int main(int argc, char *argv[])
+PROTECTED void DfuComReceiveCommand( void )
 {
+    uint32 bytesRead;
 
-    return 0;
+    bytesRead = HW_USB_Read(VIR_COM_READ_EP, (uint8*)&DfuMalBuffer[readCount]);
+
+
+    readCount += bytesRead;
+
+    if(DfuMalWriteEnabled)
+    {
+        DfuActionWriteSectionChunk(responseBuffer, readCount);
+        readCount = ((DfuMalWriteEnabled == FALSE) ?  0 : readCount);
+    }
+    else if(DfuMalReadEnabled)
+    {
+        DfuActionReadSectionChunk(&bytesRead);
+        readCount = ((DfuMalReadEnabled == FALSE) ?  0 : readCount);
+    }
+    else if(readCount >= DFU_COMMAND_SIZE)
+    {
+        readCount = 0;
+        DfuSmStateTransition(commandBuffer, responseBuffer);
+    }
 }
 
 
+/******************************************************************************/
+PROTECTED void DfuComSendResponse( void )
+{
+    HW_USB_Write(VIR_COM_WRITE_EP, (uint8*)responseBuffer, sizeof(DFU_Response));
+}
+
 
 /******************************************************************************/
-PUBLIC void print(char* msg, ...)
+PROTECTED void DfuComSendData( uint32 ByteCount )
 {
-    va_list va;
-    va_start(va,msg);
-    LIB_PRINTF_PrintfVaArgs(HW_USART_DefaultOutputDest, msg, va);
-    va_end(va);
+
+    uint32 bytesSent = 0;
+    uint32 bytesToSend;
+
+    while(bytesSent < ByteCount)
+    {
+        bytesToSend = ((ByteCount-bytesSent) < DFU_COM_TRANSFER_SIZE) ? (ByteCount-bytesSent) : DFU_COM_TRANSFER_SIZE;
+        HW_USB_Write(VIR_COM_WRITE_EP, (uint8*)&DfuMalBuffer[bytesSent], bytesToSend);
+        bytesSent += bytesToSend;
+    }
 }
 
 //*****************************************************************************

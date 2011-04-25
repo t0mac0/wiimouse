@@ -27,15 +27,16 @@ _estack = 0x20005000;    /* end of 20K RAM */
 _Min_Heap_Size = 0;      /* required amount of heap  */
 _Min_Stack_Size = 0x200; /* required amount of stack */
 
-_Flash_Eeprom_Page_Size = 0x4000;
+_Flash_Eeprom_Page_Size = 0x400;
 _Flash_Eeprom_Page_Count = 2;
 
 
 MEMORY
 {
-  RAM (rwx) : ORIGIN = 0x20000000, LENGTH = 20K
-  BOOTLOADER (rx) : ORIGIN = 0x00000000, LENGTH = 16k
-  FLASH (rx) : ORIGIN = 0x00004000, LENGTH = 128K-16k
+  RAM (rwx)             : ORIGIN = 0x20000000, LENGTH = 20K
+  BOOTLOADER (rx)       : ORIGIN = 0x08000000, LENGTH = 16k
+  FLASH (rx)            : ORIGIN = 0x08004000, LENGTH = 128K-16k
+  FLASH_EEPROM (rx)     : ORIGIN = 0x0801F800, LENGTH = 2k
 }
 SECTIONS
   {
@@ -46,7 +47,25 @@ SECTIONS
         KEEP(*(.isr_vector)) /* Startup code */
         . = ALIGN(4);
     } > FLASH
+
+
+    /* The mode of the device */
+    .device_mode :
+    {
+        . = ALIGN(4);
+        KEEP(*(.device_mode)) 
+        . = ALIGN(4);
+    } > FLASH
     
+    /* The version of the device */
+    .device_firmware_version :
+    {
+        . = ALIGN(4);
+        KEEP(*(.device_firmware_version)) 
+        . = ALIGN(4);
+    } > FLASH
+    
+        
     /* The program code and other data goes into FLASH */
     .text :
     {
@@ -112,7 +131,7 @@ SECTIONS
     {
         . = ALIGN(_Flash_Eeprom_Page_Size);
         *(.flash_eeprom) 
-    } >FLASH
+    } >FLASH_EEPROM
 
     /* used by the startup to initialize data */
     . = ALIGN(4);

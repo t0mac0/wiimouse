@@ -1,35 +1,28 @@
 /*!
- * \file composite_usb_conf.h
+ * \file dfu_mal.h
  *
  * \brief 
  *
- * Composite USB device for STM32F10x
  *
- * \date Mar 19, 2011
+ * \date Apr 17, 2011
  * \author Dan Riedler
  *
  */
 
-#ifndef _COMPOSITE_USB_CONF_H_
-#define _COMPOSITE_USB_CONF_H_
+#ifndef _DFU_MAL_H_
+#define _DFU_MAL_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "ep/platform/stm32f10x/composite_usb_ep_conf_stm32f10x.h"
-#include "isr/platform/stm32f10x/composite_usb_isr_conf_stm32f10x.h"
-
+#include "system.h"
 
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
+#define DFU_MAL_BUFFER_SIZE 1024
 
 
-#define COMPOSITE_USB_HID_REPORT_INTERVAL 0x20 // 32ms
-
-
-// number of interfaces
-#define IFC_NUM                         (3)
 
 
 /*-----------------------------------------------------------------------------
@@ -43,10 +36,18 @@
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
+PROTECTED bool DfuMalInit (void);
+PROTECTED bool DfuMalErase (uint32 SectorAddress, uint32 Length);
+PROTECTED bool DfuMalWrite (uint32 SectorAddress, uint32 DataLength);
+PROTECTED bool DfuMalRead (uint32 SectorAddress,  uint32 DataLength);
 
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
 
+PROTECTED extern uint8  DfuMalBuffer[DFU_MAL_BUFFER_SIZE]; /* RAM Buffer for Downloaded Data */
 
-#endif /* COMPOSITE_USB_CONF_H_ */
+PROTECTED extern bool DfuMalWriteEnabled;
+PROTECTED extern bool DfuMalReadEnabled;
+
+#endif /* DFU_MAL_H_ */
