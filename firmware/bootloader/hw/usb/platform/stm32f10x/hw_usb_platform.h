@@ -15,6 +15,8 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
+#include <platform_lib.h>
+
 #include "hw_usb_isr_stm32f10x.h"
 #include "hw_usb_ep_conf_stm32f10x.h"
 #include "hw_usb_defs_stm32f10x.h"

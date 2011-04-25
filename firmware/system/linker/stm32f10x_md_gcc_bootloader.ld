@@ -32,7 +32,7 @@ _Min_Stack_Size = 0x200; /* required amount of stack */
 MEMORY
 {
   RAM (rwx) : ORIGIN = 0x20000000, LENGTH = 20K
-  BOOTLOADER (rx) : ORIGIN = 0x00000000, LENGTH = 16k
+  BOOTLOADER (rx) : ORIGIN = 0x08000000, LENGTH = 16k
 }
 SECTIONS
   {
@@ -43,6 +43,14 @@ SECTIONS
         KEEP(*(.isr_vector)) /* Startup code */
         . = ALIGN(4);
     } > BOOTLOADER
+    
+    /* Bootloader Version */
+    .bootloader_version :
+    {
+        . = ALIGN(4);
+        KEEP(*(.bootloader_version)) /* Startup code */
+        . = ALIGN(4);
+    } > BOOTLOADER    
     
     /* The program code and other data goes into FLASH */
     .text :

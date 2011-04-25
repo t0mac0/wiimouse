@@ -1,10 +1,12 @@
 /*!
- * \file bootloader.c
+ * \file dfu_mal.c
  *
  * \brief 
  *
+ * Note: This currently only supported internal flash. Memory types would be
+ *       accessed here as well.
  *
- * \date Apr 10, 2011
+ * \date Apr 17, 2011
  * \author Dan Riedler
  *
  */
@@ -12,10 +14,10 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "bootloader.h"
-#include "lib_printf.h"
-#include "hw/usart/hw_usart.h"
+#include <platform_lib.h>
 
+#include "dfu_mal.h"
+#include "flash/hw_flash.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -37,8 +39,10 @@
  Data Members
 ------------------------------------------------------------------------------*/
 
-PUBLIC uint32 BootloaderVersion  __attribute ((section(".bootloader_version"))) = BOOTLOADER_VERSION;
+PROTECTED uint8  DfuMalBuffer[DFU_MAL_BUFFER_SIZE]; /* RAM Buffer for Downloaded Data */
 
+PROTECTED bool DfuMalWriteEnabled;
+PROTECTED bool DfuMalReadEnabled;
 
 //*****************************************************************************
 //
@@ -47,22 +51,52 @@ PUBLIC uint32 BootloaderVersion  __attribute ((section(".bootloader_version"))) 
 //*****************************************************************************
 
 /******************************************************************************/
-int main(int argc, char *argv[])
+PROTECTED bool DfuMalInit (void)
 {
-
-    return 0;
+    return HW_FLASH_Init();
 }
-
 
 
 /******************************************************************************/
-PUBLIC void print(char* msg, ...)
+PROTECTED bool DfuMalErase (uint32 SectorAddress, uint32 Length)
 {
-    va_list va;
-    va_start(va,msg);
-    LIB_PRINTF_PrintfVaArgs(HW_USART_DefaultOutputDest, msg, va);
-    va_end(va);
+    uint32 numPages;
+
+    numPages = CELING((Length - (SectorAddress & (FLASH_PAGE_SIZE-1)) ), FLASH_PAGE_SIZE);
+
+    return HW_FLASH_ErasePages(SectorAddress, numPages);
 }
+
+
+/******************************************************************************/
+PROTECTED bool DfuMalWrite (uint32 SectorAddress, uint32 DataLength)
+{
+
+    // if the DataLength isn't a multiple of 4, then return error
+    if(DataLength&03)
+    {
+        return FALSE;
+    }
+
+    return HW_FLASH_Write32Bit(SectorAddress,(uint32*) DfuMalBuffer, DataLength/sizeof(uint32));
+
+}
+
+
+/******************************************************************************/
+PROTECTED bool DfuMalRead (uint32 SectorAddress, uint32 DataLength)
+{
+
+    // if the DataLength isn't a multiple of 4, then return error
+    if(DataLength&03)
+    {
+        return FALSE;
+    }
+
+    return HW_FLASH_Read32Bit(SectorAddress,(uint32*) DfuMalBuffer, DataLength/sizeof(uint32));
+}
+
+
 
 //*****************************************************************************
 //

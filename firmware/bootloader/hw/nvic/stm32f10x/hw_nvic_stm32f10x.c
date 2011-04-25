@@ -53,6 +53,12 @@ PUBLIC inline void HW_NVIC_Init( void )
 
 }
 
+PUBLIC void HW_NVIC_SystemReset(void)
+{
+    NVIC_GenerateSystemReset();
+}
+
+
 //*****************************************************************************
 //
 // Local Functions

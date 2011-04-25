@@ -37,7 +37,12 @@ PROTECTED bool DeviceInit( void );
 /*-----------------------------------------------------------------------------
  Data Members
  ------------------------------------------------------------------------------*/
-uint32 DeviceSystemClock = 0;
+
+PUBLIC uint32 DeviceMode  __attribute ((section(".device_mode")));
+PUBLIC uint32 DeviceFirmwareVersion  __attribute ((section(".device_firmware_version"))) = DEVICE_FIRMWARE_VERSION;
+
+PUBLIC uint32 DeviceSystemClock = 0;
+
 
 /******************************************************************************/
 int main(int argc, char *argv[])
