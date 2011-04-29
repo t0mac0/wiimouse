@@ -1,21 +1,26 @@
 /*!
- * \file hw_gpio_stm32f10x.c
+ * \file hw.h
  *
  * \brief 
  *
  *
- * \date Mar 5, 2011
+ * \date Apr 28, 2011
  * \author Dan Riedler
  *
  */
+
+#ifndef _HW_H_
+#define _HW_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
 #include <platform_lib.h>
-#include "gpio/hw_gpio.h"
 
-#ifdef STM32F10X_MD
+#include "system.h"
+#include "hw_conf.h"
+
+#include "hw/usart/hw_usart.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -30,55 +35,14 @@
 ------------------------------------------------------------------------------*/
 
 /*-----------------------------------------------------------------------------
- Local Function Prototypes
+ Exported Function Prototypes
 ------------------------------------------------------------------------------*/
+PUBLIC void HW_Init( void );
+
 
 /*-----------------------------------------------------------------------------
- Data Members
+ External Data Members
 ------------------------------------------------------------------------------*/
-PUBLIC uint32 HW_GPIO_PortBase[HW_GPIO_COUNT] =
-{
-#ifdef _GPIOA
-        GPIOA_BASE,
-#else
-        NULL
-#endif
-#ifdef _GPIOB
-        GPIOB_BASE,
-#else
-        NULL
-#endif
-#ifdef _GPIOC
-        GPIOC_BASE,
-#else
-        NULL
-#endif
-#ifdef _GPIOD
-        GPIOD_BASE,
-#else
-        NULL
-#endif
-#ifdef _GPIOE
-        GPIOE_BASE,
-#else
-        NULL
-#endif
-};
 
 
-//*****************************************************************************
-//
-// Exported Functions
-//
-//*****************************************************************************
-
-
-
-//*****************************************************************************
-//
-// Local Functions
-//
-//*****************************************************************************
-
-
-#endif
+#endif /* HW_H_ */

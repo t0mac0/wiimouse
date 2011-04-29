@@ -17,6 +17,7 @@
 #include "hw_usb.h"
 #include "usb/core/hw_usb_core.h"
 #include "usb/mem/hw_usb_mem.h"
+#include "usb/ep/hw_usb_ep_vir_com.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -77,7 +78,11 @@ PUBLIC bool HW_USB_Init(void)
 }
 
 
-
+/*******************************************************************************/
+PUBLIC void HW_USB_RegisterVirComReadCallback(pHW_USB_ReadVirComCallBack Callback)
+{
+    HwUsbVirComCallback = Callback;
+}
 
 
 //*****************************************************************************

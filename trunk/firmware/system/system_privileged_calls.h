@@ -1,21 +1,20 @@
 /*!
- * \file hw_gpio_stm32f10x.c
+ * \file system_privileged_calls.h
  *
  * \brief 
  *
  *
- * \date Mar 5, 2011
+ * \date Apr 29, 2011
  * \author Dan Riedler
  *
  */
 
+#ifndef _SYSTEM_PRIVILEGED_CALLS_H_
+#define _SYSTEM_PRIVILEGED_CALLS_H_
+
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include <platform_lib.h>
-#include "gpio/hw_gpio.h"
-
-#ifdef STM32F10X_MD
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -30,55 +29,14 @@
 ------------------------------------------------------------------------------*/
 
 /*-----------------------------------------------------------------------------
- Local Function Prototypes
+ Exported Function Prototypes
 ------------------------------------------------------------------------------*/
+PUBLIC inline void SetMainStackPointer( uint32 Value );
+
 
 /*-----------------------------------------------------------------------------
- Data Members
+ External Data Members
 ------------------------------------------------------------------------------*/
-PUBLIC uint32 HW_GPIO_PortBase[HW_GPIO_COUNT] =
-{
-#ifdef _GPIOA
-        GPIOA_BASE,
-#else
-        NULL
-#endif
-#ifdef _GPIOB
-        GPIOB_BASE,
-#else
-        NULL
-#endif
-#ifdef _GPIOC
-        GPIOC_BASE,
-#else
-        NULL
-#endif
-#ifdef _GPIOD
-        GPIOD_BASE,
-#else
-        NULL
-#endif
-#ifdef _GPIOE
-        GPIOE_BASE,
-#else
-        NULL
-#endif
-};
 
 
-//*****************************************************************************
-//
-// Exported Functions
-//
-//*****************************************************************************
-
-
-
-//*****************************************************************************
-//
-// Local Functions
-//
-//*****************************************************************************
-
-
-#endif
+#endif /* SYSTEM_PRIVILEGED_CALLS_H_ */

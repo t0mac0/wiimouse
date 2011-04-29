@@ -45,6 +45,7 @@ void __BASEPRICONFIG(uint32 NewPriority);
 uint32 __GetBASEPRI(void);
 uint16 __REV_HalfWord(uint16 Data);
 uint32 __REV_Word(uint32 Data);
+void __MSR_MSP(uint32 Value );
 
 #endif /* __CORTEXM3_MACRO_H */
 
