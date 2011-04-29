@@ -39,6 +39,7 @@ PUBLIC typedef void (*pHW_USB_ReadVirComCallBack)(uint8 *, uint32);
 ------------------------------------------------------------------------------*/
 
 PUBLIC bool HW_USB_Init(void);
+PUBLIC void HW_USB_RegisterVirComReadCallback(pHW_USB_ReadVirComCallBack Callback);
 PUBLIC uint32 HW_USB_Write(uint8 bEpAddr, uint8* pBufferPointer, uint32 wBufferSize);
 PUBLIC uint32 HW_USB_Read(uint8 bEpAddr, uint8* pBufferPointer);
 

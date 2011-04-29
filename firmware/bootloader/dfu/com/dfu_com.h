@@ -16,7 +16,7 @@
  Includes
 ------------------------------------------------------------------------------*/
 #include "system.h"
-
+#include "usb/hw_usb.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -35,7 +35,7 @@
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PROTECTED void DfuComReceiveCommand( void );
+PROTECTED HW_USB_ReadVirComCallBack DfuComReceiveCommand;
 
 PROTECTED void DfuComSendResponse( void );
 
