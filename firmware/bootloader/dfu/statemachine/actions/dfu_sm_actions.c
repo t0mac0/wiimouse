@@ -12,6 +12,8 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
+#include <platform_lib.h>
+
 #include "dfu/dfu.h"
 
 #include"hw/nvic/hw_nvic.h"
@@ -56,7 +58,12 @@ PROTECTED void DfuActionQueryDevice(DFU_Command *Cmd, DFU_Response *Response)
     Response->ProductId = USB_PRODUCT_ID;
     Response->DeviceId = USB_DEVICE_ID;
 
-    print("Device queried\n");
+    print("Device queried: \n");
+    print("\tMode: %X\n", Response->Mode);
+    print("\tFW Version: %X\n", Response->FWVersion);
+    print("\tVendor Id: %X\n", Response->VendorId);
+    print("\tProduct Id: %X\n", Response->ProductId);
+    print("\tDevice Id: %X\n", Response->DeviceId);
 
 }
 
@@ -68,8 +75,8 @@ PROTECTED void DfuActionInitializeUpdate(DFU_Command *Cmd, DFU_Response *Respons
 
     print("Device initializing...\n");
 
-    // Erase old device firmware
-    DfuMalErase(DEVICE_START_ADDR, DEVICE_MEM_SIZE);
+    // Erase firmware vector table and global settings
+    DfuMalErase(DEVICE_START_ADDR, FLASH_PAGE_SIZE);
 
     // send DFU_STATUS_SUCCESS
     DfuComSendResponse();

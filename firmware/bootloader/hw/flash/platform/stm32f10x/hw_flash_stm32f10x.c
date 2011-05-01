@@ -62,11 +62,12 @@ PUBLIC bool HW_FLASH_Write32Bit(uint32 Address, uint32 *Data, uint32 WordCount)
 
     for(i = 0; i < WordCount; i++)
     {
-        if( FLASH_ProgramWord(Address|FLASH_BASE, Data[i]) != FLASH_COMPLETE )
+        if( FLASH_ProgramWord(Address, Data[i]) != FLASH_COMPLETE )
         {
             result = FALSE;
             break;
         }
+        Address += 4;
     }
 
     return result;
@@ -82,11 +83,12 @@ PUBLIC bool HW_FLASH_Write16Bit(uint32 Address, uint16 *Data, uint32 WordCount)
 
     for(i = 0; i < WordCount; i++)
     {
-        if( FLASH_ProgramHalfWord(Address|FLASH_BASE, Data[i]) != FLASH_COMPLETE )
+        if( FLASH_ProgramHalfWord(Address, Data[i]) != FLASH_COMPLETE )
         {
             result = FALSE;
             break;
         }
+        Address += 2;
     }
 
     return result;
@@ -101,7 +103,8 @@ PUBLIC bool HW_FLASH_Read32Bit(uint32 Address, uint32 *Data, uint32 WordCount)
 
     for( i= 0; i < WordCount; i++)
     {
-        *(uint32*)(Data + i) = *(uint32*)(Address + i);
+        *(uint32*)(Data + i) = *(uint32*)(Address);
+        Address += 4;
     };
 
     return result;
@@ -116,7 +119,8 @@ PUBLIC bool HW_FLASH_Read16Bit(uint32 Address, uint16 *Data, uint32 WordCount)
 
     for( i = 0; i < WordCount; i++)
     {
-        *(uint16*)(Data + i) = *(uint16*)(Address + i);
+        *(uint16*)(Data + i) = *(uint16*)(Address);
+        Address += 2;
     };
 
     return result;
@@ -137,7 +141,7 @@ PUBLIC bool HW_FLASH_ErasePages(uint32 FirstPage, uint32 PageCount)
     {
         for(i = 0; i < PageCount; i++ )
         {
-            if( FLASH_ErasePage((FirstPage & 0xFFFFFC00)|FLASH_BASE) != FLASH_COMPLETE )
+            if( FLASH_ErasePage(FirstPage & 0xFFFFFC00) != FLASH_COMPLETE )
             {
                 result = FALSE;
                 break;

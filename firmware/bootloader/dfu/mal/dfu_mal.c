@@ -62,7 +62,16 @@ PROTECTED bool DfuMalErase (uint32 SectorAddress, uint32 Length)
 {
     uint32 numPages;
 
+
+    if( SectorAddress < DEVICE_START_ADDR )
+    {
+        print("Error: Attempting to erase bootloader section memory\n");
+        return FALSE;
+    }
+
     numPages = CELING((Length - (SectorAddress & (FLASH_PAGE_SIZE-1)) ), FLASH_PAGE_SIZE);
+
+    print("Erasing: %d pages starting at: %X\n", numPages, SectorAddress);
 
     return HW_FLASH_ErasePages(SectorAddress, numPages);
 }

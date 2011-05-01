@@ -68,13 +68,15 @@ int main(int argc, char *argv[])
     {
         HW_Init();
 
-        print("Bootloader Initializing...\n");
-
         DFU_Init();
+
+        print("Bootloader waiting for commands.\n");
 
     }
 
     for(;;);
+
+    return 0;
 }
 
 

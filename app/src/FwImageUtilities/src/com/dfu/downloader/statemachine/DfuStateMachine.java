@@ -13,19 +13,21 @@ public class DfuStateMachine extends SwingWorker<Void, Void>{
 	private DfuStateTransitionTable transitionTable;
 	private DfuImage fwImage;
 	private MessageGenerator msg;
+	private boolean ignoreVersion;
 
 
-	public DfuStateMachine(MessageGenerator msg, DfuImage fwImage) {
+	public DfuStateMachine(MessageGenerator msg, DfuImage fwImage, boolean ignoreVersion) {
 		transitionTable = new DfuStateTransitionTable();
 		this.fwImage = fwImage;
 		this.msg = msg;
+		this.ignoreVersion = ignoreVersion;
 	}
 
 	@Override
 	protected Void doInBackground() throws Exception {
 
 		DfuCommandType currentCommand = DfuCommandType.QUERY_DEVICE;
-		DfuCommonData commonData = new DfuCommonData(msg, fwImage);
+		DfuCommonData commonData = new DfuCommonData(msg, fwImage, ignoreVersion);
 		boolean updated = false;
 
 		try {

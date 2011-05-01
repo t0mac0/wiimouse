@@ -26,6 +26,7 @@ public class DfuActionInitializeDevice implements DfuTransitionAction {
 			if(response.isSuccessful()){
 				data.addMessageInfo(this, "Waiting 10s while device enters device update mode...");
 				data.setNextCommand(DfuCommandType.QUERY_DEVICE);
+				link.closeLink();
 				try {
 					Thread.sleep(10000);
 					result = true;
