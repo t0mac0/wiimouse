@@ -96,13 +96,21 @@ PROTECTED void DfuActionStartSectionUpdate(DFU_Command *Cmd, DFU_Response *Respo
         print("ActionStartSectionUpdate: DFU_STATUS_SECTION_OVERFLOW\n");
         InitializeDataMembers();
     }
+    else if( !DfuMalErase(Cmd->StartAddress, Cmd->Length) )
+    {
+        Response->Status = DFU_STATUS_INTERNAL_FLASH_ERASE_ERROR;
+        print("ActionStartSectionUpdate: DFU_STATUS_INTERNAL_FLASH_ERASE_ERROR\n");
+        InitializeDataMembers();
+    }
     else
     {
         writeAddress = sectionStartAddress = Cmd->StartAddress;
         sectionSize = Cmd->Length;
+
+
         Response->Status = DFU_STATUS_SUCCESS;
 
-        print("ActionStartSectionUpdate: size: %d\n", sectionSize);
+        print("ActionStartSectionUpdate: Start Address: %X, Size: %d\n", writeAddress, sectionSize);
     }
 
 }

@@ -78,7 +78,7 @@
 
 /* Delay definition */   
 #define EraseTimeout             ((uint32)0x00000FFF)
-#define ProgramTimeout           ((uint32)0x0000000F)
+#define ProgramTimeout           ((uint32)0x00002000)
 
 #ifdef _FLASH
 

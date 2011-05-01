@@ -21,8 +21,8 @@ public class DfuDownloaderTest implements MessageListener {
 					"C:\\Users\\Reed\\Programming\\wiiMouse_prj\\dan\\hid_mouse_virtual_com\\Debug\\hid_mouse_virtual_com.elf", 
 					"dfuImages\\hid_mouse.img", 
 					0xF46D, 
-					0xF52B,
-					0xF000,
+					0x052B,
+					0x0002,
 					0x0002);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
@@ -33,7 +33,7 @@ public class DfuDownloaderTest implements MessageListener {
 		
 		downloader.addMessageListener(this);
 		try {
-			downloader.downloadImage("dfuImages\\hid_mouse.img");
+			downloader.downloadImage("dfuImages\\hid_mouse.img", true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -21,13 +21,13 @@ public class DfuDownloader {
 		addMessageListener(listener);
 	}
 
-	public void downloadImage(String imagePath) throws Exception
+	public void downloadImage(String imagePath, boolean ignoreVersion) throws Exception
 	{
 		DfuImage image;
 		
 		image = DfuParser.parseDfuImage(imagePath);
 
-		new DfuStateMachine(msg, image).run();
+		new DfuStateMachine(msg, image, ignoreVersion).run();
 	}
 	
 	public void addMessageListener(MessageListener listener)

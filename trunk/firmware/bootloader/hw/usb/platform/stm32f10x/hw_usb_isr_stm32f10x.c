@@ -18,7 +18,7 @@
 #include "bootloader.h"
 #include "usb/pwr/hw_usb_pwr.h"
 #include "hw_usb_isr_stm32f10x.h"
-
+#include "hw_usb_ep_conf_stm32f10x.h"
 
 
 /*-----------------------------------------------------------------------------

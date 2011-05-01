@@ -18,7 +18,7 @@ public class DfuGeneratorTest  {
 					"dfuImages\\hid_mouse.img", 
 					0xF46D, 
 					0xF52B,
-					0xF000,
+					0x0002,
 					0x0002);
 		} catch (Exception e) {
 			e.printStackTrace();

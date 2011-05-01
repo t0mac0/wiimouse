@@ -18,13 +18,14 @@ public class DfuCommonData {
 
 	private boolean requery;
 	private boolean hasSerialLink;
+	private boolean ignoreVersion;
 	private int transferAddress;
 	private int transferOffset;
 
 	private ListIterator<DfuImageSection> imageSectionIterator;
 	private DfuImageSection actionImageSection;
 
-	public DfuCommonData(MessageGenerator msg, DfuImage fwImage){
+	public DfuCommonData(MessageGenerator msg, DfuImage fwImage, boolean ignoreVersion){
 		this.fwImage = fwImage;
 		this.msg = msg;
 		this.nextCommand = DfuCommandType.NULL;
@@ -32,6 +33,7 @@ public class DfuCommonData {
 		this.setRequery(false);
 		this.transferAddress = 0;
 		this.transferOffset = 0;
+		this.ignoreVersion = ignoreVersion;
 		
 		imageSectionIterator = fwImage.getImageSections().listIterator();
 		
@@ -130,6 +132,16 @@ public class DfuCommonData {
 
 	public int getTransferOffset() {
 		return transferOffset;
+	}
+
+
+	public void setIgnoreVersion(boolean ignoreVersion) {
+		this.ignoreVersion = ignoreVersion;
+	}
+
+
+	public boolean isIgnoreVersion() {
+		return ignoreVersion;
 	}
 
 

@@ -32,7 +32,7 @@ _Min_Stack_Size = 0x200; /* required amount of stack */
 MEMORY
 {
   RAM (rwx) : ORIGIN = 0x20000000, LENGTH = 20K
-  BOOTLOADER (rx) : ORIGIN = 0x08000000, LENGTH = 16k
+  BOOTLOADER (rx) : ORIGIN = 0x08000000, LENGTH = 32k
 }
 SECTIONS
   {

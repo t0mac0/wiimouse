@@ -32,11 +32,10 @@ public class DfuActionQueryDevice implements DfuTransitionAction{
 			if( link.openLink(i)){
 				if(link.sendCommand(command, response)){
 					if(!response.isSuccessful()){
-						data.addMessageError(this, "Device failed: " + response.getErrorDescription());
-						break;
+						data.addMessageError(this, "Com" + i + ", Device failed: " + response.getErrorDescription());
 					}
-					if( validateDevice(response, data)){
-						if(response.getMode().equals(DfuModeType.USER)){
+					else if( validateDevice(response, data)){
+						if(!response.getMode().equals(DfuModeType.UPDATE)){
 							data.setNextCommand(DfuCommandType.INITIALIZE_UPDATE);
 							data.setRequery(true);
 						}
@@ -52,8 +51,7 @@ public class DfuActionQueryDevice implements DfuTransitionAction{
 					}
 				}
 				else {
-					data.addMessageError(this, "Failed to send QUERY_DEVICE command");
-					break;
+					data.addMessageError(this, "Failed to send QUERY_DEVICE command to Com"+i);
 				}
 			}
 
@@ -77,7 +75,7 @@ public class DfuActionQueryDevice implements DfuTransitionAction{
 
 			try{
 				int ver = header.getVersion();
-				if(ver > response.getFwVersion()){
+				if(ver > response.getFwVersion() || data.isIgnoreVersion() ){
 					result = true;
 					if(!data.isRequery())
 					data.addMessageInfo(this, "Successfully query device and found it needs an update");
