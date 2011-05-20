@@ -85,11 +85,12 @@ PUBLIC Result HW_FLASH_Write32Bit(uint32 Address, uint32 *Data, uint32 WordCount
 
     for(i = 0; i < WordCount; i++)
     {
-        if( FLASH_ProgramWord(Address|FLASH_BASE, Data[i]) != FLASH_COMPLETE )
+        if( FLASH_ProgramWord(Address, Data[i]) != FLASH_COMPLETE )
         {
             result = HW_FLASH_RESULT(WRITE_FAIL);
             break;
         }
+        Address += 4;
     }
 
     return result;
@@ -105,11 +106,13 @@ PUBLIC Result HW_FLASH_Write16Bit(uint32 Address, uint16 *Data, uint32 WordCount
 
     for(i = 0; i < WordCount; i++)
     {
-        if( FLASH_ProgramHalfWord(Address|FLASH_BASE, Data[i]) != FLASH_COMPLETE )
+        if( FLASH_ProgramHalfWord(Address, Data[i]) != FLASH_COMPLETE )
         {
             result = HW_FLASH_RESULT(WRITE_FAIL);
             break;
         }
+
+        Address += 2;
     }
 
     return result;
@@ -160,7 +163,7 @@ PUBLIC Result HW_FLASH_ErasePages(uint32 FirstPage, uint32 PageCount)
     {
         for(i = 0; i < PageCount; i++ )
         {
-            if( FLASH_ErasePage((FirstPage & 0xFFFFFC00)|FLASH_BASE) != FLASH_COMPLETE )
+            if( FLASH_ErasePage((FirstPage & 0xFFFFFC00)) != FLASH_COMPLETE )
             {
                 result = HW_FLASH_RESULT(ERASE_FAIL);
                 break;

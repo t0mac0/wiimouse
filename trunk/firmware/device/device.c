@@ -60,9 +60,7 @@ int main(int argc, char *argv[])
         LOG_Printf("failed to start the task scheduler\n");
     }
 
-    while(1)
-    {
-    }
+    for(;;);
 
     return 0;
 }
