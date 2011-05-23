@@ -34,9 +34,9 @@
 
 //#define VIRTUAL_COM_PORT_SIZ_CONFIG_DESC        67
 #define VIRTUAL_COM_PORT_SIZ_STRING_LANGID      4
-#define VIRTUAL_COM_PORT_SIZ_STRING_VENDOR      38
-#define VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT     50
-#define VIRTUAL_COM_PORT_SIZ_STRING_SERIAL      26
+#define VIRTUAL_COM_PORT_SIZ_STRING_VENDOR      34
+#define VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT     34
+#define VIRTUAL_COM_PORT_SIZ_STRING_SERIAL      28
 
 /*-----------------------------------------------------------------------------
  Macros

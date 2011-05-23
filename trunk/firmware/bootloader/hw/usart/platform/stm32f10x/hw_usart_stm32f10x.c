@@ -145,6 +145,8 @@ PUBLIC inline void HW_USART_DefaultInit( void )
 
 
     USART_Init(usartBase[DEFAULT_USART], &USART_InitStructure);
+
+    print("USART ready\n");
 }
 
 

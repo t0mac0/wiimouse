@@ -1,7 +1,7 @@
 [Eagle]
 Version="05 07 00"
 Platform="Windows"
-Serial="575756CF30-LSR-WLM-NCP"
+Serial="4593FC8C73-LSR-WLM-NCP"
 Globals="Globals"
 Desktop="Desktop"
 
@@ -337,10 +337,10 @@ UsedLibrary="C:/Users/Reed/Programming/wiiMouse_prj/wiimouse/pcb/parts_library.l
 
 [Win_1]
 Type="Control Panel"
-Loc="-1280 -24 -1 961"
+Loc="-1280 0 -1 985"
 State=2
 Number=0
 
 [Desktop]
-Screen="3056 1024"
+Screen="3200 1080"
 Window="Win_1"
