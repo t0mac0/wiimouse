@@ -1,5 +1,5 @@
 /*!
- * \file nunchuck_reporter.c
+ * \file nunchuck_processor.c
  *
  * \brief 
  *
@@ -12,11 +12,9 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "nunchuck_reporter.h"
+#include "nunchuck_processor.h"
 #include "os.h"
-#include "nunchuck/processor/nunchuck_processor.h"
-#include "nunchuck/settings/nunchuck_settings.h"
-
+#include "nunchuck/processor/filter/nunchuck_filter.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -33,12 +31,14 @@
 /*-----------------------------------------------------------------------------
  Local Function Prototypes
 ------------------------------------------------------------------------------*/
-PRIVATE OS_TaskProtoType DataReporterTask;
+PRIVATE OS_TaskProtoType DataProcessorTask;
 
 
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
+PROTECTED NunchuckProcessedDataInfo NunchuckProcessedData;
+
 
 
 //*****************************************************************************
@@ -48,19 +48,20 @@ PRIVATE OS_TaskProtoType DataReporterTask;
 //*****************************************************************************
 
 //****************************************************************************/
-PROTECTED Result NunchuckReporterInit( void )
+PROTECTED Result NunchuckProcessorInit( void )
 {
     Result result = NUNCHUCK_RESULT(SUCCESS);
 
+    ZeroMemory(&NunchuckProcessedData, sizeof(NunchuckProcessedDataInfo));
 
-    if( RESULT_IS_ERROR(result, OS_TASK_MGR_AddTask(OS_TASK_NUNCHUCK_DATA_REPORTER,
-                                                    NUNCHUCK_REPORTER_TASK_NAME,
-                                                    DataReporterTask,
-                                                    NUNCHUCK_REPORTER_STACK_SIZE,
-                                                    NUNCHUCK_REPORTER_TASK_PRIORITY,
+    if( RESULT_IS_ERROR(result, OS_TASK_MGR_AddTask(OS_TASK_NUNCHUCK_DATA_PROCESSOR,
+                                                    NUNCHUCK_PROCESSOR_TASK_NAME,
+                                                    DataProcessorTask,
+                                                    NUNCHUCK_PROCESSOR_STACK_SIZE,
+                                                    NUNCHUCK_PROCESSOR_TASK_PRIORITY,
                                                     NULL)) )
     {
-        LOG_Printf("Failed to create the nunchuck data reporter task\n");
+        LOG_Printf("Failed to create the nunchuck data processor task\n");
     }
 
 
@@ -75,16 +76,19 @@ PROTECTED Result NunchuckReporterInit( void )
 //
 //*****************************************************************************
 
+
+
 //*****************************************************************************//
-PRIVATE void DataReporterTask(void *Params)
+PRIVATE void DataProcessorTask(void *Params)
 {
     UNUSED(Params);
 
     for(;;)
     {
-        if( NunchuckProcessedData.PointsProcessed == NunchuckSettings.DataPointsPerHidReport )
+    	OS_TakeSemaphore(NunchuckRawData.DataAvailableSem, OS_SEM_WAIT_INFINITE);
         {
-            NunchuckProcessedData.PointsProcessed = 0;
+            NunchuckFilterData();
+            NunchuckProcessedData.PointsProcessed++;
         }
     }
 }

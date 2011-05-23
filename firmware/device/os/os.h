@@ -29,6 +29,7 @@
 #define OS_TAKE_MUTEX(_sem) OS_TakeSemaphore(_sem, OS_SEM_WAIT_INFINITE)
 #define OS_GIVE_MUTEX(_sem) OS_GiveSemaphore(_sem)
 
+#define OS_TAKE_SEM(_sem) OS_TakeSemaphore(_sem, OS_SEM_WAIT_INFINITE)
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
@@ -57,6 +58,8 @@ PUBLIC Result OS_DestroySemaphore(pOS_Semaphore Semaphore);
 PUBLIC Result OS_GiveSemaphore(pOS_Semaphore Semaphore);
 
 PUBLIC Result OS_TakeSemaphore(pOS_Semaphore Semaphore, uint32 BlockTime );
+
+PUBLIC Result OS_GiveSemaphoreFromIsr(pOS_Semaphore Semaphore, bool *HigherPriorityTaskWoken);
 
 /*-----------------------------------------------------------------------------
  External Data Members

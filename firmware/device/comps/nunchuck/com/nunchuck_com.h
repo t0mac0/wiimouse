@@ -1,5 +1,5 @@
 /*!
- * \file nunchuck_reader.h
+ * \file nunchuck_com.h
  *
  * \brief 
  *
@@ -9,15 +9,15 @@
  *
  */
 
-#ifndef _NUNCHUCK_READER_H_
-#define _NUNCHUCK_READER_H_
+#ifndef _NUNCHUCK_COM_H_
+#define _NUNCHUCK_COM_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
 #include "nunchuck/nunchuck.h"
-#include "os.h"
-
+#include "nunchuck/profile/nunchuck_profile.h"
+#include "hw_mgr/i2c/hw_i2c.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -31,24 +31,27 @@
  Typedefs
 ------------------------------------------------------------------------------*/
 PROTECTED typedef struct {
-    uint8 TotalDataPtCount;
-    uint8 NextPoint;
-    pOS_Semaphore DataAvailableSem;
-    pNunchuckData DataPts;
-} NunchuckRawDataInfo;
-
+    uint8 NunchuckSlaveAddr;
+    pNunchuckProfileDataFormatter DataFormatter;
+} NunchuckComInfo, *pNunchuckComInfo;
 
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PROTECTED Result NunchuckReaderInit( void );
+PROTECTED Result NunchuckComInit( pNunchuckComInfo InitInfo );
 
-PUBLIC void NUNCHUCK_READER_ReadDataPoint( void );
+PROTECTED Result NunchuckComWrite(uint8 *Data, uint8 NumBytes );
+
+PROTECTED Result NunchuckComReadReg(uint8 Register, uint8 *Buffer, uint8 NumBytes );
+
+PROTECTED Result NunchuckComReadData(pNunchuckData Data);
+
+
 
 
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
-PROTECTED extern NunchuckRawDataInfo NunchuckRawData;
 
-#endif /* NUNCHUCK_READER_H_ */
+
+#endif /* NUNCHUCK_COM_H_ */

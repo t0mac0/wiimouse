@@ -1,5 +1,5 @@
 /*!
- * \file nunchuck_reader.h
+ * \file nunchuck_filter_btn.h
  *
  * \brief 
  *
@@ -9,14 +9,13 @@
  *
  */
 
-#ifndef _NUNCHUCK_READER_H_
-#define _NUNCHUCK_READER_H_
+#ifndef _NUNCHUCK_FILTER_BTN_H_
+#define _NUNCHUCK_FILTER_BTN_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "nunchuck/nunchuck.h"
-#include "os.h"
+#include "nunchuck/processor/filter/nunchuck_filter.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -30,25 +29,16 @@
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
-PROTECTED typedef struct {
-    uint8 TotalDataPtCount;
-    uint8 NextPoint;
-    pOS_Semaphore DataAvailableSem;
-    pNunchuckData DataPts;
-} NunchuckRawDataInfo;
-
 
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PROTECTED Result NunchuckReaderInit( void );
-
-PUBLIC void NUNCHUCK_READER_ReadDataPoint( void );
+PROTECTED void NunchuckFilterButtonData( void );
 
 
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
-PROTECTED extern NunchuckRawDataInfo NunchuckRawData;
 
-#endif /* NUNCHUCK_READER_H_ */
+
+#endif /* NUNCHUCK_FILTER_BTN_H_ */

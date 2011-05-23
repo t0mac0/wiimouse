@@ -1,5 +1,5 @@
 /*!
- * \file nunchuck_reader.h
+ * \file nunchuck_profile.h
  *
  * \brief 
  *
@@ -9,15 +9,13 @@
  *
  */
 
-#ifndef _NUNCHUCK_READER_H_
-#define _NUNCHUCK_READER_H_
+#ifndef _NUNCHUCK_PROFILE_H_
+#define _NUNCHUCK_PROFILE_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
 #include "nunchuck/nunchuck.h"
-#include "os.h"
-
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -30,25 +28,17 @@
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
-PROTECTED typedef struct {
-    uint8 TotalDataPtCount;
-    uint8 NextPoint;
-    pOS_Semaphore DataAvailableSem;
-    pNunchuckData DataPts;
-} NunchuckRawDataInfo;
+PROTECTED typedef uint8 (NunchuckProfileDataFormatterPrototype)(uint8);
+PROTECTED typedef uint8 (*pNunchuckProfileDataFormatter)(uint8);
 
 
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PROTECTED Result NunchuckReaderInit( void );
-
-PUBLIC void NUNCHUCK_READER_ReadDataPoint( void );
-
 
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
-PROTECTED extern NunchuckRawDataInfo NunchuckRawData;
 
-#endif /* NUNCHUCK_READER_H_ */
+
+#endif /* NUNCHUCK_PROFILE_H_ */

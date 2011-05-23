@@ -1,5 +1,5 @@
 /*!
- * \file nunchuck_reader.h
+ * \file nunchuck_processor.h
  *
  * \brief 
  *
@@ -9,19 +9,21 @@
  *
  */
 
-#ifndef _NUNCHUCK_READER_H_
-#define _NUNCHUCK_READER_H_
+#ifndef _NUNCHUCK_PROCESSOR_H_
+#define _NUNCHUCK_PROCESSOR_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
 #include "nunchuck/nunchuck.h"
-#include "os.h"
-
 
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
+#define NUNCHUCK_PROCESSOR_TASK_NAME "NunchukProcessor"
+#define NUNCHUCK_PROCESSOR_STACK_SIZE OS_MIN_STACK_SIZE
+#define NUNCHUCK_PROCESSOR_TASK_PRIORITY OS_TASK_PRIORITY_MEDIUM
+
 
 /*-----------------------------------------------------------------------------
  Macros
@@ -31,24 +33,20 @@
  Typedefs
 ------------------------------------------------------------------------------*/
 PROTECTED typedef struct {
-    uint8 TotalDataPtCount;
-    uint8 NextPoint;
-    pOS_Semaphore DataAvailableSem;
-    pNunchuckData DataPts;
-} NunchuckRawDataInfo;
-
+    uint8 PointsProcessed;
+    NunchuckData Data;
+} NunchuckProcessedDataInfo;
 
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PROTECTED Result NunchuckReaderInit( void );
-
-PUBLIC void NUNCHUCK_READER_ReadDataPoint( void );
+PROTECTED Result NunchuckProcessorInit( void );
 
 
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
-PROTECTED extern NunchuckRawDataInfo NunchuckRawData;
 
-#endif /* NUNCHUCK_READER_H_ */
+PROTECTED extern NunchuckProcessedDataInfo NunchuckProcessedData;
+
+#endif /* NUNCHUCK_PROCESSOR_H_ */
