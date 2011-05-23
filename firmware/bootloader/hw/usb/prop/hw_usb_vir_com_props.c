@@ -132,9 +132,6 @@ ONE_DESCRIPTOR String_Descriptor[4] =
 void Virtual_Com_Port_init(void)
 {
 
-    /* Update the serial number string descriptor with the data from the unique
-  ID*/
-
     pInformation->Current_Configuration = 0;
 
     /* Connect the device */
@@ -380,7 +377,6 @@ USB_RESULT Virtual_Com_Port_NoData_Setup(uint8 RequestNo)
  *******************************************************************************/
 uint8 *Virtual_Com_Port_GetDeviceDescriptor(uint16 Length)
 {
-    //printf("getting device desc: %d\n", Length);
     return Standard_GetDescriptorData(Length, &Device_Descriptor);
 }
 
@@ -393,7 +389,6 @@ uint8 *Virtual_Com_Port_GetDeviceDescriptor(uint16 Length)
  *******************************************************************************/
 uint8 *Virtual_Com_Port_GetConfigDescriptor(uint16 Length)
 {
-    //printf("getting config desc: %d\n", Length);
     return Standard_GetDescriptorData(Length, &Config_Descriptor);
 }
 
@@ -428,7 +423,7 @@ uint8 *Virtual_Com_Port_GetStringDescriptor(uint16 Length)
  *******************************************************************************/
 USB_RESULT Virtual_Com_Port_Get_Interface_Setting(uint8 Interface, uint8 AlternateSetting)
 {
-    //printf("getting ifc setting: %d\n", Interface);
+    //print("getting ifc setting: %d\n", Interface);
     if (AlternateSetting > 0)
     {
         return USB_UNSUPPORT;
@@ -449,7 +444,7 @@ USB_RESULT Virtual_Com_Port_Get_Interface_Setting(uint8 Interface, uint8 Alterna
  *******************************************************************************/
 uint8 *Virtual_Com_Port_GetLineCoding(uint16 Length)
 {
-    //printf("getting line codingc: %d\n", Length);
+    //print("getting line codingc: %d\n", Length);
     if (Length == 0)
     {
         pInformation->Ctrl_Info.Usb_wLength = sizeof(linecoding);
@@ -467,7 +462,7 @@ uint8 *Virtual_Com_Port_GetLineCoding(uint16 Length)
  *******************************************************************************/
 uint8 *Virtual_Com_Port_SetLineCoding(uint16 Length)
 {
-    //printf("setting line coding: %d\n", Length);
+    //print("setting line coding: %d\n", Length);
     if (Length == 0)
     {
         pInformation->Ctrl_Info.Usb_wLength = sizeof(linecoding);

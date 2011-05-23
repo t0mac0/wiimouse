@@ -36,11 +36,11 @@ DefaultDestDir = 12
 
 [MYCORP]
 %MYDEV000%= MYDEV000,USB\VID_F46D&PID_052B&MI_01
-%MYDEV000%= MYDEV000,USB\VID_F46D&PID_052B&MI_00
+%MYDEV000%= MYDEV000,USB\VID_F46D&PID_052B
 
 [MYCORP.NTAMD64]
 %MYDEV000%= MYDEV000,USB\VID_F46D&PID_052B&MI_01
-%MYDEV000%= MYDEV000,USB\VID_F46D&PID_052B&MI_00
+%MYDEV000%= MYDEV000,USB\VID_F46D&PID_052B
 
 
 [MYDEV000.NT]
@@ -66,6 +66,6 @@ HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
 HKR,,PortSubClass,1,01
 
 [Strings] 
-MYCORP = "STMicroelectronics"             ; Your company name
-MYDEV000 = "CDC ACM example device"   ; Device description
-Serial.SvcDesc = "CDC ACM Driver"     ; Device driver description
+MYCORP = "Reed Electronics"             ; Your company name
+MYDEV000 = "WiiMouse Updater"   ; Device description
+Serial.SvcDesc = "Reed2011"     ; Device driver description
