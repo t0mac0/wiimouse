@@ -16,7 +16,7 @@
  Includes
 ------------------------------------------------------------------------------*/
 #include "nunchuck/nunchuck.h"
-#include "nunchuck/profile/nunchuck_profile.h"
+//#include "nunchuck/profile/nunchuck_profile.h"
 
 /*-----------------------------------------------------------------------------
  Defines

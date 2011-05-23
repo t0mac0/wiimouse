@@ -92,7 +92,9 @@ PRIVATE void PacketProcessorTask(void *Params)
 
     for(;;)
     {
+    	// TODO: this gets its own task
         ProcessInputPackets();
+        // TODO: this gets its own task
         ProcessOutputPackets();
     }
 }
@@ -112,6 +114,7 @@ PRIVATE inline void ProcessInputPackets( void )
 
     OS_TAKE_MUTEX(packetMgrInputBuffer.Mutex);
 
+    // TODO: should be a semaphore
     if( packetMgrInputBuffer.PacketsAvailable > 0 )
     {
         if( RESULT_IS_SUCCESS(result, PacketMgrParsePacket(&tag, &packetId)) )
@@ -146,6 +149,7 @@ PRIVATE inline void ProcessOutputPackets( void )
 
     pi = packetMgrOutputBuffer.FirstPacketIndex;
 
+    // TODO: should be a semaphore
     if( packetMgrOutputBuffer.PacketsAvailable > 0 )
     {
         WritePacketTag(TRUE, packetMgrOutputBuffer.PacketInfo[pi].Id);

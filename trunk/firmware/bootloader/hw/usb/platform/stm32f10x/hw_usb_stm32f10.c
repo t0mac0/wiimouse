@@ -1,10 +1,10 @@
 /*!
- * \file nunchuck_reporter.c
+ * \file hw_usb_stm32f10.c
  *
  * \brief 
  *
  *
- * \date Apr 9, 2011
+ * \date May 20, 2011
  * \author Dan Riedler
  *
  */
@@ -12,10 +12,8 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "nunchuck_reporter.h"
-#include "os.h"
-#include "nunchuck/processor/nunchuck_processor.h"
-#include "nunchuck/settings/nunchuck_settings.h"
+#include "usb/hw_usb.h"
+#include "usb/mem/hw_usb_mem.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -33,13 +31,10 @@
 /*-----------------------------------------------------------------------------
  Local Function Prototypes
 ------------------------------------------------------------------------------*/
-PRIVATE OS_TaskProtoType DataReporterTask;
-
 
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
-
 
 //*****************************************************************************
 //
@@ -47,25 +42,38 @@ PRIVATE OS_TaskProtoType DataReporterTask;
 //
 //*****************************************************************************
 
-//****************************************************************************/
-PROTECTED Result NunchuckReporterInit( void )
+/*****************************************************************************/
+PUBLIC uint32 HW_USB_Write(uint8 bEpAddr, uint8* pBufferPointer, uint32 wBufferSize)
 {
-    Result result = NUNCHUCK_RESULT(SUCCESS);
+
+    /* Use the memory interface function to write to the selected endpoint */
+    HwUsbUserToPMABufferCopy(pBufferPointer, GetEPTxAddr(bEpAddr & 0x7F), wBufferSize);
+
+    /* Update the data length in the control register */
+    SetEPTxCount((bEpAddr & 0x7F), wBufferSize);
+
+    SetEPTxValid(bEpAddr&0x0F);
+
+    return wBufferSize;
+}
 
 
-    if( RESULT_IS_ERROR(result, OS_TASK_MGR_AddTask(OS_TASK_NUNCHUCK_DATA_REPORTER,
-                                                    NUNCHUCK_REPORTER_TASK_NAME,
-                                                    DataReporterTask,
-                                                    NUNCHUCK_REPORTER_STACK_SIZE,
-                                                    NUNCHUCK_REPORTER_TASK_PRIORITY,
-                                                    NULL)) )
-    {
-        LOG_Printf("Failed to create the nunchuck data reporter task\n");
-    }
+/*****************************************************************************/
+PUBLIC uint32 HW_USB_Read(uint8 bEpAddr, uint8* pBufferPointer)
+{
+    uint32 DataLength = 0;
 
 
+    /* Get the number of received data on the selected Endpoint */
+    DataLength = GetEPRxCount(bEpAddr & 0x7F);
 
-    return result;
+    /* Use the memory interface function to write to the selected endpoint */
+    HwUsbPMAToUserBufferCopy(pBufferPointer, GetEPRxAddr(bEpAddr & 0x7F), DataLength);
+
+    SetEPRxValid(bEpAddr & 0x0F);
+
+
+    return DataLength;
 }
 
 
@@ -74,17 +82,3 @@ PROTECTED Result NunchuckReporterInit( void )
 // Local Functions
 //
 //*****************************************************************************
-
-//*****************************************************************************//
-PRIVATE void DataReporterTask(void *Params)
-{
-    UNUSED(Params);
-
-    for(;;)
-    {
-        if( NunchuckProcessedData.PointsProcessed == NunchuckSettings.DataPointsPerHidReport )
-        {
-            NunchuckProcessedData.PointsProcessed = 0;
-        }
-    }
-}

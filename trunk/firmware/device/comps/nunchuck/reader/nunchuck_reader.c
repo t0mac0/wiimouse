@@ -49,57 +49,66 @@ PROTECTED NunchuckRawDataInfo NunchuckRawData;
 //****************************************************************************/
 PROTECTED Result NunchuckReaderInit( void )
 {
-    Result result = NUNCHUCK_RESULT(SUCCESS);
-    HW_TIMER_ConfigInfo timerConfig;
-    HW_TIMER_CounterConfig counterConfig;
+	Result result = NUNCHUCK_RESULT(SUCCESS);
+	HW_TIMER_ConfigInfo timerConfig;
+	HW_TIMER_CounterConfig counterConfig;
 
 
-    ZeroMemory(&NunchuckRawData, sizeof(NunchuckRawDataInfo));
+	ZeroMemory(&NunchuckRawData, sizeof(NunchuckRawDataInfo));
 
-    NunchuckRawData.TotalDataPtCount = NunchuckSettings.DataPointsPerHidReport*2+1;
+	NunchuckRawData.TotalDataPtCount = NunchuckSettings.DataPointsPerHidReport;
 
-    NunchuckRawData.DataPts = (pNunchuckData) AllocMemory(sizeof(NunchuckData)*NunchuckRawData.TotalDataPtCount);
-    if( NunchuckRawData.DataPts == NULL )
-    {
-        return NUNCHUCK_RESULT(MEMORY_ALLOC_FAIL);
-    }
-    ZeroMemory(NunchuckRawData.DataPts, sizeof(NunchuckData)*NunchuckRawData.TotalDataPtCount);
+	NunchuckRawData.DataPts = (pNunchuckData) AllocMemory(sizeof(NunchuckData)*NunchuckRawData.TotalDataPtCount);
+	if( NunchuckRawData.DataPts == NULL )
+	{
+		return NUNCHUCK_RESULT(MEMORY_ALLOC_FAIL);
+	}
+	ZeroMemory(NunchuckRawData.DataPts, sizeof(NunchuckData)*NunchuckRawData.TotalDataPtCount);
 
-    counterConfig.EnableUpdateInterrupt = TRUE;
-    counterConfig.Frequnecy = (NunchuckSettings.DataPointsPerHidReport*1000)/COMPOSITE_USB_HID_REPORT_INTERVAL;
-    counterConfig.Mode = HW_TIMER_COUNTER_MODE_UP;
+	if( RESULT_IS_ERROR(result, OS_CreateSemaphore(&NunchuckRawData.DataAvailableSem, OS_SEM_TYPE_BINARY, 0, 1)) )
+	{
+		return result;
+	}
 
-    timerConfig.ClkSrc = HW_TIMER_CLK_SRC_INT;
-    timerConfig.Mode = HW_TIMER_MODE_COUNTER;
-    timerConfig.Type = HW_TIMER_TYPE_GENERAL;
-    timerConfig.config = &counterConfig;
-    timerConfig.Enable = FALSE;
+	counterConfig.EnableUpdateInterrupt = TRUE;
+	counterConfig.Frequnecy = (NunchuckSettings.DataPointsPerHidReport*1000)/COMPOSITE_USB_HID_REPORT_INTERVAL;
+	counterConfig.Mode = HW_TIMER_COUNTER_MODE_UP;
+
+	timerConfig.ClkSrc = HW_TIMER_CLK_SRC_INT;
+	timerConfig.Mode = HW_TIMER_MODE_COUNTER;
+	timerConfig.Type = HW_TIMER_TYPE_GENERAL;
+	timerConfig.config = &counterConfig;
+	timerConfig.Enable = FALSE;
 
 
 
-    if( RESULT_IS_ERROR(result, HW_TIMER_Init(NUNCHUCK_READ_TIMER, &timerConfig)) )
-    {
-        result = NUNCHUCK_RESULT(READ_TIMER_INIT_FAIL);
-    }
+	if( RESULT_IS_ERROR(result, HW_TIMER_Init(NUNCHUCK_READ_TIMER, &timerConfig)) )
+	{
+		result = NUNCHUCK_RESULT(READ_TIMER_INIT_FAIL);
+	}
 
-    return result;
+	return result;
 }
 
 
 //****************************************************************************/
 PUBLIC void NUNCHUCK_READER_ReadDataPoint( void )
 {
-    Result result = NUNCHUCK_RESULT(SUCCESS);
+	Result result = NUNCHUCK_RESULT(SUCCESS);
+	bool higherPriorityTaskWoken;
 
 
-    if( RESULT_IS_SUCCESS(result, NunchuckComReadData(&NunchuckRawData.DataPts[NunchuckRawData.LastPoint])) )
-    {
-        NunchuckRawData.LastPoint++;
-        if( NunchuckRawData.LastPoint == NunchuckRawData.TotalDataPtCount )
-            NunchuckRawData.LastPoint = 0;
+	if( RESULT_IS_SUCCESS(result, NunchuckComReadData(&NunchuckRawData.DataPts[NunchuckRawData.NextPoint])) )
+	{
+		NunchuckRawData.NextPoint++;
+		if( NunchuckRawData.NextPoint == NunchuckRawData.TotalDataPtCount )
+			NunchuckRawData.NextPoint = 0;
 
-        NunchuckRawData.NewDataAvailable = TRUE;
-    }
+		if( RESULT_IS_ERROR(result, OS_GiveSemaphoreFromIsr(NunchuckRawData.DataAvailableSem, &higherPriorityTaskWoken)) )
+		{
+
+		}
+	}
 
 }
 

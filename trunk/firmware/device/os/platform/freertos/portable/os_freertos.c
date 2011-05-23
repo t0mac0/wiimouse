@@ -147,6 +147,23 @@ PUBLIC Result OS_GiveSemaphore(pOS_Semaphore Semaphore)
     return result;
 }
 
+//*****************************************************************************//
+PUBLIC Result OS_GiveSemaphoreFromIsr(pOS_Semaphore Semaphore, bool *HigherPriorityTaskWoken)
+{
+    Result result;
+
+    if( xSemaphoreGiveFromISR( (xSemaphoreHandle)Semaphore, (long int*)HigherPriorityTaskWoken ) )
+    {
+        result = OS_RESULT(SUCCESS);
+    }
+    else
+    {
+        result = OS_RESULT(SEM_GIVE_FAIL);
+    }
+
+    return result;
+}
+
 
 //*****************************************************************************//
 PUBLIC Result OS_TakeSemaphore(pOS_Semaphore Semaphore, uint32 BlockTime )
