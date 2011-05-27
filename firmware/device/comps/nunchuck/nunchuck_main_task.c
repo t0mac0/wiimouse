@@ -1,10 +1,10 @@
 /*!
- * \file nunchuck_processor.c
+ * \file nunchuck_main_task.c
  *
  * \brief 
  *
  *
- * \date Apr 9, 2011
+ * \date May 26, 2011
  * \author Dan Riedler
  *
  */
@@ -12,9 +12,7 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "nunchuck_processor.h"
-#include "os.h"
-#include "nunchuck/processor/filter/nunchuck_filter.h"
+#include "nunchuck_main_task.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -32,14 +30,13 @@
 /*-----------------------------------------------------------------------------
  Local Function Prototypes
 ------------------------------------------------------------------------------*/
-PRIVATE OS_TaskProtoType DataProcessorTask;
+PRIVATE OS_TaskProtoType NunchuckMainTask;
+
 
 
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
-PROTECTED NunchuckProcessedDataInfo NunchuckProcessedData;
-
 
 //*****************************************************************************
 //
@@ -47,22 +44,19 @@ PROTECTED NunchuckProcessedDataInfo NunchuckProcessedData;
 //
 //*****************************************************************************
 
-//****************************************************************************/
-PROTECTED Result NunchuckProcessorInit( void )
+PROTECTED Result NunchuckMainTaskInit( void )
 {
     Result result = NUNCHUCK_RESULT(SUCCESS);
 
-    ZeroMemory(&NunchuckProcessedData, sizeof(NunchuckProcessedDataInfo));
 
-
-    if( RESULT_IS_ERROR(result, OS_TASK_MGR_AddTask(OS_TASK_NUNCHUCK_DATA_PROCESSOR,
-                                                    NUNCHUCK_PROCESSOR_TASK_NAME,
-                                                    DataProcessorTask,
-                                                    NUNCHUCK_PROCESSOR_STACK_SIZE,
-                                                    NUNCHUCK_PROCESSOR_TASK_PRIORITY,
+    if( RESULT_IS_ERROR(result, OS_TASK_MGR_AddTask(OS_TASK_NUNCHUCK_MAIN_TASK,
+    												NUNCHUCK_MAIN_TASK_NAME,
+    												NunchuckMainTask,
+    												NUNCHUCK_MAIN_STACK_SIZE,
+    												NUNCHUCK_MAIN_TASK_PRIORITY,
                                                     NULL)) )
     {
-        LOG_Printf("Failed to create the nunchuck data processor task\n");
+        LOG_Printf("Failed to create the nunchuck main task\n");
     }
 
 
@@ -77,19 +71,13 @@ PROTECTED Result NunchuckProcessorInit( void )
 //
 //*****************************************************************************
 
-
-
 //*****************************************************************************//
-PRIVATE void DataProcessorTask(void *Params)
+PRIVATE void NunchuckMainTask(void *Params)
 {
     UNUSED(Params);
 
     for(;;)
     {
-    	OS_TakeSemaphore(NunchuckRawData.DataAvailableSem, OS_SEM_WAIT_INFINITE);
-        {
-            NunchuckFilterData();
-            NunchuckProcessedData.NewDataAvailable = TRUE;
-        }
+
     }
 }

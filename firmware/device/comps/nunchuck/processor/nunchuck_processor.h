@@ -33,7 +33,7 @@
  Typedefs
 ------------------------------------------------------------------------------*/
 PROTECTED typedef struct {
-    uint8 PointsProcessed;
+    bool NewDataAvailable;
     NunchuckData Data;
 } NunchuckProcessedDataInfo;
 

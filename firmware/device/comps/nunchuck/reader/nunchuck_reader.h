@@ -45,6 +45,9 @@ PROTECTED Result NunchuckReaderInit( void );
 
 PUBLIC void NUNCHUCK_READER_ReadDataPoint( void );
 
+PROTECTED Result NunchuckReaderEnableReading( void );
+
+PROTECTED Result NunchuckReaderDisableReading( void );
 
 /*-----------------------------------------------------------------------------
  External Data Members

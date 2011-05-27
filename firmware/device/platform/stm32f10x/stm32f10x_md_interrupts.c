@@ -84,6 +84,14 @@ PUBLIC void TIM3_IRQHandler( void )
 }
 
 
+/******************************************************************************/
+PUBLIC void TIM4_IRQHandler( void )
+{
+
+    // Send HID Report
+	NUNCHUCK_HID_REPORTER_SendReport();
+}
+
 
 //*****************************************************************************
 //

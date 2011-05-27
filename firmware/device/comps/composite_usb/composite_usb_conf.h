@@ -25,7 +25,7 @@
 ------------------------------------------------------------------------------*/
 
 
-#define COMPOSITE_USB_HID_REPORT_INTERVAL 0x20 // 32ms
+#define COMPOSITE_USB_HID_REPORT_INTERVAL 0x0A // 10ms
 
 
 // number of interfaces

@@ -1,10 +1,10 @@
 /*!
- * \file nunchuck_reader.c
+ * \file nunchuck_hid_reporter.c
  *
  * \brief 
  *
  *
- * \date Apr 9, 2011
+ * \date May 26, 2011
  * \author Dan Riedler
  *
  */
@@ -12,11 +12,13 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "nunchuck_reader.h"
+#include "nunchuck_hid_reporter.h"
 #include "hw_mgr/timer/hw_timer.h"
 #include "composite_usb/composite_usb.h"
 #include "nunchuck/com/nunchuck_com.h"
 #include "nunchuck/settings/nunchuck_settings.h"
+#include "nunchuck/processor/nunchuck_processor.h"
+
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -37,7 +39,7 @@
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
-PROTECTED NunchuckRawDataInfo NunchuckRawData;
+PRIVATE HID_MOUSE_REPORT HidReport;
 
 
 //*****************************************************************************
@@ -46,29 +48,19 @@ PROTECTED NunchuckRawDataInfo NunchuckRawData;
 //
 //*****************************************************************************
 
-//****************************************************************************/
-PROTECTED Result NunchuckReaderInit( void )
+/*****************************************************************************/
+PROTECTED Result NunchuckHidReporterInit( void )
 {
 	Result result = NUNCHUCK_RESULT(SUCCESS);
 	HW_TIMER_ConfigInfo timerConfig;
 	HW_TIMER_CounterConfig counterConfig;
 
 
-	NunchuckRawData.TotalDataPtCount = NunchuckSettings.DataPointsPerHidReport;
+	ZeroMemory(&HidReport, sizeof(HID_MOUSE_REPORT));
 
-	NunchuckRawData.DataPts = (pNunchuckData) AllocMemory(sizeof(NunchuckData)*NunchuckRawData.TotalDataPtCount);
-	if( NunchuckRawData.DataPts == NULL )
-	{
-		return NUNCHUCK_RESULT(MEMORY_ALLOC_FAIL);
-	}
-
-	if( RESULT_IS_ERROR(result, OS_CreateSemaphore(&NunchuckRawData.DataAvailableSem, OS_SEM_TYPE_BINARY, 0, 1)) )
-	{
-		return result;
-	}
 
 	counterConfig.EnableUpdateInterrupt = TRUE;
-	counterConfig.Frequnecy = (NunchuckSettings.DataPointsPerHidReport*1000)/COMPOSITE_USB_HID_REPORT_INTERVAL;
+	counterConfig.Frequnecy = 1000/COMPOSITE_USB_HID_REPORT_INTERVAL;
 	counterConfig.Mode = HW_TIMER_COUNTER_MODE_UP;
 
 	timerConfig.ClkSrc = HW_TIMER_CLK_SRC_INT;
@@ -79,7 +71,7 @@ PROTECTED Result NunchuckReaderInit( void )
 
 
 
-	if( RESULT_IS_ERROR(result, HW_TIMER_Init(NUNCHUCK_READ_TIMER, &timerConfig)) )
+	if( RESULT_IS_ERROR(result, HW_TIMER_Init(NUNCHUCK_HID_REPORTER_TIMER, &timerConfig)) )
 	{
 		result = NUNCHUCK_RESULT(TIMER_INIT_FAIL);
 	}
@@ -88,48 +80,46 @@ PROTECTED Result NunchuckReaderInit( void )
 }
 
 
-/****************************************************************************/
-PROTECTED Result NunchuckReaderEnableReading( void )
+/*****************************************************************************/
+PROTECTED Result NunchuckHidReporterEnableReporting( void )
 {
-	ZeroMemory(&NunchuckRawData, sizeof(NunchuckRawDataInfo));
-	ZeroMemory(NunchuckRawData.DataPts, sizeof(NunchuckData)*NunchuckRawData.TotalDataPtCount);
-
-	return HW_TIMER_Start(NUNCHUCK_READ_TIMER);
+	return HW_TIMER_Start(NUNCHUCK_HID_REPORTER_TIMER);
 }
 
 
-/****************************************************************************/
-PROTECTED Result NunchuckReaderDisableReading( void )
+/*****************************************************************************/
+PROTECTED Result NunchuckHidReporterDisableReporting( void )
 {
-	return HW_TIMER_Stop(NUNCHUCK_READ_TIMER);
+	return HW_TIMER_Stop(NUNCHUCK_HID_REPORTER_TIMER);
 }
 
 
-/****************************************************************************/
-PUBLIC void NUNCHUCK_READER_ReadDataPoint( void )
+/*****************************************************************************/
+PUBLIC void NUNCHUCK_HID_REPORTER_SendReport( void )
 {
 	Result result = NUNCHUCK_RESULT(SUCCESS);
-	bool higherPriorityTaskWoken;
 
 
-	if( RESULT_IS_SUCCESS(result, NunchuckComReadData(&NunchuckRawData.DataPts[NunchuckRawData.NextPoint])) )
+	if( NunchuckProcessedData.NewDataAvailable )
 	{
-		NunchuckRawData.NextPoint++;
-		if( NunchuckRawData.NextPoint == NunchuckRawData.TotalDataPtCount )
-			NunchuckRawData.NextPoint = 0;
+		HidReport.X = NunchuckProcessedData.Data.Joystick.X;
+		HidReport.Y = NunchuckProcessedData.Data.Joystick.Y;
 
-		if( RESULT_IS_ERROR(result, OS_GiveSemaphoreFromIsr(NunchuckRawData.DataAvailableSem, &higherPriorityTaskWoken)) )
+		HidReport.Buttons.Left = NunchuckProcessedData.Data.Buttons.Button.C;
+		HidReport.Buttons.Right = NunchuckProcessedData.Data.Buttons.Button.Z;
+
+		if( RESULT_IS_ERROR(result, COMPOSITE_USB_SendHidMouseReport(&HidReport)) )
 		{
-
 		}
+
+		NunchuckProcessedData.NewDataAvailable = FALSE;
 	}
 
-}
 
+}
 
 //*****************************************************************************
 //
 // Local Functions
 //
 //*****************************************************************************
-

@@ -1,46 +1,33 @@
 /*!
- * \file nunchuck_result.h
+ * \file nunchuck_main_task.h
  *
  * \brief 
  *
  *
- * \date Apr 9, 2011
+ * \date May 26, 2011
  * \author Dan Riedler
  *
  */
-
-#ifndef _NUNCHUCK_RESULT_H_
-#define _NUNCHUCK_RESULT_H_
+#ifndef _NUNCHUCK_MAIN_TASK_H_
+#define _NUNCHUCK_MAIN_TASK_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "comps.h"
-
+#include "nunchuck/nunchuck.h"
 
 
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
-enum {
-    NUNCHUCK_RESULT_SUCCESS = RESULT_SEVERITY_SUCCESS,
+#define NUNCHUCK_MAIN_TASK_NAME "NunchukMain"
+#define NUNCHUCK_MAIN_STACK_SIZE OS_MIN_STACK_SIZE
+#define NUNCHUCK_MAIN_TASK_PRIORITY OS_TASK_PRIORITY_MEDIUM
 
-    // warnings
-    NUNCHUCK_RESULT_WARN                        = RESULT_WARN(0),
-
-    // errors
-    NUNCHUCK_RESULT_FAILURE                     = RESULT_ERROR(0),
-    NUNCHUCK_RESULT_NULL                        = RESULT_ERROR(1),
-    NUNCHUCK_RESULT_MEMORY_ALLOC_FAIL           = RESULT_ERROR(2),
-    NUNCHUCK_RESULT_TIMER_INIT_FAIL             = RESULT_ERROR(3),
-};
 
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-#define NUNCHUCK_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_COMPS, COMPS_NUNCHUCK, NUNCHUCK_RESULT_##code))
-
-#define NUNCHUCK_RESULT_INIT()(NUNCHUCK_RESULT(NULL))
 
 /*-----------------------------------------------------------------------------
  Typedefs
@@ -49,14 +36,13 @@ enum {
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-#ifdef DEBUG
-PUBLIC GetResutCodeStrPrototype NUNCHUCK_GetResultCodeStr;
-#else
-#define NUNCHUCK_GetResultCodeStr(x)((pGetResutCodeStrPrototype)NULL)
-#endif
+PROTECTED Result NunchuckMainTaskInit( void );
+
+
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
 
 
-#endif /* NUNCHUCK_RESULT_H_ */
+
+#endif /* _NUNCHUCK_MAIN_TASK_H_ */

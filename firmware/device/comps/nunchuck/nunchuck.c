@@ -15,7 +15,7 @@
 #include "nunchuck.h"
 #include "nunchuck/settings/nunchuck_settings.h"
 #include "nunchuck/processor/nunchuck_processor.h"
-#include "nunchuck/reporter/nunchuck_reporter.h"
+#include "nunchuck/nunchuck_main_task.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -54,22 +54,21 @@ PUBLIC Result NUNCHUCK_Init( void )
 
 
 
-    if( RESULT_IS_SUCCESS(result, NunchuckSettingsInit()) )
+    if( RESULT_IS_ERROR(result, NunchuckSettingsInit()) )
     {
-
-        if( RESULT_IS_ERROR(result, NunchuckReaderInit()) )
-        {
-
-        }
-        else if( RESULT_IS_ERROR(result, NunchuckProcessorInit()) )
-        {
-
-        }
-        else if( RESULT_IS_ERROR(result, NunchuckReporterInit()) )
-        {
-
-        }
     }
+    else if( RESULT_IS_ERROR(result, NunchuckReaderInit()) )
+	{
+	}
+	else if( RESULT_IS_ERROR(result, NunchuckProcessorInit()) )
+	{
+	}
+	else if( RESULT_IS_ERROR(result, NunchuckHidReporterInit()) )
+	{
+	}
+	else if( RESULT_IS_ERROR(result, NunchuckMainTaskInit()) )
+	{
+	}
 
 
     return result;
