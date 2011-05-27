@@ -1,46 +1,29 @@
 /*!
- * \file nunchuck_result.h
+ * \file nunchuck_hid_reporter.h
  *
  * \brief 
  *
  *
- * \date Apr 9, 2011
+ * \date May 26, 2011
  * \author Dan Riedler
  *
  */
-
-#ifndef _NUNCHUCK_RESULT_H_
-#define _NUNCHUCK_RESULT_H_
+#ifndef _NUNCHUCK_HID_REPORTER_H_
+#define _NUNCHUCK_HID_REPORTER_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "comps.h"
-
-
+#include "nunchuck/nunchuck.h"
+#include "composite_usb/composite_usb.h"
 
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
-enum {
-    NUNCHUCK_RESULT_SUCCESS = RESULT_SEVERITY_SUCCESS,
-
-    // warnings
-    NUNCHUCK_RESULT_WARN                        = RESULT_WARN(0),
-
-    // errors
-    NUNCHUCK_RESULT_FAILURE                     = RESULT_ERROR(0),
-    NUNCHUCK_RESULT_NULL                        = RESULT_ERROR(1),
-    NUNCHUCK_RESULT_MEMORY_ALLOC_FAIL           = RESULT_ERROR(2),
-    NUNCHUCK_RESULT_TIMER_INIT_FAIL             = RESULT_ERROR(3),
-};
 
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-#define NUNCHUCK_RESULT(code)( RESULT(GET_CURRENT_TASK_ID(), MOD_MGR_COMPS, COMPS_NUNCHUCK, NUNCHUCK_RESULT_##code))
-
-#define NUNCHUCK_RESULT_INIT()(NUNCHUCK_RESULT(NULL))
 
 /*-----------------------------------------------------------------------------
  Typedefs
@@ -49,14 +32,19 @@ enum {
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-#ifdef DEBUG
-PUBLIC GetResutCodeStrPrototype NUNCHUCK_GetResultCodeStr;
-#else
-#define NUNCHUCK_GetResultCodeStr(x)((pGetResutCodeStrPrototype)NULL)
-#endif
+PROTECTED Result NunchuckHidReporterInit( void );
+
+PUBLIC void NUNCHUCK_HID_REPORTER_SendReport( void );
+
+
+PROTECTED Result NunchuckHidReporterEnableReporting( void );
+
+PROTECTED Result NunchuckHidReporterDisableReporting( void );
+
+
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
 
 
-#endif /* NUNCHUCK_RESULT_H_ */
+#endif /* _NUNCHUCK_HID_REPORTER_H_ */

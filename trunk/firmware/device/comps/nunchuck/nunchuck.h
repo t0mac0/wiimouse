@@ -19,6 +19,7 @@
 #include "nunchuck_result.h"
 #include "nunchuck_types.h"
 #include "nunchuck/reader/nunchuck_reader.h"
+#include "nunchuck/hid_reporter/nunchuck_hid_reporter.h"
 
 
 

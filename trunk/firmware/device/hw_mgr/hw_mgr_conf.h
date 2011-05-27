@@ -46,14 +46,15 @@
 
 
 
-#define DEFAULT_USART       HW_USART_2
+#define DEFAULT_USART       					HW_USART_2
 
 
-#define NUNCHUCK_READ_TIMER HW_TIMER_2
-#define NUNCHUCK_I2C        HW_I2C_2
+#define NUNCHUCK_READ_TIMER 					HW_TIMER_2
+#define NUNCHUCK_HID_REPORTER_TIMER 			HW_TIMER_4
+#define NUNCHUCK_I2C        					HW_I2C_2
 
 #ifdef DEV_UTIL_TIMER
-#define UTIL_TIMER          HW_TIMER_3
+#define UTIL_TIMER          					HW_TIMER_3
 #endif
 
 
