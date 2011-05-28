@@ -54,7 +54,7 @@ PROTECTED typedef struct {
     uint32 NextPacketIndex;
     uint32 FirstPacketIndex;
     PacketMgrPacketInfo PacketInfo[PACKET_MGR_INPUT_MAX_PACKETS];
-    pOS_Semaphore Mutex;
+    OS_Semaphore Mutex;
 } PacketMgrInputBufferInfo;
 
 
@@ -66,7 +66,7 @@ PROTECTED typedef struct {
     uint32 NextPacketIndex;
     uint32 FirstPacketIndex;
     PacketMgrPacketInfo PacketInfo[PACKET_MGR_OUTPUT_MAX_PACKETS];
-    pOS_Semaphore Mutex;
+    OS_Semaphore Mutex;
 } PacketMgrOutputBufferInfo;
 
 

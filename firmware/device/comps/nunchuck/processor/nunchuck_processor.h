@@ -42,6 +42,9 @@ PROTECTED typedef struct {
 ------------------------------------------------------------------------------*/
 PROTECTED Result NunchuckProcessorInit( void );
 
+PROTECTED Result NunchuckProcessorTaskSuspend( void );
+
+PROTECTED Result NunchuckProcessorTaskResume( void );
 
 /*-----------------------------------------------------------------------------
  External Data Members

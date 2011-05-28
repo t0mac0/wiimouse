@@ -1,20 +1,22 @@
 /*!
- * \file nunchuck_init.h
+ * \file nunchuck_sm_actions.h
  *
  * \brief 
  *
  *
- * \date Apr 9, 2011
+ * \date May 27, 2011
  * \author Dan Riedler
  *
  */
-
-#ifndef _NUNCHUCK_INIT_H_
-#define _NUNCHUCK_INIT_H_
+#ifndef _NUNCHUCK_SM_ACTIONS_H_
+#define _NUNCHUCK_SM_ACTIONS_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
+#include "nunchuck/nunchuck.h"
+#include "nunchuck/statemachine/nunchuck_sm_types.h"
+
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -32,9 +34,19 @@
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
 
+PROTECTED NunchuckSmAction NunchuckActionNull;
+
+PROTECTED NunchuckSmAction NunchuckActionDisable;
+
+PROTECTED NunchuckSmAction NunchuckActionConnect;
+
+PROTECTED NunchuckSmAction NunchuckActionDisconnect;
+
+
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
 
 
-#endif /* NUNCHUCK_INIT_H_ */
+
+#endif /* _NUNCHUCK_SM_ACTIONS_H_ */

@@ -1,10 +1,10 @@
 /*!
- * \file nunchuck_main_task.c
+ * \file nunchuck_ctl.c
  *
  * \brief 
  *
  *
- * \date May 26, 2011
+ * \date May 28, 2011
  * \author Dan Riedler
  *
  */
@@ -12,7 +12,7 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "nunchuck_main_task.h"
+#include "nunchuck_ctl.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -30,9 +30,6 @@
 /*-----------------------------------------------------------------------------
  Local Function Prototypes
 ------------------------------------------------------------------------------*/
-PRIVATE OS_TaskProtoType NunchuckMainTask;
-
-
 
 /*-----------------------------------------------------------------------------
  Data Members
@@ -44,24 +41,24 @@ PRIVATE OS_TaskProtoType NunchuckMainTask;
 //
 //*****************************************************************************
 
-PROTECTED Result NunchuckMainTaskInit( void )
+/*****************************************************************************/
+PROTECTED Result NunchuckCtlInit(void)
 {
-    Result result = NUNCHUCK_RESULT(SUCCESS);
+	return NUNCHUCK_RESULT(SUCCESS);
+}
 
 
-    if( RESULT_IS_ERROR(result, OS_TASK_MGR_AddTask(OS_TASK_NUNCHUCK_MAIN_TASK,
-    												NUNCHUCK_MAIN_TASK_NAME,
-    												NunchuckMainTask,
-    												NUNCHUCK_MAIN_STACK_SIZE,
-    												NUNCHUCK_MAIN_TASK_PRIORITY,
-                                                    NULL)) )
-    {
-        LOG_Printf("Failed to create the nunchuck main task\n");
-    }
+/*****************************************************************************/
+PROTECTED Result NunchuckCtlConnect(void)
+{
+	return NUNCHUCK_RESULT(SUCCESS);
+}
 
 
-
-    return result;
+/*****************************************************************************/
+PROTECTED Result NunchuckCtlDisconnect(void)
+{
+	return NUNCHUCK_RESULT(SUCCESS);
 }
 
 
@@ -70,14 +67,3 @@ PROTECTED Result NunchuckMainTaskInit( void )
 // Local Functions
 //
 //*****************************************************************************
-
-//*****************************************************************************//
-PRIVATE void NunchuckMainTask(void *Params)
-{
-    UNUSED(Params);
-
-    for(;;)
-    {
-
-    }
-}

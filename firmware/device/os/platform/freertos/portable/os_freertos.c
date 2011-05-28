@@ -74,7 +74,7 @@ PUBLIC inline void FreeMemory( pVoid MemoryPointer )
 
 
 //*****************************************************************************//
-PUBLIC Result OS_CreateSemaphore(pOS_Semaphore *Semaphore, OS_SemaphoreType SemType, uint32 InitValue, uint32 MaxCount )
+PUBLIC Result OS_CreateSemaphore(pOS_Semaphore Semaphore, OS_SemaphoreType SemType, uint32 InitValue, uint32 MaxCount )
 {
     Result result = OS_RESULT(SUCCESS);
     xSemaphoreHandle semHandle = NULL;
@@ -110,7 +110,7 @@ PUBLIC Result OS_CreateSemaphore(pOS_Semaphore *Semaphore, OS_SemaphoreType SemT
 
     if( semHandle != NULL )
     {
-        *Semaphore = (pOS_Semaphore)semHandle;
+        *Semaphore = (OS_Semaphore)semHandle;
     }
     else
     {
@@ -122,7 +122,7 @@ PUBLIC Result OS_CreateSemaphore(pOS_Semaphore *Semaphore, OS_SemaphoreType SemT
 
 
 //*****************************************************************************//
-PUBLIC Result OS_DestroySemaphore(pOS_Semaphore Semaphore)
+PUBLIC Result OS_DestroySemaphore(OS_Semaphore Semaphore)
 {
     UNUSED(Semaphore);
 
@@ -131,7 +131,7 @@ PUBLIC Result OS_DestroySemaphore(pOS_Semaphore Semaphore)
 
 
 //*****************************************************************************//
-PUBLIC Result OS_GiveSemaphore(pOS_Semaphore Semaphore)
+PUBLIC Result OS_GiveSemaphore(OS_Semaphore Semaphore)
 {
     Result result;
 
@@ -148,7 +148,7 @@ PUBLIC Result OS_GiveSemaphore(pOS_Semaphore Semaphore)
 }
 
 //*****************************************************************************//
-PUBLIC Result OS_GiveSemaphoreFromIsr(pOS_Semaphore Semaphore, bool *HigherPriorityTaskWoken)
+PUBLIC Result OS_GiveSemaphoreFromIsr(OS_Semaphore Semaphore, bool *HigherPriorityTaskWoken)
 {
     Result result;
 
@@ -166,7 +166,7 @@ PUBLIC Result OS_GiveSemaphoreFromIsr(pOS_Semaphore Semaphore, bool *HigherPrior
 
 
 //*****************************************************************************//
-PUBLIC Result OS_TakeSemaphore(pOS_Semaphore Semaphore, uint32 BlockTime )
+PUBLIC Result OS_TakeSemaphore(OS_Semaphore Semaphore, uint32 BlockTime )
 {
     Result result;
 

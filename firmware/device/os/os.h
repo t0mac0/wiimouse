@@ -29,7 +29,10 @@
 #define OS_TAKE_MUTEX(_sem) OS_TakeSemaphore(_sem, OS_SEM_WAIT_INFINITE)
 #define OS_GIVE_MUTEX(_sem) OS_GiveSemaphore(_sem)
 
+#define OS_GIVE_SEM(_sem) OS_GiveSemaphore(_sem)
 #define OS_TAKE_SEM(_sem) OS_TakeSemaphore(_sem, OS_SEM_WAIT_INFINITE)
+
+
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
@@ -51,15 +54,15 @@
  ******************************************************************************/
 PUBLIC ModuleInitPrototype OS_Init;
 
-PUBLIC Result OS_CreateSemaphore(pOS_Semaphore *Semaphore, OS_SemaphoreType SemType, uint32 InitValue, uint32 MaxCount );
+PUBLIC Result OS_CreateSemaphore(pOS_Semaphore Semaphore, OS_SemaphoreType SemType, uint32 InitValue, uint32 MaxCount );
 
-PUBLIC Result OS_DestroySemaphore(pOS_Semaphore Semaphore);
+PUBLIC Result OS_DestroySemaphore(OS_Semaphore Semaphore);
 
-PUBLIC Result OS_GiveSemaphore(pOS_Semaphore Semaphore);
+PUBLIC Result OS_GiveSemaphore(OS_Semaphore Semaphore);
 
-PUBLIC Result OS_TakeSemaphore(pOS_Semaphore Semaphore, uint32 BlockTime );
+PUBLIC Result OS_TakeSemaphore(OS_Semaphore Semaphore, uint32 BlockTime );
 
-PUBLIC Result OS_GiveSemaphoreFromIsr(pOS_Semaphore Semaphore, bool *HigherPriorityTaskWoken);
+PUBLIC Result OS_GiveSemaphoreFromIsr(OS_Semaphore Semaphore, bool *HigherPriorityTaskWoken);
 
 /*-----------------------------------------------------------------------------
  External Data Members

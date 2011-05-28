@@ -1,28 +1,30 @@
 /*!
- * \file os_task_mgr.h
+ * \file nunchuck_sm.h
  *
  * \brief 
  *
  *
- * \date Mar 6, 2011
+ * \date May 27, 2011
  * \author Dan Riedler
  *
  */
-
-#ifndef _OS_TASK_MGR_H_
-#define _OS_TASK_MGR_H_
+#ifndef _NUNCHUCK_SM_H_
+#define _NUNCHUCK_SM_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "os.h"
-#include "os_task_mgr_result.h"
-#include "os_tasks.h"
-#include "os_types.h"
+#include "nunchuck/nunchuck.h"
+#include "nunchuck_sm_types.h"
 
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
+#define NUNCHUCK_SM_NAME "NunchukSM"
+#define NUNCHUCK_SM_SIZE OS_MIN_STACK_SIZE
+#define NUNCHUCK_SM_PRIORITY OS_TASK_PRIORITY_MEDIUM
+
+
 
 /*-----------------------------------------------------------------------------
  Macros
@@ -35,26 +37,15 @@
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PROTECTED OsModuleInitPrototype TASK_MGR_Init;
+PROTECTED Result NunchuckSmInit( void );
 
-PUBLIC inline Result OS_TASK_MGR_StartScheduler( void );
+PROTECTED void NunchuckSmIssueEvent(NUNCHUCK_SM_Events Event);
 
-PUBLIC Result OS_TASK_MGR_AddTask(OS_TaskId Id,
-                                  char *Name,
-                                  pOS_TaskProtoType StartAddr,
-                                  uint32 StackSize,
-                                  OS_TaskPriorities Priority,
-                                  void *Parameter,
-                                  pOS_TaskHandle TaskHandle
-                                  );
-
-PUBLIC inline Result OS_TASK_MGR_SuspendTask(OS_TaskHandle Handle);
-
-PUBLIC inline Result OS_TASK_MGR_ResumeTask(OS_TaskHandle Handle);
-
-/*----------------------------------------------------------------------------
+/*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
+PROTECTED extern bool NunchuckTryReconnect;
 
 
-#endif /* OS_TASK_MGR_H_ */
+
+#endif /* _NUNCHUCK_SM_H_ */

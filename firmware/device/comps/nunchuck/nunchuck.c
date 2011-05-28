@@ -15,7 +15,8 @@
 #include "nunchuck.h"
 #include "nunchuck/settings/nunchuck_settings.h"
 #include "nunchuck/processor/nunchuck_processor.h"
-#include "nunchuck/nunchuck_main_task.h"
+#include "nunchuck/statemachine/nunchuck_sm.h"
+#include "nunchuck/ctl/nunchuck_ctl.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -66,7 +67,10 @@ PUBLIC Result NUNCHUCK_Init( void )
 	else if( RESULT_IS_ERROR(result, NunchuckHidReporterInit()) )
 	{
 	}
-	else if( RESULT_IS_ERROR(result, NunchuckMainTaskInit()) )
+	else if( RESULT_IS_ERROR(result, NunchuckCtlInit()) )
+	{
+	}
+	else if( RESULT_IS_ERROR(result, NunchuckSmInit()) )
 	{
 	}
 

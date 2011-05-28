@@ -33,6 +33,7 @@
  Local Function Prototypes
 ------------------------------------------------------------------------------*/
 PRIVATE OS_TaskProtoType DataProcessorTask;
+PRIVATE OS_TaskHandle DataProccessTaskHandle;
 
 
 /*-----------------------------------------------------------------------------
@@ -47,7 +48,7 @@ PROTECTED NunchuckProcessedDataInfo NunchuckProcessedData;
 //
 //*****************************************************************************
 
-//****************************************************************************/
+/****************************************************************************/
 PROTECTED Result NunchuckProcessorInit( void )
 {
     Result result = NUNCHUCK_RESULT(SUCCESS);
@@ -60,7 +61,8 @@ PROTECTED Result NunchuckProcessorInit( void )
                                                     DataProcessorTask,
                                                     NUNCHUCK_PROCESSOR_STACK_SIZE,
                                                     NUNCHUCK_PROCESSOR_TASK_PRIORITY,
-                                                    NULL)) )
+                                                    NULL,
+                                                    DataProccessTaskHandle)) )
     {
         LOG_Printf("Failed to create the nunchuck data processor task\n");
     }
@@ -71,6 +73,21 @@ PROTECTED Result NunchuckProcessorInit( void )
 }
 
 
+/****************************************************************************/
+PROTECTED Result NunchuckProcessorTaskSuspend( void )
+{
+	return OS_TASK_MGR_SuspendTask(DataProccessTaskHandle);
+
+}
+
+
+/****************************************************************************/
+PROTECTED Result NunchuckProcessorTaskResume( void )
+{
+	return OS_TASK_MGR_ResumeTask(DataProccessTaskHandle);
+
+}
+
 //*****************************************************************************
 //
 // Local Functions
@@ -79,7 +96,7 @@ PROTECTED Result NunchuckProcessorInit( void )
 
 
 
-//*****************************************************************************//
+/*****************************************************************************/
 PRIVATE void DataProcessorTask(void *Params)
 {
     UNUSED(Params);
