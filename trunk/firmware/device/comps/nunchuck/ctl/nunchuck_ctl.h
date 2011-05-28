@@ -1,15 +1,15 @@
 /*!
- * \file nunchuck_main_task.h
+ * \file nunchuck_ctl.h
  *
  * \brief 
  *
  *
- * \date May 26, 2011
+ * \date May 28, 2011
  * \author Dan Riedler
  *
  */
-#ifndef _NUNCHUCK_MAIN_TASK_H_
-#define _NUNCHUCK_MAIN_TASK_H_
+#ifndef _NUNCHUCK_CTL_H_
+#define _NUNCHUCK_CTL_H_
 
 /*-----------------------------------------------------------------------------
  Includes
@@ -20,10 +20,6 @@
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
-#define NUNCHUCK_MAIN_TASK_NAME "NunchukMain"
-#define NUNCHUCK_MAIN_STACK_SIZE OS_MIN_STACK_SIZE
-#define NUNCHUCK_MAIN_TASK_PRIORITY OS_TASK_PRIORITY_MEDIUM
-
 
 /*-----------------------------------------------------------------------------
  Macros
@@ -36,7 +32,12 @@
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PROTECTED Result NunchuckMainTaskInit( void );
+
+PROTECTED Result NunchuckCtlInit(void);
+
+PROTECTED Result NunchuckCtlConnect(void);
+
+PROTECTED Result NunchuckCtlDisconnect(void);
 
 
 /*-----------------------------------------------------------------------------
@@ -45,4 +46,4 @@ PROTECTED Result NunchuckMainTaskInit( void );
 
 
 
-#endif /* _NUNCHUCK_MAIN_TASK_H_ */
+#endif /* _NUNCHUCK_CTL_H_ */

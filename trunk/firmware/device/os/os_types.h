@@ -35,6 +35,9 @@ PROTECTED typedef Result (*pOsModuleInitPrototype)( void );
 PUBLIC typedef void (OS_TaskProtoType)(void*);
 PUBLIC typedef void (*pOS_TaskProtoType)(void*);
 
+PUBLIC typedef void* OS_TaskHandle;
+PUBLIC typedef OS_TaskHandle* pOS_TaskHandle;
+
 PUBLIC typedef void* OS_Semaphore;
 PUBLIC typedef OS_Semaphore* pOS_Semaphore;
 

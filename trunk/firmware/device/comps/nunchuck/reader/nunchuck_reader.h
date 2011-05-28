@@ -33,7 +33,7 @@
 PROTECTED typedef struct {
     uint8 TotalDataPtCount;
     uint8 NextPoint;
-    pOS_Semaphore DataAvailableSem;
+    OS_Semaphore DataAvailableSem;
     pNunchuckData DataPts;
 } NunchuckRawDataInfo;
 

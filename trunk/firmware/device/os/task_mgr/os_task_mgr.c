@@ -42,7 +42,7 @@ PROTECTED inline Result TaskMgrCreateTask( pOS_TaskProtoType StartAddress,
                                            char* Name, uint32 StackSize,
                                            void* Parameter,
                                            OS_TaskPriorities Priority,
-                                           void** Handle );
+                                           pOS_TaskHandle Handle );
 
 /*-----------------------------------------------------------------------------
  Data Members
@@ -78,19 +78,19 @@ PUBLIC Result OS_TASK_MGR_AddTask(OS_TaskId Id,
                                   pOS_TaskProtoType StartAddr,
                                   uint32 StackSize,
                                   OS_TaskPriorities Priority,
-                                  void *Parameter
+                                  void *Parameter,
+                                  pOS_TaskHandle TaskHandle
 )
 {
     Result result = OS_TASK_MGR_RESULT_INIT();
-    void* Handle;
 
     if( Id >= OS_TASK_COUNT )
     {
         result = OS_TASK_MGR_RESULT(INVALD_TASK_ID);
     }
-    else if( RESULT_IS_SUCCESS(result, TaskMgrCreateTask(StartAddr, Name, StackSize, Parameter, Priority, &Handle)) )
+    else if( RESULT_IS_SUCCESS(result, TaskMgrCreateTask(StartAddr, Name, StackSize, Parameter, Priority, TaskHandle)) )
     {
-        taskList[Id].Handle = Handle;
+        taskList[Id].Handle = *TaskHandle;
         taskList[Id].Priority = Priority;
         taskList[Id].StackSize = StackSize;
         CopyMemory(taskList[Id].Name, Name, OS_TASK_NAME_LEN);

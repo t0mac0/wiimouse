@@ -46,24 +46,45 @@
 //*****************************************************************************
 
 
-//***************************************************************************//
+/***************************************************************************/
 PUBLIC inline Result OS_TASK_MGR_StartScheduler( void )
 {
     vTaskStartScheduler();
 
+    // shouldn't get to this point if every worked fine
+
     return OS_TASK_MGR_RESULT(START_SCHEDULER_FAIL);
 }
 
+
+/***************************************************************************/
+PUBLIC inline Result OS_TASK_MGR_SuspendTask(OS_TaskHandle Handle)
+{
+
+	vTaskSuspend((xTaskHandle)Handle);
+	return OS_TASK_MGR_RESULT(SUCCESS);
+}
+
+
+/***************************************************************************/
+PUBLIC inline Result OS_TASK_MGR_ResumeTask(OS_TaskHandle Handle)
+{
+	vTaskResume((xTaskHandle)Handle);
+	return OS_TASK_MGR_RESULT(SUCCESS);
+}
+
+
+/***************************************************************************/
 PROTECTED inline Result TaskMgrCreateTask( pOS_TaskProtoType StartAddress,
                                            char* Name, uint32 StackSize,
                                            void* Parameter,
                                            OS_TaskPriorities Priority,
-                                           void** Handle )
+                                           pOS_TaskHandle Handle )
 {
     Result result =  OS_TASK_MGR_RESULT(SUCCESS);
     signed portBASE_TYPE retval;
 
-    if( (retval = xTaskCreate( (pdTASK_CODE)StartAddress, ( signed char * ) Name, StackSize, Parameter, Priority, (xTaskHandle)Handle )) != pdPASS )
+    if( (retval = xTaskCreate( (pdTASK_CODE)StartAddress, ( signed char * ) Name, StackSize, Parameter, Priority, (xTaskHandle*)Handle )) != pdPASS )
     {
         switch( retval )
         {
@@ -74,6 +95,7 @@ PROTECTED inline Result TaskMgrCreateTask( pOS_TaskProtoType StartAddress,
 
     return result;
 }
+
 
 
 

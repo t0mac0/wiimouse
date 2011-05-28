@@ -68,6 +68,7 @@ PROTECTED Result PacketMgrCreateTask( void )
                                                     PacketProcessorTask,
                                                     PACKET_MGR_STACK_SIZE,
                                                     PACKET_MGR_TASK_PRIORITY,
+                                                    NULL,
                                                     NULL)) )
     {
         LOG_Printf("Failed to create the packet mgr task\n");
