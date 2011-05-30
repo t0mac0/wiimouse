@@ -20,6 +20,7 @@
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
+#define NUNCHUCK_PROFILE_COUNT 1
 
 /*-----------------------------------------------------------------------------
  Macros
@@ -28,17 +29,26 @@
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
-PROTECTED typedef uint8 (NunchuckProfileDataFormatterPrototype)(uint8);
-PROTECTED typedef uint8 (*pNunchuckProfileDataFormatter)(uint8);
+PROTECTED typedef void (NunchuckProfileDataFormatterPrototype)(uint8*);
+PROTECTED typedef void (*pNunchuckProfileDataFormatter)(uint8*);
+
+
+PROTECTED typedef struct
+{
+    uint32 SlaveAddress;
+    pNunchuckProfileDataFormatter DataFormatter;
+    bool UseEncryption;
+} NunchuckProfileInfo, *pNunchuckProfileInfo;
 
 
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
+PROTECTED NunchuckProfileDataFormatterPrototype NunchuckProfileFormatterXOR_17_Plus17;
 
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
-
+PROTECTED extern NunchuckProfileInfo NunchuckProfiles[NUNCHUCK_PROFILE_COUNT];
 
 #endif /* NUNCHUCK_PROFILE_H_ */

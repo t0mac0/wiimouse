@@ -58,7 +58,7 @@ PUBLIC inline Result OS_TASK_MGR_StartScheduler( void )
 
 
 /***************************************************************************/
-PUBLIC inline Result OS_TASK_MGR_SuspendTask(OS_TaskHandle Handle)
+PUBLIC inline Result OS_TASK_MGR_Suspend(OS_TaskHandle Handle)
 {
 
 	vTaskSuspend((xTaskHandle)Handle);
@@ -67,11 +67,20 @@ PUBLIC inline Result OS_TASK_MGR_SuspendTask(OS_TaskHandle Handle)
 
 
 /***************************************************************************/
-PUBLIC inline Result OS_TASK_MGR_ResumeTask(OS_TaskHandle Handle)
+PUBLIC inline Result OS_TASK_MGR_Resume(OS_TaskHandle Handle)
 {
 	vTaskResume((xTaskHandle)Handle);
 	return OS_TASK_MGR_RESULT(SUCCESS);
 }
+
+
+/***************************************************************************/
+PUBLIC inline Result OS_TASK_MGR_Delay( uint32 TimeMs )
+{
+    vTaskDelay(TimeMs/portTICK_RATE_MS);
+    return OS_TASK_MGR_RESULT(SUCCESS);
+}
+
 
 
 /***************************************************************************/

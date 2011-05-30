@@ -28,8 +28,8 @@
  Typedefs
 ------------------------------------------------------------------------------*/
 PROTECTED typedef struct {
-    int8 X;
-    int8 Y;
+    uint8 X;
+    uint8 Y;
 } NunchuckJoystickData, *pNunchuckJoystickData;
 
 PROTECTED typedef struct {

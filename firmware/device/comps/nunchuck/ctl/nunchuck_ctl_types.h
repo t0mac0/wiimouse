@@ -1,24 +1,21 @@
 /*!
- * \file os_task_mgr.h
+ * \file nunchuck_ctl_types.h
  *
  * \brief 
  *
  *
- * \date Mar 6, 2011
+ * \date May 29, 2011
  * \author Dan Riedler
  *
  */
 
-#ifndef _OS_TASK_MGR_H_
-#define _OS_TASK_MGR_H_
+#ifndef _NUNCHUCK_CTL_TYPES_H_
+#define _NUNCHUCK_CTL_TYPES_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "os.h"
-#include "os_task_mgr_result.h"
-#include "os_tasks.h"
-#include "os_types.h"
+#include "nunchuck/nunchuck.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -32,31 +29,41 @@
  Typedefs
 ------------------------------------------------------------------------------*/
 
+PROTECTED typedef struct
+{
+    uint8 Min;
+    uint8 Max;
+    uint8 Neutral;
+} NunchuckCtlJsAxisCal, *pNunchuckCtlJsAxisCal;
+
+PROTECTED typedef struct
+{
+    NunchuckCtlJsAxisCal X;
+    NunchuckCtlJsAxisCal Y;
+} NunchuckCtlJoystickCal, *pNunchuckCtlJoystickCal;
+
+PROTECTED typedef struct
+{
+    uint16 X;
+    uint16 Y;
+    uint16 Z;
+} NunchuckCtlAcceleromterCal;
+
+
+PROTECTED typedef struct
+{
+    NunchuckCtlJoystickCal Joystick;
+    NunchuckCtlAcceleromterCal Accelerometer;
+} NunchuckCtlCalibration, *pNunchuckCtlCalibration;
+
+
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PROTECTED OsModuleInitPrototype TASK_MGR_Init;
 
-PUBLIC inline Result OS_TASK_MGR_StartScheduler( void );
-
-PUBLIC Result OS_TASK_MGR_Add(OS_TaskId Id,
-                                  char *Name,
-                                  pOS_TaskProtoType StartAddr,
-                                  uint32 StackSize,
-                                  OS_TaskPriorities Priority,
-                                  void *Parameter,
-                                  pOS_TaskHandle TaskHandle
-                                  );
-
-PUBLIC inline Result OS_TASK_MGR_Suspend(OS_TaskHandle Handle);
-
-PUBLIC inline Result OS_TASK_MGR_Resume(OS_TaskHandle Handle);
-
-PUBLIC inline Result OS_TASK_MGR_Delay( uint32 TimeMs );
-
-/*----------------------------------------------------------------------------
+/*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
 
 
-#endif /* OS_TASK_MGR_H_ */
+#endif /* NUNCHUCK_CTL_TYPES_H_ */

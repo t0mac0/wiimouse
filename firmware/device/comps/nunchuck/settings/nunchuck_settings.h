@@ -16,7 +16,6 @@
  Includes
 ------------------------------------------------------------------------------*/
 #include "nunchuck/nunchuck.h"
-//#include "nunchuck/profile/nunchuck_profile.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -29,29 +28,22 @@
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
-PROTECTED typedef struct {
-    uint8 Min;
-    uint8 Max;
-    uint8 Neutral;
-    uint16 Sensitivity;
-} NunchuckSettingsJoyCoordCal;
+
 
 PROTECTED typedef struct {
-    NunchuckSettingsJoyCoordCal X;
-    NunchuckSettingsJoyCoordCal Y;
+    uint32 Sensitivity;
+} NunchuckSettingsAxisCoordCal;
+
+PROTECTED typedef struct {
+    NunchuckSettingsAxisCoordCal X;
+    NunchuckSettingsAxisCoordCal Y;
 } NunchuckSettingsJoyCal;
 
-PROTECTED typedef struct {
-    uint16 Min;
-    uint16 Max;
-    uint16 Neutral;
-    uint16 Sensitivity;
-} NunchuckSettingsAccCoordCal;
 
 PROTECTED typedef struct {
-    NunchuckSettingsAccCoordCal X;
-    NunchuckSettingsAccCoordCal Y;
-    NunchuckSettingsAccCoordCal Z;
+    NunchuckSettingsAxisCoordCal X;
+    NunchuckSettingsAxisCoordCal Y;
+    NunchuckSettingsAxisCoordCal Z;
 } NunchuckSettingsAccCal;
 
 PROTECTED typedef struct {
@@ -63,9 +55,9 @@ PROTECTED typedef struct {
 PROTECTED typedef struct {
     NunchuckSettingsCalibration Calibration;
     // NunhuckSettingsUserInterface UI;
-    uint8 SlaveAddress;
-    uint8 DataFormatterIndex;
+    uint8 ProfileIndex;
     uint8 DataPointsPerHidReport;
+    uint8 HidReportInterval; // ms
 } NunchuckSettingsInfo;
 
 /*-----------------------------------------------------------------------------

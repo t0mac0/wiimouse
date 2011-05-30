@@ -17,7 +17,8 @@
 ------------------------------------------------------------------------------*/
 #include "nunchuck/nunchuck.h"
 #include "nunchuck/profile/nunchuck_profile.h"
-#include "hw_mgr/i2c/hw_i2c.h"
+#include "nunchuck/ctl/nunchuck_ctl.h"
+
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -30,15 +31,19 @@
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
-PROTECTED typedef struct {
-    uint8 NunchuckSlaveAddr;
+PROTECTED typedef struct
+{
+    uint8 SlaveAddress;
     pNunchuckProfileDataFormatter DataFormatter;
 } NunchuckComInfo, *pNunchuckComInfo;
+
 
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PROTECTED Result NunchuckComInit( pNunchuckComInfo InitInfo );
+PROTECTED Result NunchuckComInit( pNunchuckComInfo ComInfo );
+
+PROTECTED Result NunchuckComDeInit( void );
 
 PROTECTED Result NunchuckComWrite(uint8 *Data, uint8 NumBytes );
 
@@ -46,8 +51,9 @@ PROTECTED Result NunchuckComReadReg(uint8 Register, uint8 *Buffer, uint8 NumByte
 
 PROTECTED Result NunchuckComReadData(pNunchuckData Data);
 
+PROTECTED Result NunchuckComReadCalibration(pNunchuckCtlCalibration Calibration);
 
-
+PROTECTED Result NunchuckComEnableEncryption( void );
 
 /*-----------------------------------------------------------------------------
  External Data Members

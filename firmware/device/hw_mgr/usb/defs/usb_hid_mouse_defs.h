@@ -18,7 +18,7 @@
 #include "usb_defs.h"
 #include "usb_hid_defs.h"
 
-#define HID_MOUSE_REL_MIN_XY 0x81 // -127
+#define HID_MOUSE_REL_MIN_XY -127
 #define HID_MOUSE_REL_MAX_XY 127
 
 

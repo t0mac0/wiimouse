@@ -12,14 +12,16 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "nunchuck_com.h"
+#include "os.h"
 
+#include "nunchuck_com.h"
+#include "nunchuck/nunchuck_conf.h"
+
+#include "hw_mgr/i2c/hw_i2c.h"
 
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
-#define NUNCHUCK_DATA_PACKET_SIZE 6
-#define NUNCHUCK_DATA_REGISTER 0
 
 
 /*-----------------------------------------------------------------------------
@@ -41,7 +43,8 @@ PRIVATE inline void ConvertData(pNunchuckData Data, uint8 *RawData);
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
-PRIVATE NunchuckComInfo ComInfo;
+PRIVATE pNunchuckProfileDataFormatter dataFormatter;
+PRIVATE uint8 slaveAddr;
 PRIVATE uint8 scatchBuffer[NUNCHUCK_DATA_PACKET_SIZE];
 
 //*****************************************************************************
@@ -50,19 +53,19 @@ PRIVATE uint8 scatchBuffer[NUNCHUCK_DATA_PACKET_SIZE];
 //
 //*****************************************************************************
 
-//****************************************************************************/
-PROTECTED Result NunchuckComInit( pNunchuckComInfo InitInfo )
+/****************************************************************************/
+PROTECTED Result NunchuckComInit( pNunchuckComInfo ComInfo)
 {
     Result result = NUNCHUCK_RESULT(SUCCESS);
     HW_I2C_ConfigInfo config;
 
-    ComInfo.DataFormatter = InitInfo->DataFormatter;
-    ComInfo.NunchuckSlaveAddr = InitInfo->NunchuckSlaveAddr;
+    dataFormatter = ComInfo->DataFormatter;
+    slaveAddr = ComInfo->SlaveAddress;
 
-    config.AckAddrBitCount = HW_I2C_ACK_ADDR_BIT_7;
-    config.AckEnable = TRUE;
-    config.ClockSpeed = 240000;
-    config.DutyCycle = HW_I2C_DUTY_CYCLE_2;
+    config.AckAddrBitCount = NUNCHUCK_I2C_BIT_COUNT;
+    config.AckEnable = NUNCHUCK_I2C_ACK_ENABLE;
+    config.ClockSpeed = NUNCHUCK_I2C_FREQ;
+    config.DutyCycle = NUNCHUCK_I2C_DUTY_CYCLE;
     config.Mode = HW_I2C_MODE_I2C;
 
     HW_I2C_Deinit(NUNCHUCK_I2C);
@@ -73,25 +76,34 @@ PROTECTED Result NunchuckComInit( pNunchuckComInfo InitInfo )
 }
 
 
-//****************************************************************************/
+/****************************************************************************/
+PROTECTED Result NunchuckComDeInit( void )
+{
+    HW_I2C_Deinit(NUNCHUCK_I2C);
+
+    return NUNCHUCK_RESULT(SUCCESS);
+}
+
+
+/****************************************************************************/
 PROTECTED Result NunchuckComWrite(uint8 *Data, uint8 NumBytes )
 {
     uint32 bytesWritten = 0;
 
-    return HW_I2C_WriteSlave(NUNCHUCK_I2C, ComInfo.NunchuckSlaveAddr, Data, NumBytes, &bytesWritten);
+    return HW_I2C_WriteSlave(NUNCHUCK_I2C, slaveAddr, Data, NumBytes, &bytesWritten);
 }
 
 
-//****************************************************************************/
+/****************************************************************************/
 PROTECTED Result NunchuckComReadReg(uint8 Register, uint8 *Buffer, uint8 NumBytes )
 {
     uint32 bytesRead = 0;
 
-    return HW_I2C_ReadSlave(NUNCHUCK_I2C, ComInfo.NunchuckSlaveAddr, Register, Buffer, NumBytes, &bytesRead);
+    return HW_I2C_ReadSlave(NUNCHUCK_I2C, slaveAddr, Register, Buffer, NumBytes, &bytesRead);
 }
 
 
-//****************************************************************************/
+/****************************************************************************/
 PROTECTED Result NunchuckComReadData(pNunchuckData Data)
 {
     Result result = NUNCHUCK_RESULT(SUCCESS);
@@ -101,6 +113,100 @@ PROTECTED Result NunchuckComReadData(pNunchuckData Data)
     {
         ConvertData(Data, scatchBuffer);
     }
+
+    return result;
+}
+
+
+/****************************************************************************
+ *
+ * Calibration Data Format
+ *
+ * Byte     Description
+ *
+ * 0        Accelerometer: X neutral low byte
+ * 1        Accelerometer: Y neutral low byte
+ * 2        Accelerometer: Z neutral low byte
+ *
+ * 4        Accelerometer: X neutral high byte (2 LSb only)
+ * 5        Accelerometer: X neutral high byte (2 LSb only)
+ * 6        Accelerometer: X neutral high byte (2 LSb only)
+ *
+ * 8        Joystick: X max
+ * 9        Joystick: X min
+ * 10       Joystick: X neutral
+ *
+ * 11       Joystick: Y max
+ * 12       Joystick: Y min
+ * 13       Joystick: Y neutral
+ *
+ ****************************************************************************/
+PROTECTED Result NunchuckComReadCalibration(pNunchuckCtlCalibration Calibration)
+{
+    Result result = NUNCHUCK_RESULT(SUCCESS);
+    uint8 buffer[14];
+
+
+    if( RESULT_IS_ERROR(result, NunchuckComReadReg(0x20, buffer, 14)) )
+    {
+    }
+    else
+    {
+        Calibration->Accelerometer.X = ((uint16)(buffer[4]&0x03) << 2) | (uint16)buffer[0];
+        Calibration->Accelerometer.Y = ((uint16)(buffer[5]&0x03) << 2) | (uint16)buffer[1];
+        Calibration->Accelerometer.Z = ((uint16)(buffer[6]&0x03) << 2) | (uint16)buffer[2];
+
+        Calibration->Joystick.X.Max = buffer[8];
+        Calibration->Joystick.X.Min = buffer[9];
+        Calibration->Joystick.X.Neutral = buffer[10];
+
+        Calibration->Joystick.Y.Max = buffer[11];
+        Calibration->Joystick.Y.Min = buffer[12];
+        Calibration->Joystick.Y.Neutral = buffer[13];
+    }
+
+    return result;
+}
+
+/****************************************************************************/
+PROTECTED Result NunchuckComEnableEncryption( void )
+{
+    Result result = NUNCHUCK_RESULT(SUCCESS);
+    uint8 buffer[8] = {0};
+
+    // Enable encryption
+    buffer[0] = 0xF0;
+    buffer[1] = 0xAA;
+
+    if( RESULT_IS_ERROR(result, NunchuckComWrite(buffer, 2)) )
+    {
+    }
+    OS_TASK_MGR_Delay(NUNCHUCK_INIT_DELAY);
+
+
+    // Send first 6 bytes of encryption code
+    buffer[0] = 0x40;
+    buffer[1] = 0x00;
+    if( RESULT_IS_ERROR(result, NunchuckComWrite(buffer, 7)) )
+    {
+    }
+    OS_TASK_MGR_Delay(NUNCHUCK_INIT_DELAY);
+
+    // Send next 6 bytes of encryption code
+    buffer[0] = 0x46;
+    buffer[1] = 0x00;
+    if( RESULT_IS_ERROR(result, NunchuckComWrite(buffer, 7)) )
+    {
+    }
+    OS_TASK_MGR_Delay(NUNCHUCK_INIT_DELAY);
+
+    // Send last 4 bytes of encryption code
+    buffer[0] = 0x4C;
+    buffer[1] = 0x00;
+    if( RESULT_IS_ERROR(result, NunchuckComWrite(buffer, 5)) )
+    {
+    }
+
 
     return result;
 }
@@ -129,14 +235,9 @@ Byte    7   6   5   4   3   2   1   0
 ****************************************************************************/
 PRIVATE inline void ConvertData(pNunchuckData Data, uint8 *RawData)
 {
-    uint8 i;
-
-    if(ComInfo.DataFormatter != NULL )
+    if( dataFormatter )
     {
-        for(i = 0; i < NUNCHUCK_DATA_PACKET_SIZE; i++)
-        {
-            RawData[i] = ComInfo.DataFormatter(RawData[i]);
-        }
+        dataFormatter(RawData);
     }
 
     Data->Joystick.X = RawData[0];

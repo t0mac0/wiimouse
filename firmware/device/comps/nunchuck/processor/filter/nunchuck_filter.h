@@ -18,7 +18,7 @@
 #include "nunchuck/nunchuck.h"
 #include "nunchuck/settings/nunchuck_settings.h"
 #include "nunchuck/processor/nunchuck_processor.h"
-
+#include "nunchuck/ctl/nunchuck_ctl.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -35,6 +35,9 @@
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
+PROTECTED Result NunchuckFilterSetCalibration( pNunchuckCtlCalibration Calibration );
+
+
 PROTECTED void NunchuckFilterData( void );
 
 

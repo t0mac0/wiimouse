@@ -56,7 +56,7 @@ PROTECTED Result NunchuckProcessorInit( void )
     ZeroMemory(&NunchuckProcessedData, sizeof(NunchuckProcessedDataInfo));
 
 
-    if( RESULT_IS_ERROR(result, OS_TASK_MGR_AddTask(OS_TASK_NUNCHUCK_DATA_PROCESSOR,
+    if( RESULT_IS_ERROR(result, OS_TASK_MGR_Add(OS_TASK_NUNCHUCK_DATA_PROCESSOR,
                                                     NUNCHUCK_PROCESSOR_TASK_NAME,
                                                     DataProcessorTask,
                                                     NUNCHUCK_PROCESSOR_STACK_SIZE,
@@ -76,7 +76,7 @@ PROTECTED Result NunchuckProcessorInit( void )
 /****************************************************************************/
 PROTECTED Result NunchuckProcessorTaskSuspend( void )
 {
-	return OS_TASK_MGR_SuspendTask(DataProccessTaskHandle);
+	return OS_TASK_MGR_Suspend(DataProccessTaskHandle);
 
 }
 
@@ -84,7 +84,7 @@ PROTECTED Result NunchuckProcessorTaskSuspend( void )
 /****************************************************************************/
 PROTECTED Result NunchuckProcessorTaskResume( void )
 {
-	return OS_TASK_MGR_ResumeTask(DataProccessTaskHandle);
+	return OS_TASK_MGR_Resume(DataProccessTaskHandle);
 
 }
 

@@ -103,6 +103,13 @@ PROTECTED Result NunchuckActionDisconnect(void)
 
 	NunchuckCtlDisconnect();
 
+	// attempt to reinitialize if uninitialized
+	if( NunchuckCurrentEvent == NUNCHUCK_SM_EVENT_UNINITIALIZE )
+	{
+		NunchuckCurrentEvent = NUNCHUCK_SM_EVENT_INITIALIZE;
+		NunchuckTryReconnect = TRUE;
+	}
+
 	return NUNCHUCK_RESULT(SUCCESS);
 }
 

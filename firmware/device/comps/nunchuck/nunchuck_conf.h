@@ -19,6 +19,15 @@
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
+#define NUNCHUCK_I2C_FREQ           240000
+#define NUNCHUCK_I2C_BIT_COUNT      HW_I2C_ACK_ADDR_BIT_7
+#define NUNCHUCK_I2C_DUTY_CYCLE     HW_I2C_DUTY_CYCLE_2
+#define NUNCHUCK_I2C_ACK_ENABLE     TRUE
+
+#define NUNCHUCK_DATA_PACKET_SIZE   6
+#define NUNCHUCK_DATA_REGISTER      0
+
+#define NUNCHUCK_INIT_DELAY         30 //ms
 
 
 /*-----------------------------------------------------------------------------

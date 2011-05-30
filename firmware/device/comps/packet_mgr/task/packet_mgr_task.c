@@ -63,7 +63,7 @@ PROTECTED Result PacketMgrCreateTask( void )
 {
     Result result;
 
-    if( RESULT_IS_ERROR(result, OS_TASK_MGR_AddTask(OS_TASK_PACKET_MGR,
+    if( RESULT_IS_ERROR(result, OS_TASK_MGR_Add(OS_TASK_PACKET_MGR,
                                                     PACKET_MGR_TASK_NAME,
                                                     PacketProcessorTask,
                                                     PACKET_MGR_STACK_SIZE,
