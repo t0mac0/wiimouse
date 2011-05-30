@@ -73,7 +73,7 @@ PROTECTED Result TASK_MGR_Init( void )
 
 
 /******************************************************************************/
-PUBLIC Result OS_TASK_MGR_AddTask(OS_TaskId Id,
+PUBLIC Result OS_TASK_MGR_Add(OS_TaskId Id,
                                   char *Name,
                                   pOS_TaskProtoType StartAddr,
                                   uint32 StackSize,

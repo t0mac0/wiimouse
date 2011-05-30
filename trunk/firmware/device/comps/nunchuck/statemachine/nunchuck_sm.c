@@ -56,10 +56,11 @@ PRIVATE OS_TaskHandle NunchuckSmTaskHandle;
  Data Members
 ------------------------------------------------------------------------------*/
 PROTECTED bool NunchuckTryReconnect;
+PROTECTED NUNCHUCK_SM_Events NunchuckCurrentEvent;
 
 PRIVATE StateType currentState;
 PRIVATE OS_Semaphore eventSem;
-PRIVATE NUNCHUCK_SM_Events currentEvent;
+
 
 
 PRIVATE State stateTable[] =
@@ -95,12 +96,12 @@ PROTECTED Result NunchuckSmInit( void )
 {
     Result result = NUNCHUCK_RESULT(SUCCESS);
 
-    currentEvent = NUNCHUCK_SM_EVENT_DISABLE;
+    NunchuckCurrentEvent = NUNCHUCK_SM_EVENT_DISABLE;
     currentState = STATE_DISABLED;
     NunchuckTryReconnect = FALSE;
 
 
-    if( RESULT_IS_ERROR(result, OS_TASK_MGR_AddTask(OS_TASK_NUNCHUCK_SM,
+    if( RESULT_IS_ERROR(result, OS_TASK_MGR_Add(OS_TASK_NUNCHUCK_SM,
     												NUNCHUCK_SM_NAME,
     												NunchuckSmTask,
     												NUNCHUCK_SM_SIZE,
@@ -123,7 +124,7 @@ PROTECTED Result NunchuckSmInit( void )
 /*****************************************************************************/
 PROTECTED void NunchuckSmIssueEvent(NUNCHUCK_SM_Events Event)
 {
-	currentEvent = Event;
+	NunchuckCurrentEvent = Event;
 	OS_GIVE_SEM(eventSem);
 }
 
@@ -149,9 +150,9 @@ PRIVATE void NunchuckSmTask(void *Params)
 
     	NunchuckTryReconnect = FALSE;
 
-	    for( i = 0; i < ARRAY_SIZE(stateTable); i++ )
+		for( i = 0; i < ARRAY_SIZE(stateTable); i++ )
 		{
-			if( (currentEvent == stateTable[i].Event) &&
+			if( (NunchuckCurrentEvent == stateTable[i].Event) &&
 					(currentState == stateTable[i].CurrentState) )
 			{
 				if( RESULT_IS_SUCCESS(result, stateTable[i].Action()) )
@@ -162,7 +163,7 @@ PRIVATE void NunchuckSmTask(void *Params)
 			}
 		}
 
-	   ASSERT( i != ARRAY_SIZE(stateTable));
+		ASSERT( i != ARRAY_SIZE(stateTable));
     }
 }
 

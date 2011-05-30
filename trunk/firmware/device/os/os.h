@@ -54,6 +54,7 @@
  ******************************************************************************/
 PUBLIC ModuleInitPrototype OS_Init;
 
+// TODO: move these to sem_mgr
 PUBLIC Result OS_CreateSemaphore(pOS_Semaphore Semaphore, OS_SemaphoreType SemType, uint32 InitValue, uint32 MaxCount );
 
 PUBLIC Result OS_DestroySemaphore(OS_Semaphore Semaphore);

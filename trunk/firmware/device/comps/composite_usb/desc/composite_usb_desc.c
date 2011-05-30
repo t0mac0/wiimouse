@@ -245,7 +245,7 @@ const uint8 CustomHID_ReportDescriptor[HID_MOUSE_REPORT_DESCRIPTOR_SIZE] =
         HID_UsagePage(HID_USAGE_PAGE_GENERIC),
         HID_Usage(HID_USAGE_GENERIC_X),
         HID_Usage(HID_USAGE_GENERIC_Y),
-        HID_LogicalMin(HID_MOUSE_REL_MIN_XY),
+        HID_LogicalMin((uint8)HID_MOUSE_REL_MIN_XY),
         HID_LogicalMax(HID_MOUSE_REL_MAX_XY),
         HID_Input(HID_Data | HID_Variable | HID_Relative),
         HID_EndCollection,

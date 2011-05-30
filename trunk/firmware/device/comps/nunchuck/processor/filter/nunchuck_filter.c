@@ -45,8 +45,17 @@
 //
 //*****************************************************************************
 
+/*****************************************************************************/
+PROTECTED Result NunchuckFilterSetCalibration( pNunchuckCtlCalibration Calibration )
+{
 
-//*****************************************************************************//
+    NunchuckFilterJoystickSetCalibration(Calibration);
+
+    return NUNCHUCK_RESULT(SUCCESS);
+}
+
+
+/*****************************************************************************/
 PROTECTED void NunchuckFilterData( void )
 {
     NunchuckFilterJoystickData();

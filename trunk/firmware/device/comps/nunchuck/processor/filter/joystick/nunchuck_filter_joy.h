@@ -34,6 +34,8 @@
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
+PROTECTED void NunchuckFilterJoystickSetCalibration( pNunchuckCtlCalibration Calibration );
+
 PROTECTED void NunchuckFilterJoystickData( void );
 
 
