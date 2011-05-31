@@ -38,7 +38,7 @@
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
-vuint32 bDeviceState = UNCONNECTED; /* USB device status */
+volatile HW_USB_StateType bDeviceState = HW_USB_STATE_UNCONNECTED; /* USB device status */
 vbool fSuspendEnabled = TRUE;  /* true when suspend is possible */
 
 struct

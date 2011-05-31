@@ -30,9 +30,12 @@
  Typedefs
 ------------------------------------------------------------------------------*/
 typedef enum {
-	STATE_DISABLED,
-	STATE_CONNECTED,
-	STATE_DISCONNECTED,
+	//STATE_USB_CONNECTED,
+	STATE_USB_DISCONNECTED,
+	STATE_NUNCHUCK_RECONNECT,
+	STATE_NUNCHUCK_CONNECTED,
+	STATE_NUNCHUCK_DISCONNECTED,
+	STATE_NUNCHUCK_DISABLED
 } StateType;
 
 
@@ -55,9 +58,7 @@ PRIVATE OS_TaskHandle NunchuckSmTaskHandle;
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
-PROTECTED bool NunchuckTryReconnect;
-PROTECTED NUNCHUCK_SM_Events NunchuckCurrentEvent;
-
+PROTECTED volatile NUNCHUCK_SM_Events NunchuckCurrentEvent;
 PRIVATE StateType currentState;
 PRIVATE OS_Semaphore eventSem;
 
@@ -65,22 +66,26 @@ PRIVATE OS_Semaphore eventSem;
 
 PRIVATE State stateTable[] =
 {
-        //  Event                               Current State                       Next State                          Current State Action
-        { NUNCHUCK_SM_EVENT_DISABLE,            STATE_DISABLED,                     STATE_DISABLED,               	    NunchuckActionNull                          },
-        { NUNCHUCK_SM_EVENT_DISABLE,            STATE_CONNECTED,                    STATE_DISABLED,               	    NunchuckActionDisable                       },
-        { NUNCHUCK_SM_EVENT_DISABLE,            STATE_DISCONNECTED,                 STATE_DISABLED,               	    NunchuckActionDisable                       },
+//  Event                               Current State        		Next State            			Current State Action
+//{ NUNCHUCK_SM_EVENT_USB_DISCONNECT,		STATE_USB_CONNECTED,		STATE_USB_DISCONNECTED,  		NunchuckActionUsbDisconnected 			},
+{ NUNCHUCK_SM_EVENT_USB_DISCONNECT,		STATE_NUNCHUCK_RECONNECT,	STATE_USB_DISCONNECTED,  		NunchuckActionUsbDisconnected 			},
+{ NUNCHUCK_SM_EVENT_USB_DISCONNECT,		STATE_NUNCHUCK_CONNECTED,	STATE_USB_DISCONNECTED,  		NunchuckActionUsbDisconnected 			},
+{ NUNCHUCK_SM_EVENT_USB_DISCONNECT,		STATE_NUNCHUCK_DISCONNECTED,STATE_USB_DISCONNECTED,  		NunchuckActionUsbDisconnected 			},
+{ NUNCHUCK_SM_EVENT_USB_DISCONNECT,		STATE_NUNCHUCK_DISABLED,	STATE_USB_DISCONNECTED,  		NunchuckActionUsbDisconnected 			},
 
-        { NUNCHUCK_SM_EVENT_ENABLE,             STATE_DISABLED,                     STATE_CONNECTED,                    NunchuckActionConnect                       },
-        { NUNCHUCK_SM_EVENT_ENABLE,             STATE_CONNECTED,                    STATE_CONNECTED,                    NunchuckActionNull                          },
-        { NUNCHUCK_SM_EVENT_ENABLE,             STATE_DISCONNECTED,                 STATE_CONNECTED,                    NunchuckActionConnect                       },
+{ NUNCHUCK_SM_EVENT_USB_CONNECT,		STATE_USB_DISCONNECTED,		STATE_NUNCHUCK_RECONNECT,  		NunchuckActionUsbConnected 		    	},
 
-        { NUNCHUCK_SM_EVENT_UNINITIALIZE,       STATE_DISABLED,                     STATE_DISABLED,                     NunchuckActionNull                          },
-        { NUNCHUCK_SM_EVENT_UNINITIALIZE,       STATE_CONNECTED,                    STATE_DISCONNECTED,                 NunchuckActionDisconnect                    },
-        { NUNCHUCK_SM_EVENT_UNINITIALIZE,       STATE_DISCONNECTED,                 STATE_DISCONNECTED,                 NunchuckActionNull                          },
+{ NUNCHUCK_SM_EVENT_NUNCHUCK_RECONNECT,	STATE_NUNCHUCK_RECONNECT,	STATE_NUNCHUCK_CONNECTED,  		NunchuckActionNunchuckReconnect 		},
+{ NUNCHUCK_SM_EVENT_NUNCHUCK_RECONNECT,	STATE_NUNCHUCK_DISCONNECTED,STATE_NUNCHUCK_CONNECTED,  		NunchuckActionNunchuckReconnect 		},
+{ NUNCHUCK_SM_EVENT_NUNCHUCK_RECONNECT,	STATE_NUNCHUCK_DISABLED,	STATE_NUNCHUCK_CONNECTED,  		NunchuckActionNunchuckReconnect 		},
+//{ NUNCHUCK_SM_EVENT_NUNCHUCK_CONNECTED,	STATE_NUNCHUCK_CONNECTED,	STATE_NUNCHUCK_CONNECTED,  		NunchuckActionNunchuckConnected     	},
+{ NUNCHUCK_SM_EVENT_NUNCHUCK_ERROR,		STATE_NUNCHUCK_CONNECTED,	STATE_NUNCHUCK_DISCONNECTED,    NunchuckActionNunchuckDisonnected     	},
 
-        { NUNCHUCK_SM_EVENT_INITIALIZE,         STATE_DISABLED,                     STATE_DISABLED,                     NunchuckActionNull                          },
-        { NUNCHUCK_SM_EVENT_INITIALIZE,         STATE_CONNECTED,                    STATE_CONNECTED,                    NunchuckActionNull                          },
-        { NUNCHUCK_SM_EVENT_INITIALIZE,         STATE_DISCONNECTED,                 STATE_CONNECTED,                    NunchuckActionConnect                       },
+{ NUNCHUCK_SM_EVENT_NUNCHUCK_DISABLE,	STATE_NUNCHUCK_RECONNECT,	STATE_NUNCHUCK_DISABLED,    	NunchuckActionNunchuckDisonnected     	},
+{ NUNCHUCK_SM_EVENT_NUNCHUCK_DISABLE,	STATE_NUNCHUCK_CONNECTED,	STATE_NUNCHUCK_DISABLED,    	NunchuckActionNunchuckDisonnected     	},
+{ NUNCHUCK_SM_EVENT_NUNCHUCK_DISABLE,	STATE_NUNCHUCK_DISCONNECTED,STATE_NUNCHUCK_DISABLED,    	NunchuckActionNunchuckDisonnected     	},
+
+{ NUNCHUCK_SM_EVENT_NUNCHUCK_ENABLE,	STATE_NUNCHUCK_DISABLED,	STATE_NUNCHUCK_CONNECTED,    	NunchuckActionNunchuckReconnect     	},
 
 };
 
@@ -96,9 +101,8 @@ PROTECTED Result NunchuckSmInit( void )
 {
     Result result = NUNCHUCK_RESULT(SUCCESS);
 
-    NunchuckCurrentEvent = NUNCHUCK_SM_EVENT_DISABLE;
-    currentState = STATE_DISABLED;
-    NunchuckTryReconnect = FALSE;
+    NunchuckCurrentEvent = NUNCHUCK_SM_EVENT_USB_DISCONNECT;
+    currentState = STATE_USB_DISCONNECTED;
 
 
     if( RESULT_IS_ERROR(result, OS_TASK_MGR_Add(OS_TASK_NUNCHUCK_SM,
@@ -145,10 +149,7 @@ PRIVATE void NunchuckSmTask(void *Params)
 
     for(;;)
     {
-    	if( !NunchuckTryReconnect )
-    		OS_TAKE_SEM(eventSem);
-
-    	NunchuckTryReconnect = FALSE;
+    	OS_TAKE_SEM(eventSem);
 
 		for( i = 0; i < ARRAY_SIZE(stateTable); i++ )
 		{
@@ -163,7 +164,10 @@ PRIVATE void NunchuckSmTask(void *Params)
 			}
 		}
 
-		ASSERT( i != ARRAY_SIZE(stateTable));
+		if( i != ARRAY_SIZE(stateTable))
+		{
+			//LOG_Printf("Warning: event: % has been ignored\n", NunchuckCurrentEvent)
+		}
     }
 }
 
