@@ -34,13 +34,17 @@
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
 
-PROTECTED NunchuckSmAction NunchuckActionNull;
+PROTECTED NunchuckSmAction NunchuckActionUsbDisconnected;
 
-PROTECTED NunchuckSmAction NunchuckActionDisable;
+PROTECTED NunchuckSmAction NunchuckActionUsbConnected;
 
-PROTECTED NunchuckSmAction NunchuckActionConnect;
+PROTECTED NunchuckSmAction NunchuckActionNunchuckReconnect;
 
-PROTECTED NunchuckSmAction NunchuckActionDisconnect;
+PROTECTED NunchuckSmAction NunchuckActionNunchuckConnected;
+
+PROTECTED NunchuckSmAction NunchuckActionNunchuckDisonnected;
+
+PROTECTED NunchuckSmAction NunchuckActionNunchuckDisable;
 
 
 /*-----------------------------------------------------------------------------

@@ -45,21 +45,15 @@
 //*****************************************************************************
 
 /*****************************************************************************/
-PROTECTED Result NunchuckActionNull(void)
+PROTECTED Result NunchuckActionUsbDisconnected(void)
 {
-	return NUNCHUCK_RESULT(SUCCESS);
-}
-
-
-/*****************************************************************************/
-PROTECTED Result NunchuckActionDisable(void)
-{
-
 	NunchuckHidReporterDisableReporting();
 
 	NunchuckReaderDisableReading();
 
 	NunchuckProcessorTaskSuspend();
+
+	//NunchuckPacketCtkTaskSuspend();
 
 	NunchuckCtlDisconnect();
 
@@ -68,7 +62,21 @@ PROTECTED Result NunchuckActionDisable(void)
 
 
 /*****************************************************************************/
-PROTECTED Result NunchuckActionConnect(void)
+PROTECTED Result NunchuckActionUsbConnected(void)
+{
+	//NunchuckPacketCtkTaskResume();
+
+	if( (NunchuckCurrentEvent == NUNCHUCK_SM_EVENT_USB_CONNECT) )
+	{
+		NunchuckSmIssueEvent(NUNCHUCK_SM_EVENT_NUNCHUCK_RECONNECT);
+	}
+
+	return NUNCHUCK_RESULT(SUCCESS);
+}
+
+
+/*****************************************************************************/
+PROTECTED Result NunchuckActionNunchuckReconnect(void)
 {
 	Result result = NUNCHUCK_RESULT(SUCCESS);
 
@@ -84,16 +92,25 @@ PROTECTED Result NunchuckActionConnect(void)
 	}
 	else
 	{
-		NunchuckTryReconnect = TRUE;
+		if( (NunchuckCurrentEvent == NUNCHUCK_SM_EVENT_NUNCHUCK_RECONNECT) ||
+				(NunchuckCurrentEvent == NUNCHUCK_SM_EVENT_NUNCHUCK_ENABLE) )
+		{
+			NunchuckSmIssueEvent(NUNCHUCK_SM_EVENT_NUNCHUCK_RECONNECT);
+		}
 	}
 
 
 	return result;
 }
 
+//PROTECTED Result NunchuckActionNunchuckConnected(void)
+//{
+//
+//}
+
 
 /*****************************************************************************/
-PROTECTED Result NunchuckActionDisconnect(void)
+PROTECTED Result NunchuckActionNunchuckDisonnected(void)
 {
 	NunchuckHidReporterDisableReporting();
 
@@ -103,15 +120,17 @@ PROTECTED Result NunchuckActionDisconnect(void)
 
 	NunchuckCtlDisconnect();
 
-	// attempt to reinitialize if uninitialized
-	if( NunchuckCurrentEvent == NUNCHUCK_SM_EVENT_UNINITIALIZE )
+	if( NunchuckCurrentEvent == NUNCHUCK_SM_EVENT_NUNCHUCK_ERROR )
 	{
-		NunchuckCurrentEvent = NUNCHUCK_SM_EVENT_INITIALIZE;
-		NunchuckTryReconnect = TRUE;
+		NunchuckSmIssueEvent(NUNCHUCK_SM_EVENT_NUNCHUCK_RECONNECT);
 	}
 
 	return NUNCHUCK_RESULT(SUCCESS);
 }
+
+//PROTECTED NunchuckSmAction NunchuckActionNunchuckDisable;
+
+
 
 
 //*****************************************************************************

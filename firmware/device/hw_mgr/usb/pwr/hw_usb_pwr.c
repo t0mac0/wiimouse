@@ -54,7 +54,8 @@
 void Enter_LowPowerMode(void)
 {
     /* Set the device state to suspend */
-    bDeviceState = SUSPENDED;
+    bDeviceState = HW_USB_STATE_SUSPENDED;
+    HW_USB_ISSUE_STATE_CHANGE_CALLBACK(bDeviceState);
 }
 
 /*******************************************************************************
@@ -71,12 +72,15 @@ void Leave_LowPowerMode(void)
     if (pInfo->Current_Configuration != 0)
     {
         /* Device configured */
-        bDeviceState = CONFIGURED;
+        bDeviceState = HW_USB_STATE_CONFIGURED;
     }
     else
     {
-        bDeviceState = ATTACHED;
+        bDeviceState = HW_USB_STATE_ATTACHED;
+
     }
+
+    HW_USB_ISSUE_STATE_CHANGE_CALLBACK(bDeviceState);
 }
 
 

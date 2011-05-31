@@ -138,7 +138,8 @@ void Virtual_Com_Port_init(void)
     /* configure the USART to the default settings */
     //USART_Config_Default();
 
-    bDeviceState = UNCONNECTED;
+    bDeviceState = HW_USB_STATE_UNCONNECTED;
+    HW_USB_ISSUE_STATE_CHANGE_CALLBACK(bDeviceState);
 }
 
 /*******************************************************************************
@@ -203,7 +204,8 @@ void Virtual_Com_Port_Reset(void)
     /* Set this device to response on default address */
     SetDeviceAddress(0);
 
-    bDeviceState = ATTACHED;
+    bDeviceState = HW_USB_STATE_ATTACHED;
+    HW_USB_ISSUE_STATE_CHANGE_CALLBACK(bDeviceState);
 }
 
 /*******************************************************************************
@@ -220,7 +222,8 @@ void Virtual_Com_Port_SetConfiguration(void)
     if (pInfo->Current_Configuration != 0)
     {
         /* Device configured */
-        bDeviceState = CONFIGURED;
+        bDeviceState = HW_USB_STATE_CONFIGURED;
+        HW_USB_ISSUE_STATE_CHANGE_CALLBACK(bDeviceState);
     }
 }
 
@@ -233,7 +236,8 @@ void Virtual_Com_Port_SetConfiguration(void)
  *******************************************************************************/
 void Virtual_Com_Port_SetDeviceAddress (void)
 {
-    bDeviceState = ADDRESSED;
+    bDeviceState = HW_USB_STATE_ADDRESSED;
+    HW_USB_ISSUE_STATE_CHANGE_CALLBACK(bDeviceState);
 }
 
 /*******************************************************************************

@@ -41,16 +41,6 @@ typedef enum _RESUME_STATE
   RESUME_ESOF
 } RESUME_STATE;
 
-typedef enum _DEVICE_STATE
-{
-  UNCONNECTED,
-  ATTACHED,
-  POWERED,
-  SUSPENDED,
-  ADDRESSED,
-  CONFIGURED
-} DEVICE_STATE;
-
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
@@ -66,7 +56,7 @@ void USB_Cable_Config (FunctionalState NewState);
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
-extern  vuint32 bDeviceState; /* USB device status */
+extern  volatile HW_USB_StateType bDeviceState; /* USB device status */
 extern  vbool fSuspendEnabled;  /* true when suspend is possible */
 
 #endif /* HW_USB_PWR_H_ */

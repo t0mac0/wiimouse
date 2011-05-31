@@ -44,8 +44,7 @@ PROTECTED void NunchuckSmIssueEvent(NUNCHUCK_SM_Events Event);
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
-PROTECTED extern bool NunchuckTryReconnect;
-PROTECTED extern NUNCHUCK_SM_Events NunchuckCurrentEvent;
+PROTECTED extern volatile NUNCHUCK_SM_Events NunchuckCurrentEvent;
 
 
 

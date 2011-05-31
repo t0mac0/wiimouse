@@ -47,19 +47,19 @@ PRIVATE uint8 readBuffer[VIRTUAL_COM_PORT_DATA_SIZE];
 
 void SOF_Callback(void)
 {
-    static uint32 FrameCount = 0;
-
-    if(bDeviceState == CONFIGURED)
-    {
-        if (FrameCount++ == VCOMPORT_IN_FRAME_INTERVAL)
-        {
-            /* Reset the frame counter */
-            FrameCount = 0;
-
-            /* Check the data to be sent through IN pipe */
-            //Handle_USBAsynchXfer();
-        }
-    }
+//    static uint32 FrameCount = 0;
+//
+//    if(bDeviceState == CONFIGURED)
+//    {
+//        if (FrameCount++ == VCOMPORT_IN_FRAME_INTERVAL)
+//        {
+//            /* Reset the frame counter */
+//            FrameCount = 0;
+//
+//            /* Check the data to be sent through IN pipe */
+//            //Handle_USBAsynchXfer();
+//        }
+//    }
 }
 
 

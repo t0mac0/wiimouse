@@ -18,6 +18,7 @@
 #include "device.h"
 #include "hw_mgr.h"
 #include "hw_usb_result.h"
+#include "hw_usb_types.h"
 #include "hw_mgr_types.h"
 #include "hw_usb_types.h"
 #include "hw_usb_conf.h"
@@ -34,6 +35,11 @@
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
+#define HW_USB_ISSUE_STATE_CHANGE_CALLBACK(_state)								\
+{																				\
+	if(HwUsbStateChangeCallback)												\
+		HwUsbStateChangeCallback(_state);										\
+}
 
 /*-----------------------------------------------------------------------------
  Typedefs
@@ -51,9 +57,11 @@ PUBLIC HwModulePowerDownPrototype HW_USB_PowerDown;
 PUBLIC uint32 HW_USB_SIL_Write(uint8 bEpAddr, uint8* pBufferPointer, uint32 wBufferSize);
 PUBLIC uint32 HW_USB_SIL_Read(uint8 bEpAddr, uint8* pBufferPointer);
 
+PUBLIC Result HW_USB_RegisterStateChangeCallback(pHW_USB_StateChangeCallback Callback);
+
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
-
+PROTECTED extern pHW_USB_StateChangeCallback HwUsbStateChangeCallback;
 
 #endif /* HW_USB_H_ */

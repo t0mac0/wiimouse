@@ -27,6 +27,18 @@
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
+PUBLIC typedef enum
+{
+	  HW_USB_STATE_UNCONNECTED,
+	  HW_USB_STATE_ATTACHED,
+	  HW_USB_STATE_POWERED,
+	  HW_USB_STATE_SUSPENDED,
+	  HW_USB_STATE_ADDRESSED,
+	  HW_USB_STATE_CONFIGURED
+} HW_USB_StateType;
+
+PUBLIC typedef void (HW_USB_StateChangeCallback)(HW_USB_StateType);
+PUBLIC typedef void (*pHW_USB_StateChangeCallback)(HW_USB_StateType);
 
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
