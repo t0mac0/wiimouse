@@ -134,7 +134,7 @@
 #define _TIM1
 #define _TIM2
 #define _TIM3
-//#define _TIM4
+#define _TIM4
 //#define _TIM5
 //#define _TIM6
 //#define _TIM7

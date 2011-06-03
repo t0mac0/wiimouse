@@ -35,7 +35,7 @@ MEMORY
 {
   RAM (rwx)             : ORIGIN = 0x20000000, LENGTH = 20K
   BOOTLOADER (rx)       : ORIGIN = 0x08000000, LENGTH = 16k
-  FLASH (rx)            : ORIGIN = 0x08004000, LENGTH = 128K-16k
+  FLASH (rx)            : ORIGIN = 0x08000000, LENGTH = 128K-16k
   FLASH_EEPROM (rx)     : ORIGIN = 0x0801F800, LENGTH = 2k
 }
 SECTIONS

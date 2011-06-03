@@ -60,26 +60,39 @@ PROTECTED TIM_TypeDef* HwTimerCounterBase[HW_TIMER_COUNT] =
 #else
         NULL,
 #endif
-#ifdef TIM5
-        TIM5,
+};
+
+
+PROTECTED uint32 HwTimerRccApbPeriphTimer[HW_TIMER_COUNT] =
+{
+#ifdef RCC_APB2Periph_TIM1
+		RCC_APB2Periph_TIM1,
 #else
         NULL,
 #endif
-#ifdef TIM6
-        TIM6,
+#ifdef RCC_APB1Periph_TIM2
+        RCC_APB1Periph_TIM2,
 #else
         NULL,
 #endif
-#ifdef TIM7
-        TIM7,
+#ifdef RCC_APB1Periph_TIM3
+        RCC_APB1Periph_TIM3,
 #else
         NULL,
 #endif
-#ifdef TIM8
-        TIM8,
+#ifdef RCC_APB1Periph_TIM4
+        RCC_APB1Periph_TIM4,
 #else
         NULL,
 #endif
+};
+
+PROTECTED uint32 HwTimerIRQChannel[HW_TIMER_COUNT] =
+{
+		TIM1_UP_IRQChannel,
+		TIM2_IRQChannel,
+		TIM3_IRQChannel,
+		TIM4_IRQChannel
 };
 
 

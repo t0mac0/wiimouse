@@ -39,7 +39,8 @@
 ------------------------------------------------------------------------------*/
 PROTECTED FeepromTableHeader *feepromTableHeader;
 
-PROTECTED FeepromTableHeader feepromBaseHeader  __attribute ((section(".flash_eeprom"))) =
+//PROTECTED FeepromTableHeader feepromBaseHeader  __attribute ((section(".flash_eeprom"))) =
+		PROTECTED FeepromTableHeader feepromBaseHeader   =
 {
         { PAGE_STATUS_WRITTEN,  // page status
                 PAGE_FLAG_IS_TABLE }, // page flags
@@ -49,9 +50,9 @@ PROTECTED FeepromTableHeader feepromBaseHeader  __attribute ((section(".flash_ee
                 _$FEEPROM_ENTRIES$_  // entries
 };
 
-PROTECTED uint16 feepromEntryData1[FEEPROM_PAGE_SIZE/2-sizeof(FeepromTableHeader)] __attribute ((section(".flash_eeprom"))) = _$FEEPROM_ENTRY_DATA$_;
+//PROTECTED uint16 feepromEntryData1[FEEPROM_PAGE_SIZE/2-sizeof(FeepromTableHeader)] __attribute ((section(".flash_eeprom"))) = _$FEEPROM_ENTRY_DATA$_;
 // page 2
-PROTECTED uint16 feepromEntryData2[FEEPROM_PAGE_SIZE/2] __attribute ((section(".flash_eeprom"))) __attribute ((aligned(FEEPROM_PAGE_SIZE)));
+//ROTECTED uint16 feepromEntryData2[FEEPROM_PAGE_SIZE/2] __attribute ((section(".flash_eeprom"))) __attribute ((aligned(FEEPROM_PAGE_SIZE)));
 // page 3
 //uint16 feepromEntryData3[FEEPROM_PAGE_SIZE/2] __attribute ((section(".flash_eeprom"))) __attribute ((aligned(FEEPROM_PAGE_SIZE)));
 

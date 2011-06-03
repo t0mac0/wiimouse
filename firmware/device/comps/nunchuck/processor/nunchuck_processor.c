@@ -84,6 +84,8 @@ PROTECTED Result NunchuckProcessorTaskSuspend( void )
 /****************************************************************************/
 PROTECTED Result NunchuckProcessorTaskResume( void )
 {
+	LOG_Printf("NunchuckProcessorTaskResume\n");
+
 	return OS_TASK_MGR_Resume(DataProccessTaskHandle);
 
 }
@@ -99,6 +101,9 @@ PROTECTED Result NunchuckProcessorTaskResume( void )
 /*****************************************************************************/
 PRIVATE void DataProcessorTask(void *Params)
 {
+	LOG_Printf("Starting DataProcessorTask\n");
+
+
     UNUSED(Params);
 
     for(;;)

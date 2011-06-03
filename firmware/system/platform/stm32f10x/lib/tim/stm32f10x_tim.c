@@ -983,12 +983,12 @@ void TIM_ITConfig(TIM_TypeDef* TIMx, uint16 TIM_IT, FunctionalState NewState)
     if (NewState != DISABLE)
     {
         /* Enable the Interrupt sources */
-        TIMx->DIER |= TIM_IT;
+        TIMx->DIER = TIM_IT;
     }
     else
     {
         /* Disable the Interrupt sources */
-        TIMx->DIER &= (uint16)~TIM_IT;
+        TIMx->DIER = (uint16)~TIM_IT;
     }
 }
 

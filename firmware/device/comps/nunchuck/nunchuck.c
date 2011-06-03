@@ -56,6 +56,9 @@ PUBLIC Result NUNCHUCK_Init( void )
     Result result = NUNCHUCK_RESULT(SUCCESS);
 
 
+    LOG_Printf("Initializing Nunchuck Component\n");
+
+
 
     if( RESULT_IS_ERROR(result, NunchuckSettingsInit()) )
     {
@@ -123,5 +126,7 @@ PRIVATE void usbStateChangeCallback(HW_USB_StateType State)
 	default:
 		break;
 	}
+
+	LOG_Printf("Usb State Change: %d\n", State);
 }
 

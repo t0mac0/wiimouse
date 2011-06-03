@@ -48,6 +48,7 @@ PUBLIC typedef enum {
     HW_TIMER_CLK_SRC_INT,
 } HW_TIMER_ClockSource;
 
+
 PUBLIC typedef struct {
     HW_TIMER_Type Type;
     HW_TIMER_Mode Mode;
@@ -65,10 +66,6 @@ HW_TIMER_1,
 HW_TIMER_2,
 HW_TIMER_3,
 HW_TIMER_4,
-HW_TIMER_5,
-HW_TIMER_6,
-HW_TIMER_7,
-HW_TIMER_8,
 HW_TIMER_COUNT,
 } HW_TIMER_BlockId;
 

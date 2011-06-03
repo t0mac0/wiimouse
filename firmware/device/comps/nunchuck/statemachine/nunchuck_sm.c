@@ -128,8 +128,10 @@ PROTECTED Result NunchuckSmInit( void )
 /*****************************************************************************/
 PROTECTED void NunchuckSmIssueEvent(NUNCHUCK_SM_Events Event)
 {
+	bool higherPriorityTaskWoken;
+
 	NunchuckCurrentEvent = Event;
-	OS_GIVE_SEM(eventSem);
+	OS_GiveSemaphoreFromIsr(eventSem, &higherPriorityTaskWoken);
 }
 
 //*****************************************************************************
@@ -144,12 +146,15 @@ PRIVATE void NunchuckSmTask(void *Params)
 	Result result;
 	uint32 i;
 
+	LOG_Printf("Starting NunchuckSmTask\n");
 
     UNUSED(Params);
 
     for(;;)
     {
     	OS_TAKE_SEM(eventSem);
+
+    	LOG_Printf("Nunchuck event: %d\n", NunchuckCurrentEvent);
 
 		for( i = 0; i < ARRAY_SIZE(stateTable); i++ )
 		{
@@ -164,9 +169,9 @@ PRIVATE void NunchuckSmTask(void *Params)
 			}
 		}
 
-		if( i != ARRAY_SIZE(stateTable))
+		if( i == ARRAY_SIZE(stateTable))
 		{
-			//LOG_Printf("Warning: event: % has been ignored\n", NunchuckCurrentEvent)
+			LOG_Printf("Warning: event: %d has been ignored\n", NunchuckCurrentEvent);
 		}
     }
 }

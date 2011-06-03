@@ -17,6 +17,7 @@
 #include "composite_usb/composite_usb.h"
 #include "nunchuck/com/nunchuck_com.h"
 #include "nunchuck/settings/nunchuck_settings.h"
+#include "nunchuck/statemachine/nunchuck_sm.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -77,8 +78,9 @@ PROTECTED Result NunchuckReaderInit( void )
 	timerConfig.config = &counterConfig;
 	timerConfig.Enable = FALSE;
 
+	LOG_Printf("Initializing Nunchuck reader timer\n");
 
-
+	// TODO: this accuracy isn't that important, use the software timer
 	if( RESULT_IS_ERROR(result, HW_TIMER_Init(NUNCHUCK_READ_TIMER, &timerConfig)) )
 	{
 		result = NUNCHUCK_RESULT(TIMER_INIT_FAIL);
@@ -91,7 +93,8 @@ PROTECTED Result NunchuckReaderInit( void )
 /****************************************************************************/
 PROTECTED Result NunchuckReaderEnableReading( void )
 {
-	ZeroMemory(&NunchuckRawData, sizeof(NunchuckRawDataInfo));
+	LOG_Printf("NunchuckReaderEnableReading\n");
+
 	ZeroMemory(NunchuckRawData.DataPts, sizeof(NunchuckData)*NunchuckRawData.TotalDataPtCount);
 
 	return HW_TIMER_Start(NUNCHUCK_READ_TIMER);
@@ -118,10 +121,13 @@ PUBLIC void NUNCHUCK_READER_ReadDataPoint( void )
 		if( NunchuckRawData.NextPoint == NunchuckRawData.TotalDataPtCount )
 			NunchuckRawData.NextPoint = 0;
 
-		if( RESULT_IS_ERROR(result, OS_GiveSemaphoreFromIsr(NunchuckRawData.DataAvailableSem, &higherPriorityTaskWoken)) )
-		{
+		OS_GiveSemaphoreFromIsr(NunchuckRawData.DataAvailableSem, &higherPriorityTaskWoken);
 
-		}
+	}
+	else
+	{
+		LOG_Printf("Failed to read nunchuck\n");
+		NunchuckSmIssueEvent(NUNCHUCK_SM_EVENT_NUNCHUCK_ERROR);
 	}
 
 }
