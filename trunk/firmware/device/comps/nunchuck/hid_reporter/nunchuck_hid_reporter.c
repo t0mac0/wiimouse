@@ -39,7 +39,7 @@
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
-PRIVATE HID_MOUSE_REPORT HidReport;
+
 
 
 //*****************************************************************************
@@ -56,9 +56,9 @@ PROTECTED Result NunchuckHidReporterInit( void )
 	HW_TIMER_CounterConfig counterConfig;
 
 
-	ZeroMemory(&HidReport, sizeof(HID_MOUSE_REPORT));
-
-
+	// REVISIT: This doesn't necessarily need the accuracy of a
+	// timer interrupt, but since we have an extra one we'll go
+	// ahead and use it.
 	counterConfig.EnableUpdateInterrupt = TRUE;
 	counterConfig.Frequnecy = 1000/COMPOSITE_USB_HID_REPORT_INTERVAL;
 	counterConfig.Mode = HW_TIMER_COUNTER_MODE_UP;
@@ -69,7 +69,7 @@ PROTECTED Result NunchuckHidReporterInit( void )
 	timerConfig.config = &counterConfig;
 	timerConfig.Enable = FALSE;
 
-
+	LOG_Printf("Initializing Nunchuck HID Report timer\n");
 
 	if( RESULT_IS_ERROR(result, HW_TIMER_Init(NUNCHUCK_HID_REPORTER_TIMER, &timerConfig)) )
 	{
@@ -83,6 +83,8 @@ PROTECTED Result NunchuckHidReporterInit( void )
 /*****************************************************************************/
 PROTECTED Result NunchuckHidReporterEnableReporting( void )
 {
+	LOG_Printf("NunchuckHidReporterEnableReporting\n");
+
 	return HW_TIMER_Start(NUNCHUCK_HID_REPORTER_TIMER);
 }
 
@@ -98,6 +100,7 @@ PROTECTED Result NunchuckHidReporterDisableReporting( void )
 PUBLIC void NUNCHUCK_HID_REPORTER_SendReport( void )
 {
 	Result result = NUNCHUCK_RESULT(SUCCESS);
+	HID_MOUSE_REPORT HidReport;
 
 
 	if( NunchuckProcessedData.NewDataAvailable )
@@ -107,6 +110,8 @@ PUBLIC void NUNCHUCK_HID_REPORTER_SendReport( void )
 
 		HidReport.Buttons.Left = NunchuckProcessedData.Data.Buttons.Button.C;
 		HidReport.Buttons.Right = NunchuckProcessedData.Data.Buttons.Button.Z;
+
+		LOG_Printf("X: %03d, Y: %03d, C:%d, Z: %d\n", HidReport.X, HidReport.Y, HidReport.Buttons.Left, HidReport.Buttons.Right );
 
 		if( RESULT_IS_ERROR(result, COMPOSITE_USB_SendHidMouseReport(&HidReport)) )
 		{

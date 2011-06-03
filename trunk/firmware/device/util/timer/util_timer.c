@@ -53,6 +53,8 @@ PUBLIC bool UTIL_TIMER_Init( void )
     HW_TIMER_ConfigInfo timerConfig;
     HW_TIMER_CounterConfig counterConfig;
 
+    LOG_Printf("Initializing utility timer\n");
+
 
     counterConfig.EnableUpdateInterrupt = TRUE;
     counterConfig.Frequnecy = UTIL_TIMER_FREQ;

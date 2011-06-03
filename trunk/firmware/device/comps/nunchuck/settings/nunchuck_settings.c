@@ -49,9 +49,15 @@ PROTECTED NunchuckSettingsInfo NunchuckSettings;
 //****************************************************************************/
 PROTECTED Result NunchuckSettingsInit( void )
 {
-    uint16 bytesRead;
+    //uint16 bytesRead;
 
-    return SETTINGS_MGR_Read(SETTINGS_MGR_ENTRY_NUNCHUCK_SETTINGS, &NunchuckSettings, sizeof(NunchuckSettingsInfo), &bytesRead);
+    //return SETTINGS_MGR_Read(SETTINGS_MGR_ENTRY_NUNCHUCK_SETTINGS, &NunchuckSettings, sizeof(NunchuckSettingsInfo), &bytesRead);
+
+    NunchuckSettings.DataPointsPerHidReport = 10;
+    NunchuckSettings.HidReportInterval = 10;
+    NunchuckSettings.ProfileIndex = 0;
+
+    return NUNCHUCK_RESULT(SUCCESS);
 }
 
 

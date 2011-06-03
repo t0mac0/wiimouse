@@ -29,8 +29,8 @@
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
-PROTECTED typedef void (NunchuckProfileDataFormatterPrototype)(uint8*);
-PROTECTED typedef void (*pNunchuckProfileDataFormatter)(uint8*);
+PROTECTED typedef uint8 (NunchuckProfileDataFormatterPrototype)(uint8);
+PROTECTED typedef uint8 (*pNunchuckProfileDataFormatter)(uint8);
 
 
 PROTECTED typedef struct

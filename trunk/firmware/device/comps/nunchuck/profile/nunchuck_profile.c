@@ -57,14 +57,9 @@ PROTECTED NunchuckProfileInfo NunchuckProfiles[NUNCHUCK_PROFILE_COUNT] = {
 //
 //*****************************************************************************
 
-PROTECTED void NunchuckProfileFormatterXOR_17_Plus17(uint8* PacketData)
+PROTECTED uint8 NunchuckProfileFormatterXOR_17_Plus17(uint8 PacketData)
 {
-    uint8 i;
-
-    for(i = 0; i < NUNCHUCK_DATA_PACKET_SIZE; i++)
-    {
-        PacketData[i] = (PacketData[i]^0x17)+ 0x17;
-    }
+	return (PacketData^0x17)+ 0x17;
 }
 
 //*****************************************************************************

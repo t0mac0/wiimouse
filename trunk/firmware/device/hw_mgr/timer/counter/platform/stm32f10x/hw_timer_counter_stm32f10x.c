@@ -12,6 +12,8 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
+#include <stdlib.h>
+
 #include "timer/counter/hw_timer_counter.h"
 
 
@@ -41,11 +43,15 @@ PRIVATE Result GetFrequencyFactors(HW_TIMER_CounterConfig *hwConfig, TIM_TimeBas
  Data Members
 ------------------------------------------------------------------------------*/
 PROTECTED extern TIM_TypeDef* HwTimerCounterBase[HW_TIMER_COUNT];
+PROTECTED extern uint32 HwTimerRccApbPeriphTimer[HW_TIMER_COUNT];
+PROTECTED extern uint32 HwTimerIRQChannel[HW_TIMER_COUNT];
+
+
 
 PRIVATE uint16 CounterModes[] = {
-        TIM_CounterMode_Up,
-        TIM_CounterMode_Down,
-        TIM_CounterMode_CenterAligned1
+		TIM_CounterMode_Up,
+		TIM_CounterMode_Down,
+		TIM_CounterMode_CenterAligned1
 };
 
 //*****************************************************************************
@@ -58,68 +64,79 @@ PRIVATE uint16 CounterModes[] = {
 /******************************************************************************/
 PROTECTED Result HwTimerCounterInit(HW_TIMER_BlockId BlockId, HW_TIMER_ConfigInfo *Config)
 {
-    Result result = HW_TIMER_RESULT(SUCCESS);
-    TIM_TimeBaseInitTypeDef baseConfig;
-    HW_TIMER_CounterConfig *hwConfig;
+	Result result = HW_TIMER_RESULT(SUCCESS);
+	TIM_TimeBaseInitTypeDef baseConfig;
+	HW_TIMER_CounterConfig *hwConfig;
 
-    // General timer currently only supported
-    ASSERT(Config->Type == HW_TIMER_TYPE_GENERAL);
-    ASSERT(Config->ClkSrc == HW_TIMER_CLK_SRC_INT);
+	// General timer currently only supported
+	ASSERT(Config->Type == HW_TIMER_TYPE_GENERAL);
+	ASSERT(Config->ClkSrc == HW_TIMER_CLK_SRC_INT);
 
-    hwConfig = (HW_TIMER_CounterConfig*)Config->config;
+	hwConfig = (HW_TIMER_CounterConfig*)Config->config;
 
-    TIM_TimeBaseStructInit( &baseConfig );
+	TIM_TimeBaseStructInit( &baseConfig );
 
-    if( RESULT_IS_SUCCESS(result, GetFrequencyFactors(hwConfig, &baseConfig)) )
-    {
-        baseConfig.TIM_CounterMode = CounterModes[hwConfig->Mode];
-        TIM_TimeBaseInit( HwTimerCounterBase[BlockId], &baseConfig );
+	if( RESULT_IS_SUCCESS(result, GetFrequencyFactors(hwConfig, &baseConfig)) )
+	{
+		if( hwConfig->EnableUpdateInterrupt )
+		{
+			NVIC_InitTypeDef NVIC_InitStructure;
+			NVIC_InitStructure.NVIC_IRQChannel = HwTimerIRQChannel[BlockId];
+			NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+			NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+			NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 
-        if( hwConfig->EnableUpdateInterrupt )
-        {
-            TIM_ITConfig( HwTimerCounterBase[BlockId], TIM_IT_Update, ENABLE );
-        }
+			NVIC_Init(&NVIC_InitStructure);
 
-        if( Config->Enable )
-        {
-            result = HwTimerCounterStart(BlockId);
-        }
-    }
+			// enable the timer peripherial clock
+			RCC_APB1PeriphClockCmd(HwTimerRccApbPeriphTimer[BlockId], ENABLE);
 
-    return result;
+			baseConfig.TIM_CounterMode = CounterModes[hwConfig->Mode];
+			TIM_TimeBaseInit( HwTimerCounterBase[BlockId], &baseConfig );
+			HwTimerCounterBase[BlockId]->SR = 0;
+
+			TIM_ITConfig( HwTimerCounterBase[BlockId], TIM_IT_Update, ENABLE );
+		}
+
+		if( Config->Enable )
+		{
+			result = HwTimerCounterStart(BlockId);
+		}
+	}
+
+	return result;
 }
 
 
 /******************************************************************************/
 PROTECTED Result HwTimerCounterStart(HW_TIMER_BlockId BlockId)
 {
-    Result result = HW_TIMER_RESULT(SUCCESS);
+	LOG_Printf("Enabling timer: %d\n", BlockId);
+	TIM_Cmd( HwTimerCounterBase[BlockId], ENABLE );
 
-    TIM_Cmd( HwTimerCounterBase[BlockId], ENABLE );
-
-    return result;
+	return HW_TIMER_RESULT(SUCCESS);
 }
 
 
 /******************************************************************************/
 PROTECTED Result HwTimerCounterStop(HW_TIMER_BlockId BlockId)
 {
-    Result result = HW_TIMER_RESULT(SUCCESS);
+	Result result = HW_TIMER_RESULT(SUCCESS);
 
-    TIM_Cmd( HwTimerCounterBase[BlockId], DISABLE );
+	TIM_Cmd( HwTimerCounterBase[BlockId], DISABLE );
 
-    return result;
+	return result;
 }
 
 
 /******************************************************************************/
 PROTECTED Result HwTimerCounterReset(HW_TIMER_BlockId BlockId)
 {
-    Result result = HW_TIMER_RESULT(SUCCESS);
+	Result result = HW_TIMER_RESULT(SUCCESS);
 
-    UNUSED(BlockId);
+	UNUSED(BlockId);
 
-    return result;
+	return result;
 }
 
 
@@ -134,33 +151,66 @@ PROTECTED Result HwTimerCounterReset(HW_TIMER_BlockId BlockId)
 /******************************************************************************/
 PRIVATE Result GetFrequencyFactors(HW_TIMER_CounterConfig *HwConfig, TIM_TimeBaseInitTypeDef *BaseConfig)
 {
-    Result result = HW_TIMER_RESULT(SUCCESS);
-    uint32 totalFactor;
+#define ACCURACY_FACTOR 32
+#define MAX_VALUE (1uL << 21)
+	Result result = HW_TIMER_RESULT(SUCCESS);
+	uint32 prescaler, tmp_prescaler, scaled_freq, scaled_sys_freq;
+	uint32 period, tmp_period;
+	uint32 min, tmp_min;
 
-    // TODO: make this more accurate
-    totalFactor = (DeviceSystemClock / HwConfig->Frequnecy);
+	scaled_freq = ACCURACY_FACTOR*(uint64)HwConfig->Frequnecy;
+	scaled_sys_freq = DeviceSystemClock*ACCURACY_FACTOR;
+	prescaler = 0;
+	period = (scaled_sys_freq / HwConfig->Frequnecy);
 
-    if( totalFactor == 0 )
-    {
-        result = HW_TIMER_RESULT(BAD_FREQ);
-    }
-    else
-    {
-        if( totalFactor > UINT16_MAX )
-        {
-            BaseConfig->TIM_Prescaler = UINT16_MAX;
-            totalFactor /= UINT16_MAX;
-        }
-        else
-        {
-            BaseConfig->TIM_Prescaler = 0;
-        }
+	if( period == 0 )
+	{
+		result = HW_TIMER_RESULT(BAD_FREQ);
+	}
+	else
+	{
 
-        BaseConfig->TIM_ClockDivision = TIM_CKD_DIV1;
-        BaseConfig->TIM_Period = totalFactor-1;
-    }
+		if( period > MAX_VALUE )
+		{
+			min = UINT32_MAX;
 
-    return result;
+			for(tmp_prescaler = 2; tmp_prescaler <= (UINT16_MAX+1); tmp_prescaler <<= 1)
+			{
+				tmp_period = scaled_sys_freq / (HwConfig->Frequnecy*tmp_prescaler);
+
+				if(tmp_period <= MAX_VALUE)
+				{
+					tmp_min = labs(scaled_sys_freq / ((tmp_period*tmp_prescaler)/ACCURACY_FACTOR) - scaled_freq);
+
+					if( tmp_min < min )
+					{
+						min = tmp_min;
+						period = tmp_period;
+						prescaler = tmp_prescaler;
+					}
+				}
+			}
+
+			BaseConfig->TIM_Prescaler = (uint16)prescaler-1;
+		}
+		else
+		{
+			BaseConfig->TIM_Prescaler = 0;
+
+		}
+
+		period /= ACCURACY_FACTOR;
+
+		BaseConfig->TIM_ClockDivision = TIM_CKD_DIV1;
+		BaseConfig->TIM_Period = (uint16)period-1;
+
+		LOG_Printf("Frequency: %d\n", HwConfig->Frequnecy);
+		LOG_Printf("TIM_ClockDivision: %d\n", BaseConfig->TIM_ClockDivision);
+		LOG_Printf("TIM_Period: %d\n", BaseConfig->TIM_Period);
+		LOG_Printf("TIM_Prescaler: %d\n", BaseConfig->TIM_Prescaler);
+	}
+
+	return result;
 }
 
 

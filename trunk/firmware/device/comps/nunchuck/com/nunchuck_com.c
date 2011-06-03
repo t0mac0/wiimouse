@@ -152,6 +152,16 @@ PROTECTED Result NunchuckComReadCalibration(pNunchuckCtlCalibration Calibration)
     }
     else
     {
+    	uint8 i;
+    	for(i = 0; i < 14; i++)
+    		LOG_Printf("%d\n", buffer[i]);
+
+        if( dataFormatter )
+        {
+        	for(i = 0; i < 14; i++)
+        		buffer[i] = dataFormatter(buffer[i]);
+        }
+
         Calibration->Accelerometer.X = ((uint16)(buffer[4]&0x03) << 2) | (uint16)buffer[0];
         Calibration->Accelerometer.Y = ((uint16)(buffer[5]&0x03) << 2) | (uint16)buffer[1];
         Calibration->Accelerometer.Z = ((uint16)(buffer[6]&0x03) << 2) | (uint16)buffer[2];
@@ -163,6 +173,19 @@ PROTECTED Result NunchuckComReadCalibration(pNunchuckCtlCalibration Calibration)
         Calibration->Joystick.Y.Max = buffer[11];
         Calibration->Joystick.Y.Min = buffer[12];
         Calibration->Joystick.Y.Neutral = buffer[13];
+
+        LOG_Printf("Nunchuck calibration:\n");
+        LOG_Printf("\tAcc X: %d\n", Calibration->Accelerometer.X);
+        LOG_Printf("\tAcc Y: %d\n", Calibration->Accelerometer.Y);
+        LOG_Printf("\tAcc Z: %d\n", Calibration->Accelerometer.Z);
+
+        LOG_Printf("\tJoy X Max: %d\n",Calibration->Joystick.X.Max);
+        LOG_Printf("\tJoy X Min: %d\n",Calibration->Joystick.X.Min);
+        LOG_Printf("\tJoy X Neutral: %d\n",Calibration->Joystick.X.Neutral);
+
+        LOG_Printf("\tJoy Y Max: %d\n",Calibration->Joystick.Y.Max);
+        LOG_Printf("\tJoy Y Min: %d\n",Calibration->Joystick.Y.Min);
+        LOG_Printf("\tJoy Y Neutral: %d\n",Calibration->Joystick.Y.Neutral);
     }
 
     return result;
@@ -174,6 +197,7 @@ PROTECTED Result NunchuckComEnableEncryption( void )
     Result result = NUNCHUCK_RESULT(SUCCESS);
     uint8 buffer[8] = {0};
 
+    LOG_Printf("Sending Enable encryption code\n");
     // Enable encryption
     buffer[0] = 0xF0;
     buffer[1] = 0xAA;
@@ -184,25 +208,28 @@ PROTECTED Result NunchuckComEnableEncryption( void )
     OS_TASK_MGR_Delay(NUNCHUCK_INIT_DELAY);
 
 
+    LOG_Printf("Sending first 6 bytes encryption code\n");
     // Send first 6 bytes of encryption code
+    ZeroMemory(buffer, 7);
     buffer[0] = 0x40;
-    buffer[1] = 0x00;
     if( RESULT_IS_ERROR(result, NunchuckComWrite(buffer, 7)) )
     {
     }
     OS_TASK_MGR_Delay(NUNCHUCK_INIT_DELAY);
 
+    LOG_Printf("Sending net 6 bytes encryption code\n");
     // Send next 6 bytes of encryption code
+    ZeroMemory(buffer, 7);
     buffer[0] = 0x46;
-    buffer[1] = 0x00;
     if( RESULT_IS_ERROR(result, NunchuckComWrite(buffer, 7)) )
     {
     }
     OS_TASK_MGR_Delay(NUNCHUCK_INIT_DELAY);
 
+    LOG_Printf("Sending last 4 bytes encryption code\n");
     // Send last 4 bytes of encryption code
+    ZeroMemory(buffer, 5);
     buffer[0] = 0x4C;
-    buffer[1] = 0x00;
     if( RESULT_IS_ERROR(result, NunchuckComWrite(buffer, 5)) )
     {
     }
@@ -237,7 +264,15 @@ PRIVATE inline void ConvertData(pNunchuckData Data, uint8 *RawData)
 {
     if( dataFormatter )
     {
-        dataFormatter(RawData);
+    	uint8 i;
+
+    	//LOG_Printf("Nunchuck data: ");
+    	for(i = 0; i < NUNCHUCK_DATA_PACKET_SIZE; i++)
+    	{
+    		RawData[i] = dataFormatter(RawData[i]);
+    		//LOG_Printf("%d ", RawData[i]);
+    	}
+    	//LOG_Printf("\n");
     }
 
     Data->Joystick.X = RawData[0];

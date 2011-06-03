@@ -121,13 +121,11 @@ PUBLIC Result COMPOSITE_USB_WriteVirCom(void *Buffer, uint32 StartIndex, uint32 
 //****************************************************************************/
 PUBLIC Result COMPOSITE_USB_RegisterReadVirComCallback(pCOMPOSITE_USB_ReadVirComCallBack ReadVirCom)
 {
-    Result result = COMPOSITE_USB_RESULT_INIT();
-
     CompositeUsbVirComCallback = ReadVirCom;
 
     LOG_Printf("Registered Virtual COM Port Read Callback\n");
 
-    return result;
+    return COMPOSITE_USB_RESULT(SUCCESS);
 };
 
 
