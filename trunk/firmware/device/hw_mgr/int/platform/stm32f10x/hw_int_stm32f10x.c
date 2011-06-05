@@ -50,7 +50,10 @@ PUBLIC inline void HW_INT_Init( void )
     NVIC_SetVectorTable(NVIC_VectTab_FLASH, DEVICE_VECTOR_TABLE_OFFSET);
 }
 
-
+PUBLIC inline void HW_INT_SystemReset(void)
+{
+	NVIC_GenerateSystemReset();
+}
 
 //*****************************************************************************
 //

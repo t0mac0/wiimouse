@@ -158,7 +158,7 @@ PRIVATE Result GetFrequencyFactors(HW_TIMER_CounterConfig *HwConfig, TIM_TimeBas
 	uint32 period, tmp_period;
 	uint32 min, tmp_min;
 
-	scaled_freq = ACCURACY_FACTOR*(uint64)HwConfig->Frequnecy;
+	scaled_freq = ACCURACY_FACTOR*(uint32)HwConfig->Frequnecy;
 	scaled_sys_freq = DeviceSystemClock*ACCURACY_FACTOR;
 	prescaler = 0;
 	period = (scaled_sys_freq / HwConfig->Frequnecy);

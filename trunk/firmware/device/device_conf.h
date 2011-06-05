@@ -58,7 +58,7 @@
  * \brief Vector Table Offset
  * from the base of memory
  */
-#define DEVICE_VECTOR_TABLE_OFFSET 0x00000000
+#define DEVICE_VECTOR_TABLE_OFFSET (DEVICE_START_ADDR - BOOTLOADER_START_ADDR)
 
 
 
