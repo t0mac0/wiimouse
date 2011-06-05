@@ -285,6 +285,10 @@ DEFAULT_ISR_HANDLER DMA2_Channel2_IRQHandler
 DEFAULT_ISR_HANDLER DMA2_Channel3_IRQHandler
 DEFAULT_ISR_HANDLER DMA2_Channel4_5_IRQHandler
 
+
+.section .bootloader_version,"a",%progbits
+.word BOOTLOADER_VERSION
+
 #endif
 
 /******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/

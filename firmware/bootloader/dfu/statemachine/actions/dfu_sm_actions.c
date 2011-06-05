@@ -16,6 +16,7 @@
 
 #include "dfu/dfu.h"
 
+#include "hw/flash/hw_flash.h"
 #include"hw/nvic/hw_nvic.h"
 
 
@@ -49,21 +50,23 @@
 /******************************************************************************/
 PROTECTED void DfuActionQueryDevice(DFU_Command *Cmd, DFU_Response *Response)
 {
-    Response->Status = DFU_STATUS_SUCCESS;
+	Response->Status = DFU_STATUS_SUCCESS;
 
-    Response->Mode = *((uint32*)DEVICE_MODE_ADDR);
-    Response->FWVersion = *((uint32*)DEVICE_VERSION_ADDR);
+	Response->Mode = *((uint32*)DEVICE_MODE_ADDR);
+	Response->FWVersion = (uint16)*((uint32*)DEVICE_VERSION_ADDR);
+	Response->BootloaderVersion = (uint16)*((uint32*)BOOTLOADER_VERSION_ADDR);
 
-    Response->VendorId = USB_VENDOR_ID;
-    Response->ProductId = USB_PRODUCT_ID;
-    Response->DeviceId = USB_DEVICE_ID;
+	Response->VendorId = USB_VENDOR_ID;
+	Response->ProductId = USB_PRODUCT_ID;
+	Response->DeviceId = USB_DEVICE_ID;
 
-    print("Device queried: \n");
-    print("\tMode: %X\n", Response->Mode);
-    print("\tFW Version: %X\n", Response->FWVersion);
-    print("\tVendor Id: %X\n", Response->VendorId);
-    print("\tProduct Id: %X\n", Response->ProductId);
-    print("\tDevice Id: %X\n", Response->DeviceId);
+	print("Device queried: \n");
+	print("\tMode: %X\n", Response->Mode);
+	print("\tBootloader Version: %X\n", *((uint32*)BOOTLOADER_VERSION_ADDR));
+	print("\tFW Version: %X\n", Response->FWVersion);
+	print("\tVendor Id: %X\n", Response->VendorId);
+	print("\tProduct Id: %X\n", Response->ProductId);
+	print("\tDevice Id: %X\n", Response->DeviceId);
 
 }
 
@@ -71,43 +74,44 @@ PROTECTED void DfuActionQueryDevice(DFU_Command *Cmd, DFU_Response *Response)
 /******************************************************************************/
 PROTECTED void DfuActionInitializeUpdate(DFU_Command *Cmd, DFU_Response *Response)
 {
-    Response->Status = DFU_STATUS_SUCCESS;
+	print("Initializing device for firmware update...\n");
 
-    print("Device initializing...\n");
+	// Erase firmware vector table and global settings
+	DfuMalErase(DEVICE_START_ADDR, FLASH_PAGE_SIZE);
 
-    // Erase firmware vector table and global settings
-    DfuMalErase(DEVICE_START_ADDR, FLASH_PAGE_SIZE);
+	// send DFU_STATUS_SUCCESS
+	Response->Status = DFU_STATUS_SUCCESS;
+	DfuComSendResponse();
 
-    // send DFU_STATUS_SUCCESS
-    DfuComSendResponse();
-
-    // reset device
-    print("Resetting device.\n");
-    HW_NVIC_SystemReset();
+	// reset device
+	print("Resetting device.\n");
+	HW_NVIC_SystemReset();
 }
 
 /******************************************************************************/
 PROTECTED void DfuActionCompleteUpdate(DFU_Command *Cmd, DFU_Response *Response)
 {
-    uint32 *mode;
-    Response->Status = DFU_STATUS_SUCCESS;
+	Response->Status = DFU_STATUS_SUCCESS;
 
-    print("Completed update.\n");
+	print("Completed update.\n");
 
-    // set device to DFU_MODE_USER in non-volatile flash
-    mode = (uint32*)DfuMalBuffer;
-    *mode = DFU_MODE_USER;
-    DfuMalWrite(DEVICE_MODE_ADDR, 4);
+	// set device to DFU_MODE_USER in non-volatile flash
+	if( !HW_FLASH_Write32Bit(DEVICE_MODE_ADDR, DFU_MODE_USER) )
+	{
+		print("Failed to set device to DFU_MODE_USER\n");
+		Response->Status = DFU_STATUS_INTERNAL_FLASH_WRITE_ERROR;
 
+		DfuComSendResponse();
+	}
+	else
+	{
+		DfuComSendResponse();
 
-    // send DFU_STATUS_SUCCESS
-    DfuComSendResponse();
+		// reset device
+		print("Resetting device.\n");
+		HW_NVIC_SystemReset();
+	}
 
-
-
-    // reset device
-    print("Resetting device.\n");
-    HW_NVIC_SystemReset();
 
 }
 

@@ -39,11 +39,9 @@ typedef  void (*pFunction)(void);
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
-PUBLIC uint32 BootloaderVersion  __attribute ((section(".bootloader_version"))) = BOOTLOADER_VERSION;
-
 
 PRIVATE pFunction Jump_To_Application;
-PRIVATE uint32 JumpAddress;
+PRIVATE vuint32 JumpAddress;
 
 //*****************************************************************************
 //
@@ -54,29 +52,44 @@ PRIVATE uint32 JumpAddress;
 /******************************************************************************/
 int main(int argc, char *argv[])
 {
-    // Jump to firmware if present
-    if( *((uint32*)DEVICE_MODE_ADDR) == DFU_MODE_USER )
-    {
-        JumpAddress = *(vuint32*) (DEVICE_START_ADDR+4);
-        Jump_To_Application = (pFunction) JumpAddress;
+	// initialize system registers
+	HW_SYSINIT_Init();
 
-        // Initialize user application's Stack Pointer
-        SetMainStackPointer(*(vuint32*) DEVICE_START_ADDR);
-        Jump_To_Application();
-    }
-    else
-    {
-        HW_Init();
+	// initialize system clock
+	HW_SYSCLK_SetClock(BOOTLOADER_CLOCK_RATE);
 
-        DFU_Init();
+	// initialize interrupt vector table
+	HW_NVIC_Init();
 
-        print("Bootloader waiting for commands.\n");
+	// initialize USB
+	HW_USB_Init();
 
-    }
+	// Jump to firmware if present
+	if( *((uint32*)DEVICE_MODE_ADDR) == DFU_MODE_USER )
+	{
+		JumpAddress = *(vuint32*) (DEVICE_START_ADDR+4);
+		Jump_To_Application = (pFunction) JumpAddress;
 
-    for(;;);
+		// Initialize user application's Stack Pointer
+		SetMainStackPointer(*(vuint32*) DEVICE_START_ADDR);
 
-    return 0;
+		Jump_To_Application();
+	}
+	else
+	{
+		// initialize default USART
+		HW_USART_DefaultInit();
+
+		// initialize DFU
+		DFU_Init();
+
+		print("Bootloader waiting for commands.\n");
+
+	}
+
+	for(;;);
+
+	return 0;
 }
 
 
@@ -84,20 +97,20 @@ int main(int argc, char *argv[])
 /******************************************************************************/
 PUBLIC void print(char* msg, ...)
 {
-    va_list va;
-    va_start(va,msg);
-    LIB_PRINTF_PrintfVaArgs(HW_USART_DefaultOutputDest, msg, va);
-    va_end(va);
+	va_list va;
+	va_start(va,msg);
+	LIB_PRINTF_PrintfVaArgs(HW_USART_DefaultOutputDest, msg, va);
+	va_end(va);
 }
 
 
 /******************************************************************************/
 PUBLIC void ASSERT_failed(uint8* file, uint32 line)
 {
-    print("Assertion Failed: File: %s, line: %d\n", file, line);
-    UNUSED(file);
-    UNUSED(line);
-    while(1);
+	print("Assertion Failed: File: %s, line: %d\n", file, line);
+	UNUSED(file);
+	UNUSED(line);
+	while(1);
 }
 
 //*****************************************************************************

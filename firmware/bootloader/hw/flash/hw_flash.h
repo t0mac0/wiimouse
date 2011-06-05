@@ -37,7 +37,7 @@
 ------------------------------------------------------------------------------*/
 PUBLIC bool HW_FLASH_Init(void);
 
-PUBLIC bool HW_FLASH_Write32Bit(uint32 Address, uint32 *Data, uint32 WordCount);
+PUBLIC bool HW_FLASH_Write32Bit(uint32 Address, uint32 Data);
 
 PUBLIC bool HW_FLASH_Write16Bit(uint32 Address, uint16 *Data, uint32 WordCount);
 

@@ -21,6 +21,10 @@
 #include "hw_conf.h"
 
 #include "hw/usart/hw_usart.h"
+#include "hw/sysclk/hw_sysclk.h"
+#include "hw/sysinit/hw_sysinit.h"
+#include "hw/nvic/hw_nvic.h"
+#include "hw/usb/hw_usb.h"
 
 /*-----------------------------------------------------------------------------
  Defines
