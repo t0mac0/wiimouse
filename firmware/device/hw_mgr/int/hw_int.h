@@ -33,6 +33,7 @@
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
 PUBLIC inline void HW_INT_Init( void );
+PUBLIC inline void HW_INT_SystemReset(void);
 
 /*-----------------------------------------------------------------------------
  External Data Members

@@ -25,6 +25,8 @@
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
+typedef  void (*pFunction)(void);
+
 
 /*-----------------------------------------------------------------------------
  Local Function Prototypes
@@ -50,6 +52,7 @@
 *******************************************************************************/
 PUBLIC void NMIException(void)
 {
+
 }
 
 /*******************************************************************************
@@ -61,6 +64,7 @@ PUBLIC void NMIException(void)
 *******************************************************************************/
 PUBLIC void HardFaultException(void)
 {
+
   /* Go to infinite loop when Hard Fault exception occurs */
   for(;;);
 }
@@ -74,6 +78,7 @@ PUBLIC void HardFaultException(void)
 *******************************************************************************/
 PUBLIC void MemManageException(void)
 {
+
   /* Go to infinite loop when Hard Fault exception occurs */
   for(;;);
 }
@@ -88,6 +93,7 @@ PUBLIC void MemManageException(void)
 *******************************************************************************/
 PUBLIC void BusFaultException(void)
 {
+
   /* Go to infinite loop when Bus Fault exception occurs */
   for(;;);
 }
@@ -101,6 +107,7 @@ PUBLIC void BusFaultException(void)
 *******************************************************************************/
 PUBLIC void UsageFaultException(void)
 {
+
   /* Go to infinite loop when Usage Fault exception occurs */
   for(;;);
 }

@@ -24,6 +24,12 @@
 #include "util/list/lib_array_list.h"
 
 
+
+
+#include "flash/hw_flash.h"
+#include "int/hw_int.h"
+
+
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
@@ -201,68 +207,76 @@ PUBLIC Result PACKET_MGR_RegisterListener(CString Tag, pPACKET_MGR_ListenerCallb
 //*****************************************************************************//
 PRIVATE void VirComReadCallback(uint8 *Buffer, uint32 SizeBytes)
 {
-    uint32 nextFreeIndex;
-    uint32 packetId, byteCount, pi;
+	// REVISIT: for testing only
+	UNUSED(Buffer);
+	UNUSED(SizeBytes);
+	LOG_Printf("Going back too bootloader mode\n");
 
-    // TODO: this should probably have a timeout
-    OS_TAKE_MUTEX(packetMgrInputBuffer.Mutex);
+	HW_FLASH_ErasePages(DEVICE_START_ADDR, 2);
+	HW_INT_SystemReset();
 
-    pi = packetMgrInputBuffer.NextPacketIndex;
-
-    if( packetMgrInputBuffer.BytesUsed + SizeBytes <= PACKET_MGR_INPUT_BUFFER_SIZE )
-    {
-        if( sscanf((char*)Buffer, PACKET_START_TAG, (unsigned int*)&packetId) == 1 )
-        {
-            if( packetMgrInputBuffer.PacketsAvailable < PACKET_MGR_INPUT_MAX_PACKETS )
-            {
-                packetMgrInputBuffer.PacketInfo[pi].StartIndex = packetMgrInputBuffer.FirstFreeIndex;
-                packetMgrInputBuffer.PacketInfo[pi].Id = packetId;
-            }
-            else
-            {
-                LOG_Printf("Warning: PacketMgr Input Buffer Full\n");
-            }
-        }
-        else if( strncmp((char*)Buffer, PACKET_END_TAG, PACKET_END_TAG_LEN) == 0 )
-        {
-            if( packetMgrInputBuffer.PacketInfo[pi].StartIndex != PACKET_NULL_INDEX )
-            {
-                packetMgrInputBuffer.PacketInfo[pi].EndIndex = packetMgrInputBuffer.FirstFreeIndex;
-                packetMgrInputBuffer.PacketsAvailable++;
-                packetMgrInputBuffer.NextPacketIndex = (packetMgrInputBuffer.NextPacketIndex+1)%PACKET_MGR_INPUT_MAX_PACKETS;
-            }
-            else
-            {
-                LOG_Printf("Warning: Received end packet tag without start tag\n");
-            }
-        }
-        else
-        {
-            nextFreeIndex = (packetMgrInputBuffer.FirstFreeIndex + SizeBytes) % PACKET_MGR_INPUT_BUFFER_SIZE;
-
-
-            if( packetMgrInputBuffer.FirstFreeIndex + SizeBytes <= PACKET_MGR_INPUT_BUFFER_SIZE )
-            {
-                CopyMemory(&packetMgrInputBuffer.Buffer[packetMgrInputBuffer.FirstFreeIndex], Buffer, SizeBytes);
-            }
-            else
-            {
-                byteCount =  PACKET_MGR_INPUT_BUFFER_SIZE - packetMgrInputBuffer.FirstFreeIndex;
-
-                CopyMemory(&packetMgrInputBuffer.Buffer[packetMgrInputBuffer.FirstFreeIndex], Buffer, byteCount);
-                CopyMemory(packetMgrInputBuffer.Buffer, &Buffer[byteCount], nextFreeIndex);
-            }
-
-            packetMgrInputBuffer.FirstFreeIndex = nextFreeIndex;
-            packetMgrInputBuffer.BytesUsed += SizeBytes;
-        }
-    }
-    else
-    {
-        LOG_Printf("Warning: PacketMgr Input Buffer Full\n");
-    }
-
-    OS_GIVE_MUTEX(packetMgrInputBuffer.Mutex);
+//    uint32 nextFreeIndex;
+//    uint32 packetId, byteCount, pi;
+//
+//    // TODO: this should probably have a timeout
+//    OS_TAKE_MUTEX(packetMgrInputBuffer.Mutex);
+//
+//    pi = packetMgrInputBuffer.NextPacketIndex;
+//
+//    if( packetMgrInputBuffer.BytesUsed + SizeBytes <= PACKET_MGR_INPUT_BUFFER_SIZE )
+//    {
+//        if( sscanf((char*)Buffer, PACKET_START_TAG, (unsigned int*)&packetId) == 1 )
+//        {
+//            if( packetMgrInputBuffer.PacketsAvailable < PACKET_MGR_INPUT_MAX_PACKETS )
+//            {
+//                packetMgrInputBuffer.PacketInfo[pi].StartIndex = packetMgrInputBuffer.FirstFreeIndex;
+//                packetMgrInputBuffer.PacketInfo[pi].Id = packetId;
+//            }
+//            else
+//            {
+//                LOG_Printf("Warning: PacketMgr Input Buffer Full\n");
+//            }
+//        }
+//        else if( strncmp((char*)Buffer, PACKET_END_TAG, PACKET_END_TAG_LEN) == 0 )
+//        {
+//            if( packetMgrInputBuffer.PacketInfo[pi].StartIndex != PACKET_NULL_INDEX )
+//            {
+//                packetMgrInputBuffer.PacketInfo[pi].EndIndex = packetMgrInputBuffer.FirstFreeIndex;
+//                packetMgrInputBuffer.PacketsAvailable++;
+//                packetMgrInputBuffer.NextPacketIndex = (packetMgrInputBuffer.NextPacketIndex+1)%PACKET_MGR_INPUT_MAX_PACKETS;
+//            }
+//            else
+//            {
+//                LOG_Printf("Warning: Received end packet tag without start tag\n");
+//            }
+//        }
+//        else
+//        {
+//            nextFreeIndex = (packetMgrInputBuffer.FirstFreeIndex + SizeBytes) % PACKET_MGR_INPUT_BUFFER_SIZE;
+//
+//
+//            if( packetMgrInputBuffer.FirstFreeIndex + SizeBytes <= PACKET_MGR_INPUT_BUFFER_SIZE )
+//            {
+//                CopyMemory(&packetMgrInputBuffer.Buffer[packetMgrInputBuffer.FirstFreeIndex], Buffer, SizeBytes);
+//            }
+//            else
+//            {
+//                byteCount =  PACKET_MGR_INPUT_BUFFER_SIZE - packetMgrInputBuffer.FirstFreeIndex;
+//
+//                CopyMemory(&packetMgrInputBuffer.Buffer[packetMgrInputBuffer.FirstFreeIndex], Buffer, byteCount);
+//                CopyMemory(packetMgrInputBuffer.Buffer, &Buffer[byteCount], nextFreeIndex);
+//            }
+//
+//            packetMgrInputBuffer.FirstFreeIndex = nextFreeIndex;
+//            packetMgrInputBuffer.BytesUsed += SizeBytes;
+//        }
+//    }
+//    else
+//    {
+//        LOG_Printf("Warning: PacketMgr Input Buffer Full\n");
+//    }
+//
+//    OS_GIVE_MUTEX(packetMgrInputBuffer.Mutex);
 }
 
 

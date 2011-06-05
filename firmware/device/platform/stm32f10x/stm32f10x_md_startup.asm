@@ -208,6 +208,7 @@ g_pfnVectors:
   .word DMA2_Channel4_5_IRQHandler
 /*                            STM32F10x Medium Density devices. */
 
+
 /*******************************************************************************
 *
 * Provide weak aliases for each Exception handler to the Default_Handler.
@@ -284,6 +285,12 @@ DEFAULT_ISR_HANDLER DMA2_Channel1_IRQHandler
 DEFAULT_ISR_HANDLER DMA2_Channel2_IRQHandler
 DEFAULT_ISR_HANDLER DMA2_Channel3_IRQHandler
 DEFAULT_ISR_HANDLER DMA2_Channel4_5_IRQHandler
+
+
+.section .device_mode, "a",%progbits
+.word 0xFFFFFFFF
+.section .device_firmware_version, "a",%progbits
+.word DEVICE_FIRMWARE_VERSION
 
 #endif
 
