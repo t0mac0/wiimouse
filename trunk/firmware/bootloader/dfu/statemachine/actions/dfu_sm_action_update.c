@@ -99,7 +99,8 @@ PROTECTED void DfuActionStartSectionUpdate(DFU_Command *Cmd, DFU_Response *Respo
     else if( !DfuMalErase(Cmd->StartAddress, Cmd->Length) )
     {
         Response->Status = DFU_STATUS_INTERNAL_FLASH_ERASE_ERROR;
-        print("ActionStartSectionUpdate: DFU_STATUS_INTERNAL_FLASH_ERASE_ERROR\n");
+        print("ActionStartSectionUpdate: DFU_STATUS_INTERNAL_FLASH_ERASE_ERROR: Addr: %X, Length: %d\n",
+        		Cmd->StartAddress, Cmd->Length);
         InitializeDataMembers();
     }
     else

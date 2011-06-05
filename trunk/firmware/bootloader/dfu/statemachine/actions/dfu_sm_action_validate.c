@@ -119,6 +119,7 @@ PROTECTED void DfuActionReadSectionChunk(uint32 *BytesRead)
 {
 //  uint32 byteRead, i;
 
+
     // read length bytes to readAddress of destination here
     if( !DfuMalRead(readAddress, readSize) )
     {

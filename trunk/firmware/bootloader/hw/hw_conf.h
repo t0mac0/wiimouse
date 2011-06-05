@@ -28,12 +28,16 @@
 #define DEFAULT_USART_RX_PIN  GPIOA_Pin_3
 
 
-#define USB_DISCONNECT_PORT                 GPIOC
-#define USB_DISCONNECT_PIN                  GPIO_Pin_11
-#define USB_DISCONNECT_RCC_APB2Periph       RCC_APB2Periph_GPIOC
+//#define USB_DISCONNECT_PORT                 GPIOC
+//#define USB_DISCONNECT_PIN                  GPIO_Pin_11
+//#define USB_DISCONNECT_RCC_APB2Periph       RCC_APB2Periph_GPIOC
+#define USB_DISCONNECT_PORT                 GPIOD
+#define USB_DISCONNECT_PIN                  GPIO_Pin_2
+#define USB_DISCONNECT_RCC_APB2Periph       RCC_APB2Periph_GPIOD
 
 #define USB_ACTIVE_LED_PORT                 GPIOC
-#define USB_ACTIVE_LED_PIN                  GPIO_Pin_12
+//#define USB_ACTIVE_LED_PIN                  GPIO_Pin_12
+#define USB_ACTIVE_LED_PIN                  GPIO_Pin_0
 #define USB_ACTIVE_LED_RCC_APB2Periph       RCC_APB2Periph_GPIOC
 
 /*-----------------------------------------------------------------------------

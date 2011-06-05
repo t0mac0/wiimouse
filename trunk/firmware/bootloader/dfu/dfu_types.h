@@ -27,7 +27,6 @@
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
@@ -54,18 +53,18 @@ PUBLIC typedef enum {
 } DFU_CommandType;
 
 PUBLIC typedef enum {
-    DFU_STATUS_SUCCESS,
-    DFU_STATUS_FAILURE,
-    DFU_STATUS_STATE_TRANSISTION_ERROR,
-    DFU_STATUS_INVALID_SUB_COMMAND,
-    DFU_STATUS_SECTION_OVERFLOW,
-    DFU_STATUS_SECTION_DATA_OVERFLOW,
-    DFU_STATUS_INVALID_DESTINATION,
-    DFU_STATUS_TOO_MANY_SECTIONS,
-    DFU_STATUS_INTERNAL_FLASH_WRITE_ERROR,
-    DFU_STATUS_INTERNAL_FLASH_READ_ERROR,
-    DFU_STATUS_NOT_IN_UPDATE_MODE,
-    DFU_STATUS_INTERNAL_FLASH_ERASE_ERROR,
+    DFU_STATUS_SUCCESS					= 0,
+    DFU_STATUS_FAILURE					= 1,
+    DFU_STATUS_STATE_TRANSISTION_ERROR	= 2,
+    DFU_STATUS_INVALID_SUB_COMMAND		= 3,
+    DFU_STATUS_SECTION_OVERFLOW			= 4,
+    DFU_STATUS_SECTION_DATA_OVERFLOW	= 5,
+    DFU_STATUS_INVALID_DESTINATION		= 6,
+    DFU_STATUS_TOO_MANY_SECTIONS		= 7,
+    DFU_STATUS_INTERNAL_FLASH_WRITE_ERROR = 8,
+    DFU_STATUS_INTERNAL_FLASH_READ_ERROR = 9,
+    DFU_STATUS_NOT_IN_UPDATE_MODE	    = 10,
+    DFU_STATUS_INTERNAL_FLASH_ERASE_ERROR=11,
 } DFU_StatusType;
 
 #pragma pack(push, 1)
@@ -87,6 +86,7 @@ PUBLIC typedef struct {
     uint16 ProductId;
     uint16 DeviceId;
     uint16 FWVersion;
+    uint16 BootloaderVersion;
     uint32 Checksum;
     uint32 Length;
     uint32 Mode;

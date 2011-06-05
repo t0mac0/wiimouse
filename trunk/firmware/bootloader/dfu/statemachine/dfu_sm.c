@@ -27,19 +27,19 @@
  Typedefs
 ------------------------------------------------------------------------------*/
 typedef enum {
-    DFU_STATE_WAITING,
-    //DFU_STATE_INITIALIZE_UPDATE,
-    DFU_STATE_BEGIN_UPDATE,
-    DFU_STATE_START_SECTION_UPDATE,
-    DFU_STATE_SECTION_UPDATE,
-    DFU_STATE_END_SECTION_UPDATE,
-    DFU_STATE_END_UPDATE,
-    DFU_STATE_BEGIN_VALIDATION,
-    DFU_STATE_START_SECTION_VALIDATION,
-    DFU_STATE_VALIDATE_SECTION,
-    DFU_STATE_END_SECTION_VALIDATION,
-    DFU_STATE_END_VALIDATION,
-    DFU_STATE_COMPLETE_UPDATE,
+    DFU_STATE_WAITING						= 0,
+    DFU_STATE_DEVICE_QUERIED				= 1,
+    DFU_STATE_BEGIN_UPDATE					= 2,
+    DFU_STATE_START_SECTION_UPDATE			= 3,
+    DFU_STATE_SECTION_UPDATE				= 4,
+    DFU_STATE_END_SECTION_UPDATE			= 5,
+    DFU_STATE_END_UPDATE					= 6,
+    DFU_STATE_BEGIN_VALIDATION				= 7,
+    DFU_STATE_START_SECTION_VALIDATION		= 8,
+    DFU_STATE_VALIDATE_SECTION				= 9,
+    DFU_STATE_END_SECTION_VALIDATION		= 10,
+    DFU_STATE_END_VALIDATION				= 11,
+    DFU_STATE_COMPLETE_UPDATE				= 12,
     DFU_STATE_NULL = 0xFF
 } StateType;
 
@@ -63,11 +63,11 @@ PRIVATE StateType currentState;
 PRIVATE State stateTable[] =
 {
         //  Command                             Current State                       Next State                          Current State Action
-        { DFU_CMD_QUERY_DEVICE,                 DFU_STATE_WAITING,                  DFU_CMD_QUERY_DEVICE,               DfuActionQueryDevice                       },
-        { DFU_CMD_INITIALIZE_UPDATE,            DFU_CMD_QUERY_DEVICE,               DFU_STATE_NULL,                     DfuActionInitializeUpdate                  },
+        { DFU_CMD_QUERY_DEVICE,                 DFU_STATE_WAITING,                  DFU_STATE_DEVICE_QUERIED,           DfuActionQueryDevice                       },
+        { DFU_CMD_INITIALIZE_UPDATE,            DFU_STATE_DEVICE_QUERIED,           DFU_STATE_NULL,                     DfuActionInitializeUpdate                  },
 
         // Update Sequence
-        { DFU_CMD_BEGIN_UPDATE,                 DFU_CMD_QUERY_DEVICE,               DFU_STATE_BEGIN_UPDATE,             DfuActionBeginUpdate                       },
+        { DFU_CMD_BEGIN_UPDATE,                 DFU_STATE_DEVICE_QUERIED,           DFU_STATE_BEGIN_UPDATE,             DfuActionBeginUpdate                       },
         { DFU_CMD_START_SECTION_UPDATE,         DFU_STATE_BEGIN_UPDATE,             DFU_STATE_START_SECTION_UPDATE,     DfuActionStartSectionUpdate                },
         { DFU_CMD_SECTION_UPDATE,               DFU_STATE_START_SECTION_UPDATE,     DFU_STATE_SECTION_UPDATE,           DfuActionSectionUpdate                     },
         { DFU_CMD_SECTION_UPDATE,               DFU_STATE_SECTION_UPDATE,           DFU_STATE_SECTION_UPDATE,           DfuActionSectionUpdate                     },
@@ -81,9 +81,9 @@ PRIVATE State stateTable[] =
         { DFU_CMD_START_SECTION_VALIDATION,     DFU_STATE_BEGIN_VALIDATION,         DFU_STATE_START_SECTION_VALIDATION, DfuActionStartSectionValidation            },
         { DFU_CMD_SECTION_VALIDATE,             DFU_STATE_START_SECTION_VALIDATION, DFU_STATE_VALIDATE_SECTION,         DfuActionSectionValidate                   },
         { DFU_CMD_SECTION_VALIDATE,             DFU_STATE_VALIDATE_SECTION,         DFU_STATE_VALIDATE_SECTION,         DfuActionSectionValidate                   },
-        { DFU_CMD_END_SECTION_VALIDATION,       DFU_STATE_VALIDATE_SECTION,         DFU_CMD_END_SECTION_VALIDATION,     DfuActionEndSectionValidation              },
-        { DFU_CMD_START_SECTION_VALIDATION,     DFU_CMD_END_SECTION_VALIDATION,     DFU_STATE_START_SECTION_VALIDATION, DfuActionStartSectionValidation            },
-        { DFU_CMD_END_VALIDATION,               DFU_CMD_END_SECTION_VALIDATION,     DFU_STATE_END_VALIDATION,           DfuActionEndValidation                     },
+        { DFU_CMD_END_SECTION_VALIDATION,       DFU_STATE_VALIDATE_SECTION,         DFU_STATE_END_SECTION_VALIDATION,   DfuActionEndSectionValidation              },
+        { DFU_CMD_START_SECTION_VALIDATION,     DFU_STATE_END_SECTION_VALIDATION,   DFU_STATE_START_SECTION_VALIDATION, DfuActionStartSectionValidation            },
+        { DFU_CMD_END_VALIDATION,               DFU_STATE_END_SECTION_VALIDATION,   DFU_STATE_END_VALIDATION,           DfuActionEndValidation                     },
         { DFU_CMD_COMPLETE_UPDATE,              DFU_STATE_END_VALIDATION,           DFU_STATE_COMPLETE_UPDATE,          DfuActionCompleteUpdate                    },
 
 };
@@ -121,6 +121,11 @@ PROTECTED void DfuSmStateTransition(DFU_Command *Command, DFU_Response *Response
             if( Response->Status == DFU_STATUS_SUCCESS )
             {
                 currentState = stateTable[i].NextState;
+            }
+            else
+            {
+            	print("Resetting statemachine\n");
+            	DfuSmInit();
             }
             break;
         }
