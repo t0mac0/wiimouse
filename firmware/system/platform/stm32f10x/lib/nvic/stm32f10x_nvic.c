@@ -400,7 +400,7 @@ void NVIC_SetVectorTable(uint32 NVIC_VectTab, uint32 Offset)
   ASSERT(IS_NVIC_VECTTAB(NVIC_VectTab));
   ASSERT(IS_NVIC_OFFSET(Offset));  
    
-  SCB->ExceptionTableOffset = (((uint32)Offset << 0x07) & (uint32)0x1FFFFF80);
+  SCB->ExceptionTableOffset = (Offset  & (uint32)0x1FFFFF80);
 
   SCB->ExceptionTableOffset |= NVIC_VectTab;
 }

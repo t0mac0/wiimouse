@@ -34,8 +34,7 @@ _Flash_Eeprom_Page_Count = 2;
 MEMORY
 {
   RAM (rwx)             : ORIGIN = 0x20000000, LENGTH = 20K
-  BOOTLOADER (rx)       : ORIGIN = 0x08000000, LENGTH = 16k
-  FLASH (rx)            : ORIGIN = 0x08000000, LENGTH = 128K-16k
+  FLASH (rx)            : ORIGIN = 0x08004000, LENGTH = 128K-16k
   FLASH_EEPROM (rx)     : ORIGIN = 0x0801F800, LENGTH = 2k
 }
 SECTIONS
@@ -43,26 +42,20 @@ SECTIONS
 	/* The startup code goes first into FLASH */
     .isr_vector :
     {
-        . = ALIGN(4);
         KEEP(*(.isr_vector)) /* Startup code */
-        . = ALIGN(4);
     } > FLASH
 
 
     /* The mode of the device */
     .device_mode :
     {
-        . = ALIGN(4);
         KEEP(*(.device_mode)) 
-        . = ALIGN(4);
     } > FLASH
     
     /* The version of the device */
     .device_firmware_version :
     {
-        . = ALIGN(4);
         KEEP(*(.device_firmware_version)) 
-        . = ALIGN(4);
     } > FLASH
     
         
@@ -83,7 +76,7 @@ SECTIONS
         . = ALIGN(4);
         _etext = .;        /* define a global symbols at end of code */
      } >FLASH
-     
+/*
     .ARM.extab   : 
     { 
         *(.ARM.extab* .gnu.linkonce.armextab.*) 
@@ -99,7 +92,7 @@ SECTIONS
     { 
         *(.ARM.attributes) 
     } > FLASH
-    
+  
    .preinit_array     :
     {
         PROVIDE_HIDDEN (__preinit_array_start = .);
@@ -122,7 +115,7 @@ SECTIONS
         KEEP (*(SORT(.fini_array.*)))
         PROVIDE_HIDDEN (__fini_array_end = .);
     } >FLASH
-    
+*/
     . = ALIGN(_Flash_Eeprom_Page_Size);
     _flash_eeprom_base = .;
     

@@ -32,24 +32,20 @@ _Min_Stack_Size = 0x200; /* required amount of stack */
 MEMORY
 {
   RAM (rwx) : ORIGIN = 0x20000000, LENGTH = 20K
-  BOOTLOADER (rx) : ORIGIN = 0x08000000, LENGTH = 32k
+  BOOTLOADER (rx) : ORIGIN = 0x08000000, LENGTH = 16k
 }
 SECTIONS
   {
 	/* The startup code goes first into FLASH */
     .isr_vector :
     {
-        . = ALIGN(4);
         KEEP(*(.isr_vector)) /* Startup code */
-        . = ALIGN(4);
     } > BOOTLOADER
     
     /* Bootloader Version */
     .bootloader_version :
     {
-        . = ALIGN(4);
         KEEP(*(.bootloader_version)) /* Startup code */
-        . = ALIGN(4);
     } > BOOTLOADER    
     
     /* The program code and other data goes into FLASH */
@@ -69,7 +65,7 @@ SECTIONS
         . = ALIGN(4);
         _etext = .;        /* define a global symbols at end of code */
      } >BOOTLOADER
-     
+ /*    
     .ARM.extab   : 
     { 
         *(.ARM.extab* .gnu.linkonce.armextab.*) 
@@ -108,7 +104,7 @@ SECTIONS
         KEEP (*(SORT(.fini_array.*)))
         PROVIDE_HIDDEN (__fini_array_end = .);
     } >BOOTLOADER
-
+*/
     /* used by the startup to initialize data */
     . = ALIGN(4);
     _sidata = .;
