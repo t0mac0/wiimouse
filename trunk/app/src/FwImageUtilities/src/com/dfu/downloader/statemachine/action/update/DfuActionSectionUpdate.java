@@ -48,7 +48,7 @@ public class DfuActionSectionUpdate implements DfuTransitionAction {
 					}
 					else
 					{
-						data.addMessageError(this, "Device failed: " + response.getErrorDescription());
+						data.addMessageError(this, "Failed to write packet at address: "+Integer.toHexString(data.getTransferAddress())+ ". Error msg: " + response.getErrorDescription());
 						break;
 					}
 				}
@@ -73,7 +73,7 @@ public class DfuActionSectionUpdate implements DfuTransitionAction {
 					}
 					else
 					{
-						data.addMessageError(this, "Device failed: " + response.getErrorDescription());
+						data.addMessageError(this, "Failed to write packet at address: "+Integer.toHexString(data.getTransferAddress())+ ". Error msg: " + response.getErrorDescription());
 						break;
 					}
 				}

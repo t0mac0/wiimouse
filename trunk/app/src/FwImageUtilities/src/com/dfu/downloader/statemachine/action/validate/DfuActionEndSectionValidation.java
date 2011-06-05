@@ -19,7 +19,7 @@ public class DfuActionEndSectionValidation implements DfuTransitionAction {
 
 		link = data.getSerialLink();
 
-		data.addMessageInfo(this, "Ending section validation...");
+		data.addMessageInfo(this, "Section validation complete.");
 		
 		command.setSectionCount(data.getFwImage().getImageSectionsCount());
 

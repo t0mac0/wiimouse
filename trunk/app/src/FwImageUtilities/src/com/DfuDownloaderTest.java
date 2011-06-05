@@ -18,8 +18,8 @@ public class DfuDownloaderTest implements MessageListener {
 		
 		try {
 			DfuGenerator.GenerateDfuImage(
-					"C:\\Users\\Reed\\Programming\\wiiMouse_prj\\dan\\hid_mouse_virtual_com\\Debug\\hid_mouse_virtual_com.elf", 
-					"dfuImages\\hid_mouse.img", 
+					"C:\\Users\\Reed\\Programming\\wiiMouse_prj\\wiimouse\\firmware\\device\\Debug\\firmware.elf", 
+					"dfuImages\\firmware.img", 
 					0xF46D, 
 					0x052B,
 					0x0002,
@@ -33,7 +33,7 @@ public class DfuDownloaderTest implements MessageListener {
 		
 		downloader.addMessageListener(this);
 		try {
-			downloader.downloadImage("dfuImages\\hid_mouse.img", true);
+			downloader.downloadImage("dfuImages\\firmware.img", true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

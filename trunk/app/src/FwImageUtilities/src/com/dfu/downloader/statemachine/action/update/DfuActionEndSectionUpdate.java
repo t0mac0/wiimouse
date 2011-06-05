@@ -20,7 +20,7 @@ public class DfuActionEndSectionUpdate implements DfuTransitionAction {
 
 		link = data.getSerialLink();
 
-		data.addMessageInfo(this, "Ending section update...");
+		data.addMessageInfo(this, "Section update complete.");
 		
 		command.setSectionCount(data.getFwImage().getImageSectionsCount());
 

@@ -1,4 +1,4 @@
-package com.dfu.downloader.statemachine.action.update;
+package com.dfu.downloader.statemachine.action.validate;
 
 import com.dfu.downloader.comm.DfuSerialLink;
 import com.dfu.downloader.statemachine.DfuCommonData;
@@ -8,25 +8,26 @@ import com.dfu.downloader.transfer.DfuResponse;
 import com.dfu.downloader.type.DfuCommandType;
 
 
-public class DfuActionEndUpdate implements DfuTransitionAction {
+public class DfuActionEndValidation implements DfuTransitionAction {
 
-	public DfuActionEndUpdate() {}
+	public DfuActionEndValidation() {}
 
 	public boolean doAction(DfuCommonData data) {
-		DfuCommand command = new DfuCommand(DfuCommandType.END_UPDATE);
+		DfuCommand command = new DfuCommand(DfuCommandType.END_VALIDATION);
 		DfuResponse response = new DfuResponse();
 		DfuSerialLink link;
 		boolean result = false;
 
 		link = data.getSerialLink();
 
-		data.addMessageInfo(this, "Firmware update complete.");
+		data.addMessageInfo(this, "Validation Complete.");
 
 		command.setSectionCount(data.getFwImage().getImageSectionsCount());
+		data.resetActiveImageSection();
 
 		if(link.sendCommand(command, response)){
 			if(response.isSuccessful()){
-				data.setNextCommand(DfuCommandType.BEGIN_VALIDATION);
+				data.setNextCommand(DfuCommandType.COMPLETE_UPDATE);
 				result = true;
 			}
 			else
@@ -36,9 +37,10 @@ public class DfuActionEndUpdate implements DfuTransitionAction {
 		}
 		else
 		{
-			data.addMessageError(this, "Failed to send END_UPDATE command");
+			data.addMessageError(this, "Failed to send END_VALIDATION command");
 		}
 
 		return result;
 	}
+
 }

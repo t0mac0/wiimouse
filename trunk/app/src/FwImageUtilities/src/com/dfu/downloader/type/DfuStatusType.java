@@ -20,8 +20,14 @@ public enum DfuStatusType {
 		(6, "Invalid memory destination"),
 	TOO_MANY_SECTIONS
 		(7, "Attempted to update more memory sections than physically available"),
+	INTERNAL_FLASH_WRITE_ERROR
+		(8, "Error writing internal flash memory"),
+	INTERNAL_FLASH_READ_ERROR
+		(9, "Error reading internal flash memory"),
 	NOT_IN_UPDATE_MODE
-	(8, "Attemped to update while not in update mode");
+		(10, "Attemped to update while not in update mode"),
+	INTERNAL_FLASH_ERASE_ERROR
+		(11, "Error erasing internal flash memory");
 	
 	private int status;
 	private String description;

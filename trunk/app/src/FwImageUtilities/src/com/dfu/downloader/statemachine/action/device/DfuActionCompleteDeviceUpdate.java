@@ -20,7 +20,7 @@ public class DfuActionCompleteDeviceUpdate implements DfuTransitionAction {
 
 		link = data.getSerialLink();
 
-		data.addMessageInfo(this, "Completing firmware update...");
+		data.addMessageInfo(this, "Completing firmware update.");
 
 		if(link.sendCommand(command, response)){
 			if(response.isSuccessful()){

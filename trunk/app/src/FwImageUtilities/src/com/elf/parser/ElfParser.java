@@ -16,7 +16,7 @@ import com.elf.header.ElfSectionHeader;
 
 public class ElfParser {
 
-	private static final int DESTINATION_MSK = 0xF0000000;
+	private static final int DESTINATION_MSK = 0xFF000000;
 
 	public static ElfFile ParseElfFile(String path) throws Exception
 	{
@@ -126,6 +126,7 @@ public class ElfParser {
 			for(ElfSectionHeader sectionHeader : sectionHeaders)
 			{
 				if( ((sectionHeader.getSh_flags() & ElfSectionHeader.SHF_ALLOC) > 0) &&
+						((sectionHeader.getSh_type() & ElfSectionHeader.SHT_PROGBITS)>0)&&
 						((sectionHeader.getSh_addr() & DESTINATION_MSK) == (programHeader.getP_vaddr() & DESTINATION_MSK)) )
 				{
 					tmpSectionHeaders.add(sectionHeader);

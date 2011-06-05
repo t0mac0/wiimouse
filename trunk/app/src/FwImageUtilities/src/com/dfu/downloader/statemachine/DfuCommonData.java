@@ -127,6 +127,7 @@ public class DfuCommonData {
 
 	public void setTransferOffset(int transferOffset) {
 		this.transferOffset = transferOffset;
+		this.transferAddress += transferOffset;
 	}
 
 

@@ -26,10 +26,13 @@ public class DfuActionStartSectionUpdate implements DfuTransitionAction {
 			data.addMessageError(this, "No more sections to update!");
 			return false;
 		}
+		
+		data.addMessageInfo(this, "Updating section: 0x" + Integer.toHexString(section.getPhysicalAddress()));
 
 		command.setStartAddress(section.getPhysicalAddress());
 		command.setLength(section.getSize());
 		section.resetDataPointer();
+		data.setTransferAddress(section.getPhysicalAddress());
 
 		if(link.sendCommand(command, response)){
 			if(response.isSuccessful()){
