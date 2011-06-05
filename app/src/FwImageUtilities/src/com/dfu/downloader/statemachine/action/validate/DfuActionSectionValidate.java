@@ -8,6 +8,7 @@ import com.dfu.downloader.transfer.DfuCommand;
 import com.dfu.downloader.transfer.DfuPacket;
 import com.dfu.downloader.transfer.DfuResponse;
 import com.dfu.downloader.type.DfuCommandType;
+import com.dfu.downloader.type.DfuModeType;
 
 
 public class DfuActionSectionValidate implements DfuTransitionAction {
@@ -32,7 +33,7 @@ public class DfuActionSectionValidate implements DfuTransitionAction {
 			data.addMessageError(this, "No more sections to validate!");
 			return false;
 		}
-
+		
 		wordsRead = section.readImageData(imageData, DfuPacket.MAX_PACKET_SIZE);
 
 		do {
@@ -48,7 +49,7 @@ public class DfuActionSectionValidate implements DfuTransitionAction {
 					}
 					else
 					{
-						data.addMessageError(this, "Device failed: " + response.getErrorDescription());
+						data.addMessageError(this, "Failed to read packet at address: "+Integer.toHexString(data.getTransferAddress())+ ". Error msg: " + response.getErrorDescription());
 						break;
 					}
 				}
@@ -57,9 +58,9 @@ public class DfuActionSectionValidate implements DfuTransitionAction {
 			{
 				if(link.receiveData(command, deviceData, wordsRead))
 				{
-					if(!validateReceivedDataChunk(imageData, deviceData, wordsRead, data.getTransferOffset()))
+					if(!validateReceivedDataChunk(imageData, deviceData, wordsRead, data.getTransferAddress()))
 					{
-						data.addMessageError(this, "Device image data did not validate");
+						data.addMessageError(this, "Failed to validate packet at address: "+Integer.toHexString(data.getTransferAddress())+ ". Error msg: " + response.getErrorDescription());
 						break;
 					}
 					data.setTransferOffset(wordsRead);
@@ -95,7 +96,7 @@ public class DfuActionSectionValidate implements DfuTransitionAction {
 				valid = false;
 				System.out.printf("didn't validate at %X\n", offset+i);
 				System.out.printf("%X != %X\n", imageData[i], deviceData[i]);
-				//break;
+				break;
 			}
 		}
 		return valid;

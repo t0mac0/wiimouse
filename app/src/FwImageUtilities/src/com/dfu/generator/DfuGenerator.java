@@ -133,6 +133,8 @@ public class DfuGenerator {
 		
 		writeCount += DfuImageSectionHeader.SIZE;
 		
+		System.out.printf("Physical Addr: %08X, size: %X\n", elfProgram.getPhysicalAddress(),elfProgram.getMemorySize());
+		
 		return writeCount;
 	}
 	

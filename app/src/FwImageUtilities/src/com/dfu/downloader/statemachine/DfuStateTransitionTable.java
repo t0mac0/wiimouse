@@ -14,6 +14,7 @@ import com.dfu.downloader.statemachine.action.update.DfuActionSectionUpdate;
 import com.dfu.downloader.statemachine.action.update.DfuActionStartSectionUpdate;
 import com.dfu.downloader.statemachine.action.validate.DfuActionBeginValidation;
 import com.dfu.downloader.statemachine.action.validate.DfuActionEndSectionValidation;
+import com.dfu.downloader.statemachine.action.validate.DfuActionEndValidation;
 import com.dfu.downloader.statemachine.action.validate.DfuActionSectionValidate;
 import com.dfu.downloader.statemachine.action.validate.DfuActionStartSectionValidation;
 import com.dfu.downloader.type.DfuCommandType;
@@ -44,7 +45,8 @@ public class DfuStateTransitionTable {
 		add(new DfuState(DfuCommandType.SECTION_VALIDATE,		DfuStateType.VALIDATE_SECTION,		DfuStateType.VALIDATE_SECTION, 		new DfuActionSectionValidate()));
 		add(new DfuState(DfuCommandType.END_SECTION_VALIDATION,	DfuStateType.VALIDATE_SECTION,		DfuStateType.END_SECTION_VALIDATION,new DfuActionEndSectionValidation()));
 		add(new DfuState(DfuCommandType.START_SECTION_VALIDATION,DfuStateType.END_SECTION_VALIDATION,DfuStateType.START_SECTION_VALIDATION,new DfuActionStartSectionValidation()));
-		add(new DfuState(DfuCommandType.END_VALIDATION,			DfuStateType.END_SECTION_VALIDATION,DfuStateType.COMPLETE_UPDATE,		new DfuActionCompleteDeviceUpdate()));
+		add(new DfuState(DfuCommandType.END_VALIDATION,			DfuStateType.END_SECTION_VALIDATION,DfuStateType.END_VALIDATION,		new DfuActionEndValidation()));
+		add(new DfuState(DfuCommandType.COMPLETE_UPDATE,	    DfuStateType.END_VALIDATION,		DfuStateType.COMPLETE_UPDATE,		new DfuActionCompleteDeviceUpdate()));
 	}};
 	
 

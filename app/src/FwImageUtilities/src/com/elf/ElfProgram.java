@@ -1,5 +1,6 @@
 package com.elf;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.elf.header.ElfProgramHeader;
@@ -16,8 +17,11 @@ public class ElfProgram {
 	public ElfProgram(ElfProgramHeader programHeader, List<ElfSectionHeader> sectionHeaders, List<Byte> programData) throws Exception
 	{
 		this.programHeader = programHeader;
-		this.sectionHeaders = sectionHeaders;
 		this.programData = programData;
+		this.sectionHeaders = new ArrayList<ElfSectionHeader>();
+		
+		for(ElfSectionHeader header : sectionHeaders)
+			this.sectionHeaders.add(header);
 	}
 
 	public ElfProgramHeader getProgramHeader() {
@@ -43,12 +47,30 @@ public class ElfProgram {
 	
 	public int getPhysicalAddress()
 	{
-		return programHeader.getP_paddr();
+		int addr;
+		int offset = 0x7FFFFFFF;
+		
+		for(ElfSectionHeader header : sectionHeaders)
+		{
+			addr = header.getSh_addr()&0x00FFFFFF;
+			if(addr < offset)
+			{
+				offset = addr;
+			}
+		}
+		return programHeader.getP_paddr() + offset;
 	}
 	
 	public int getMemorySize()
 	{
-		return programHeader.getP_memsz();
+		int size = 0;
+		
+		for(ElfSectionHeader header : sectionHeaders)
+		{
+			size += header.getSh_size();
+		}		
+		
+		return size;
 	}
 	
 	public byte[] getProgramDataBuffer()
