@@ -130,6 +130,7 @@ PROTECTED void NunchuckSmIssueEvent(NUNCHUCK_SM_Events Event)
 {
 	bool higherPriorityTaskWoken;
 
+	LOG_Printf("Nunchuck event: %d\n", Event);
 	NunchuckCurrentEvent = Event;
 	OS_GiveSemaphoreFromIsr(eventSem, &higherPriorityTaskWoken);
 }
@@ -146,7 +147,6 @@ PRIVATE void NunchuckSmTask(void *Params)
 	Result result;
 	uint32 i;
 
-	LOG_Printf("Starting NunchuckSmTask\n");
 
     UNUSED(Params);
 

@@ -97,14 +97,6 @@ PUBLIC void TIM3_IRQHandler( void )
 /******************************************************************************/
 PUBLIC void TIM4_IRQHandler( void )
 {
-	//if( TIM_GetITStatus(TIM4, TIM_IT_Update) != RESET )
-	{
-		TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
-
-		// Send HID Report
-		NUNCHUCK_HID_REPORTER_SendReport();
-	}
-
 
 }
 

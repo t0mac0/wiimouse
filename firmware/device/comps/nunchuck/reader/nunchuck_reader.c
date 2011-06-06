@@ -63,11 +63,12 @@ PROTECTED Result NunchuckReaderInit( void )
 		return NUNCHUCK_RESULT(MEMORY_ALLOC_FAIL);
 	}
 
-	if( RESULT_IS_ERROR(result, OS_CreateSemaphore(&NunchuckRawData.DataAvailableSem, OS_SEM_TYPE_BINARY, 0, 1)) )
+	if( RESULT_IS_ERROR(result, OS_CreateSemaphore(&NunchuckRawData.DataAvailableSem, OS_SEM_TYPE_BINARY, 0, NULL)) )
 	{
 		return result;
 	}
 
+	counterConfig.InterruptPriority = 0xF;
 	counterConfig.EnableUpdateInterrupt = TRUE;
 	counterConfig.Frequnecy = (NunchuckSettings.DataPointsPerHidReport*1000)/COMPOSITE_USB_HID_REPORT_INTERVAL;
 	counterConfig.Mode = HW_TIMER_COUNTER_MODE_UP;
@@ -80,7 +81,7 @@ PROTECTED Result NunchuckReaderInit( void )
 
 	LOG_Printf("Initializing Nunchuck reader timer\n");
 
-	// TODO: this accuracy isn't that important, use the software timer
+
 	if( RESULT_IS_ERROR(result, HW_TIMER_Init(NUNCHUCK_READ_TIMER, &timerConfig)) )
 	{
 		result = NUNCHUCK_RESULT(TIMER_INIT_FAIL);
@@ -117,6 +118,7 @@ PUBLIC void NUNCHUCK_READER_ReadDataPoint( void )
 
 	if( RESULT_IS_SUCCESS(result, NunchuckComReadData(&NunchuckRawData.DataPts[NunchuckRawData.NextPoint])) )
 	{
+		LOG_Printf("\n");
 		NunchuckRawData.NextPoint++;
 		if( NunchuckRawData.NextPoint == NunchuckRawData.TotalDataPtCount )
 			NunchuckRawData.NextPoint = 0;

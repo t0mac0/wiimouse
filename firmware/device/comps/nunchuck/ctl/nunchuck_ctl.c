@@ -94,7 +94,7 @@ PROTECTED Result NunchuckCtlConnect(void)
 
     if( !IS_RESULT_SUCCESS(result))
     {
-    	UTIL_DELAY(1000);
+    	UTIL_DELAY(250);
     }
     else
     {
@@ -125,7 +125,7 @@ PRIVATE Result InitializeNunchuck( pNunchuckProfileInfo profile, pNunchuckCtlCal
     Result result = NUNCHUCK_RESULT(SUCCESS);
     uint8 buffer[8];
 
-    LOG_Printf("Sending first code\n");
+    //LOG_Printf("Sending first code\n");
 
     // Send first initialization code
     buffer[0] = 0xF0;
@@ -136,7 +136,7 @@ PRIVATE Result InitializeNunchuck( pNunchuckProfileInfo profile, pNunchuckCtlCal
     }
     OS_TASK_MGR_Delay(NUNCHUCK_INIT_DELAY);
 
-    LOG_Printf("Sending second code\n");
+    //LOG_Printf("Sending second code\n");
 
     // Send second initialization code
     buffer[0] = 0xFB;
@@ -147,7 +147,7 @@ PRIVATE Result InitializeNunchuck( pNunchuckProfileInfo profile, pNunchuckCtlCal
     }
     OS_TASK_MGR_Delay(NUNCHUCK_INIT_DELAY);
 
-    LOG_Printf("Reading device ID\n");
+    //LOG_Printf("Reading device ID\n");
 
     // Read device Id
     if( RESULT_IS_ERROR(result, NunchuckComReadReg(0xFA, buffer, 6)) )
@@ -157,11 +157,12 @@ PRIVATE Result InitializeNunchuck( pNunchuckProfileInfo profile, pNunchuckCtlCal
     LOG_Printf("Nunchuck device ID: %X\n", buffer[3]);
     OS_TASK_MGR_Delay(NUNCHUCK_INIT_DELAY);
 
-    LOG_Printf("Reading Calibration\n");
+    //LOG_Printf("Reading Calibration\n");
 
     // Read Calibration
     if( RESULT_IS_ERROR(result, NunchuckComReadCalibration(Calibration)) )
     {
+    	//LOG_Printf("failed to read calibration\n");
         return result;
     }
     OS_TASK_MGR_Delay(NUNCHUCK_INIT_DELAY);
@@ -170,7 +171,7 @@ PRIVATE Result InitializeNunchuck( pNunchuckProfileInfo profile, pNunchuckCtlCal
 
     if( profile->UseEncryption )
     {
-    	LOG_Printf("Enabling encryption\n");
+    	//LOG_Printf("Enabling encryption\n");
 
 
         // Enable encryption

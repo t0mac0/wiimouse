@@ -84,7 +84,7 @@ PUBLIC Result OS_CreateSemaphore(pOS_Semaphore Semaphore, OS_SemaphoreType SemTy
     switch(SemType)
     {
     case OS_SEM_TYPE_BINARY:
-        vSemaphoreCreateBinary( semHandle );
+        vSemaphoreCreateBinary( semHandle, InitValue );
         break;
 
 #if configUSE_MUTEXES
