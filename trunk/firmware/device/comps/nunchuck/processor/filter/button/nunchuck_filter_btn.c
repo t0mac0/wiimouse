@@ -52,8 +52,8 @@ PROTECTED void NunchuckFilterButtonData( void )
     newest = NunchuckRawData.NextPoint - 1;
     if(newest > NunchuckRawData.TotalDataPtCount) newest = NunchuckRawData.TotalDataPtCount - 1;
 
-    NunchuckProcessedData.Data.Buttons.Button.Z = NunchuckRawData.DataPts[newest].Buttons.Button.Z;
-    NunchuckProcessedData.Data.Buttons.Button.C = NunchuckRawData.DataPts[newest].Buttons.Button.C;
+    NunchuckProcessedData.Data.Buttons.Button.Z = ~NunchuckRawData.DataPts[newest].Buttons.Button.Z;
+    NunchuckProcessedData.Data.Buttons.Button.C = ~NunchuckRawData.DataPts[newest].Buttons.Button.C;
 }
 
 

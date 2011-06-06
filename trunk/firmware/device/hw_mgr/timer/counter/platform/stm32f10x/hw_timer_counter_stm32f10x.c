@@ -82,8 +82,8 @@ PROTECTED Result HwTimerCounterInit(HW_TIMER_BlockId BlockId, HW_TIMER_ConfigInf
 		{
 			NVIC_InitTypeDef NVIC_InitStructure;
 			NVIC_InitStructure.NVIC_IRQChannel = HwTimerIRQChannel[BlockId];
-			NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-			NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+			NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = hwConfig->InterruptPriority;
+			NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0xF;
 			NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 
 			NVIC_Init(&NVIC_InitStructure);
@@ -112,6 +112,7 @@ PROTECTED Result HwTimerCounterInit(HW_TIMER_BlockId BlockId, HW_TIMER_ConfigInf
 PROTECTED Result HwTimerCounterStart(HW_TIMER_BlockId BlockId)
 {
 	LOG_Printf("Enabling timer: %d\n", BlockId);
+	HwTimerCounterBase[BlockId]->SR = 0;
 	TIM_Cmd( HwTimerCounterBase[BlockId], ENABLE );
 
 	return HW_TIMER_RESULT(SUCCESS);
@@ -204,10 +205,6 @@ PRIVATE Result GetFrequencyFactors(HW_TIMER_CounterConfig *HwConfig, TIM_TimeBas
 		BaseConfig->TIM_ClockDivision = TIM_CKD_DIV1;
 		BaseConfig->TIM_Period = (uint16)period-1;
 
-		LOG_Printf("Frequency: %d\n", HwConfig->Frequnecy);
-		LOG_Printf("TIM_ClockDivision: %d\n", BaseConfig->TIM_ClockDivision);
-		LOG_Printf("TIM_Period: %d\n", BaseConfig->TIM_Period);
-		LOG_Printf("TIM_Prescaler: %d\n", BaseConfig->TIM_Prescaler);
 	}
 
 	return result;

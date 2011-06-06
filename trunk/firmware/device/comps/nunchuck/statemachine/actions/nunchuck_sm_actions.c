@@ -47,6 +47,7 @@
 /*****************************************************************************/
 PROTECTED Result NunchuckActionUsbDisconnected(void)
 {
+	LOG_Printf("NunchuckActionUsbDisconnected\n");
 	NunchuckHidReporterDisableReporting();
 
 	NunchuckReaderDisableReading();
@@ -64,6 +65,7 @@ PROTECTED Result NunchuckActionUsbDisconnected(void)
 /*****************************************************************************/
 PROTECTED Result NunchuckActionUsbConnected(void)
 {
+	LOG_Printf("NunchuckActionUsbConnected\n");
 	//NunchuckPacketCtkTaskResume();
 
 	if( (NunchuckCurrentEvent == NUNCHUCK_SM_EVENT_USB_CONNECT) )
@@ -80,6 +82,7 @@ PROTECTED Result NunchuckActionNunchuckReconnect(void)
 {
 	Result result = NUNCHUCK_RESULT(SUCCESS);
 
+	LOG_Printf("NunchuckActionNunchuckReconnect\n");
 
 	if( RESULT_IS_SUCCESS(result, NunchuckCtlConnect()) )
 	{
@@ -112,6 +115,8 @@ PROTECTED Result NunchuckActionNunchuckReconnect(void)
 /*****************************************************************************/
 PROTECTED Result NunchuckActionNunchuckDisonnected(void)
 {
+	LOG_Printf("NunchuckActionNunchuckDisonnected\n");
+
 	NunchuckHidReporterDisableReporting();
 
 	NunchuckReaderDisableReading();

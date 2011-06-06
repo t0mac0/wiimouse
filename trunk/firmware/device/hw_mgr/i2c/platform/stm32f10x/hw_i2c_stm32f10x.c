@@ -166,11 +166,9 @@ PUBLIC Result HW_I2C_PowerDown( uint32 BlockId )
 //****************************************************************************/
 PUBLIC Result HW_I2C_Deinit(HW_I2C_BlockId BlockId)
 {
-    Result result = HW_I2C_RESULT(SUCCESS);
-
     I2C_DeInit(I2C_Base[BlockId]);
 
-    return result;
+    return HW_I2C_RESULT(SUCCESS);
 }
 
 //****************************************************************************/
@@ -187,7 +185,7 @@ PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Regi
     {
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
-        	LOG_Printf("I2C Bus Busy timeout\n");
+        	//LOG_Printf("I2C Bus Busy timeout\n");
             I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
             return HW_I2C_RESULT(BUS_TIMEOUT);
         }
@@ -202,7 +200,7 @@ PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Regi
     {
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
-        	LOG_Printf("I2C Master Mode Select timeout\n");
+        	//LOG_Printf("I2C Master Mode Select timeout\n");
             I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
             return HW_I2C_RESULT(MASTER_MODE_SELECT_TIMEOUT);
         }
@@ -217,7 +215,7 @@ PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Regi
     {
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
-        	LOG_Printf("I2C Master Transmitter Mode Select timeout\n");
+        	//LOG_Printf("I2C Master Transmitter Mode Select timeout\n");
             I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
             return HW_I2C_RESULT(MASTER_TRANSMIITER_SELECT_TIMEOUT);
         }
@@ -232,14 +230,14 @@ PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Regi
     {
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
-        	LOG_Printf("I2C BTF timeout\n");
+        	//LOG_Printf("I2C BTF timeout\n");
             I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
             return HW_I2C_RESULT(SET_REGISTER_TIMEOUT);
         }
     }
 
     // TODO: remove this delay
-    //UTIL_DELAY(1);
+    UTIL_DELAY(1);
 
 
     /*!< Send STRAT condition a second time */
@@ -251,7 +249,7 @@ PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Regi
     {
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
-        	LOG_Printf("I2C Master Mode Select2 timeout\n");
+        	//LOG_Printf("I2C Master Mode Select2 timeout\n");
             I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
             return HW_I2C_RESULT(MASTER_MODE_SELECT_TIMEOUT);
         }
@@ -266,7 +264,7 @@ PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Regi
     {
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
-        	LOG_Printf("I2C Master Receiver Mode timeout\n");
+        	//LOG_Printf("I2C Master Receiver Mode timeout\n");
             I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
             return HW_I2C_RESULT(RECEIVER_MODE_SELECT_TIMEOUT);
         }
@@ -281,13 +279,14 @@ PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Regi
         {
             if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
             {
-            	LOG_Printf("I2C RXNE timeout\n");
+            	//LOG_Printf("I2C RXNE timeout\n");
                 I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
                 return HW_I2C_RESULT(RECEIVE_TIMEOUT);
             }
         }
         /*!< Read the byte received from the I2C device */
-        Buffer[*BytesRead++] = I2C_ReceiveData(I2C_Base[Id]);
+        Buffer[*BytesRead] = I2C_ReceiveData(I2C_Base[Id]);
+        *BytesRead = *BytesRead + 1;
     }
 
 
@@ -307,14 +306,15 @@ PUBLIC Result HW_I2C_ReadSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 Regi
     {
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
-        	LOG_Printf("I2C RXNE2 timeout\n");
+        	//LOG_Printf("I2C RXNE2 timeout\n");
             I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
             return HW_I2C_RESULT(RECEIVE_TIMEOUT);
         }
     }
 
     /*!< Read the byte received from the I2C device */
-    Buffer[*BytesRead++] = I2C_ReceiveData(I2C_Base[Id]);
+    Buffer[*BytesRead] = I2C_ReceiveData(I2C_Base[Id]);
+    *BytesRead = *BytesRead + 1;
 
 
     /* Wait to make sure that STOP control bit has been cleared */
@@ -347,8 +347,9 @@ PUBLIC Result HW_I2C_WriteSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 *Bu
     {
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
-            I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
-            return HW_I2C_RESULT(BUS_TIMEOUT);
+        	//LOG_Printf("I2C bus busy timeout\n");
+            result = HW_I2C_RESULT(BUS_TIMEOUT);
+            goto writeTimeout;
         }
     }
 
@@ -361,8 +362,9 @@ PUBLIC Result HW_I2C_WriteSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 *Bu
     {
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
-            I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
-            return HW_I2C_RESULT(MASTER_MODE_SELECT_TIMEOUT);
+            //LOG_Printf("I2C_EVENT_MASTER_MODE_SELECT timeout\n");
+            result = HW_I2C_RESULT(MASTER_MODE_SELECT_TIMEOUT);
+            goto writeTimeout;
         }
     }
 
@@ -375,15 +377,17 @@ PUBLIC Result HW_I2C_WriteSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 *Bu
     {
         if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
         {
-            I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
-            return HW_I2C_RESULT(MASTER_TRANSMIITER_SELECT_TIMEOUT);
+        	//LOG_Printf("I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED timeout\n");
+            result =  HW_I2C_RESULT(MASTER_TRANSMIITER_SELECT_TIMEOUT);
+            goto writeTimeout;
         }
     }
 
     while( *BytesWritten < BytesToWrite )
     {
-        /*!< Send the EEPROM's internal address to read from: MSB of the address first */
-        I2C_SendData(I2C_Base[Id], Buffer[*BytesWritten++]);
+        /*!< Send the  internal address to read from: MSB of the address first */
+        I2C_SendData(I2C_Base[Id], Buffer[*BytesWritten]);
+        *BytesWritten = *BytesWritten + 1;
 
         /*!< Test on EV8 and clear it */
         UTIL_TIMEOUT_INIT(timeout, I2C_EVENT_TIMEOUT);
@@ -391,12 +395,14 @@ PUBLIC Result HW_I2C_WriteSlave(HW_I2C_BlockId Id, uint8 SlaveAddress, uint8 *Bu
         {
             if( UTIL_TIMEOUT_TIMED_OUT(timeout) )
             {
-                I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
-                return HW_I2C_RESULT(TRANSMIT_TIMEOUT);
+            	//LOG_Printf("I2C_EVENT_MASTER_BYTE_TRANSMITTED timeout\n");
+                result = HW_I2C_RESULT(TRANSMIT_TIMEOUT);
+                goto writeTimeout;
             }
         }
     }
 
+writeTimeout:
     /*!< Send STOP Condition */
     I2C_GenerateSTOP(I2C_Base[Id], ENABLE);
 

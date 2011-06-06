@@ -39,6 +39,7 @@ PUBLIC typedef struct {
     uint32 Frequnecy; // Hz
     HW_TIMER_CounterMode Mode;
     bool EnableUpdateInterrupt;
+    uint8 InterruptPriority;
 } HW_TIMER_CounterConfig;
 
 

@@ -64,7 +64,7 @@ PROTECTED Result NunchuckProcessorInit( void )
                                                     NULL,
                                                     DataProccessTaskHandle)) )
     {
-        LOG_Printf("Failed to create the nunchuck data processor task\n");
+        //LOG_Printf("Failed to create the nunchuck data processor task\n");
     }
 
 
@@ -101,14 +101,12 @@ PROTECTED Result NunchuckProcessorTaskResume( void )
 /*****************************************************************************/
 PRIVATE void DataProcessorTask(void *Params)
 {
-	LOG_Printf("Starting DataProcessorTask\n");
-
 
     UNUSED(Params);
 
     for(;;)
     {
-    	OS_TakeSemaphore(NunchuckRawData.DataAvailableSem, OS_SEM_WAIT_INFINITE);
+    	OS_TAKE_SEM(NunchuckRawData.DataAvailableSem);
         {
             NunchuckFilterData();
             NunchuckProcessedData.NewDataAvailable = TRUE;

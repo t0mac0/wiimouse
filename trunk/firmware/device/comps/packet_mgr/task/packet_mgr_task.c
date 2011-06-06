@@ -89,8 +89,6 @@ PROTECTED Result PacketMgrCreateTask( void )
 //*****************************************************************************//
 PRIVATE void PacketProcessorTask(void *Params)
 {
-	LOG_Printf("Starting PacketProcessorTask\n");
-
     UNUSED(Params);
 
     for(;;)

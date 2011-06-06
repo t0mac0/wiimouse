@@ -12,6 +12,9 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
+#include "os.h"
+
+
 #include "nunchuck_hid_reporter.h"
 #include "hw_mgr/timer/hw_timer.h"
 #include "composite_usb/composite_usb.h"
@@ -39,7 +42,8 @@
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
-
+PRIVATE OS_TaskProtoType HidReportTask;
+PRIVATE OS_TaskHandle HidReportTaskHandle;
 
 
 //*****************************************************************************
@@ -52,28 +56,16 @@
 PROTECTED Result NunchuckHidReporterInit( void )
 {
 	Result result = NUNCHUCK_RESULT(SUCCESS);
-	HW_TIMER_ConfigInfo timerConfig;
-	HW_TIMER_CounterConfig counterConfig;
 
-
-	// REVISIT: This doesn't necessarily need the accuracy of a
-	// timer interrupt, but since we have an extra one we'll go
-	// ahead and use it.
-	counterConfig.EnableUpdateInterrupt = TRUE;
-	counterConfig.Frequnecy = 1000/COMPOSITE_USB_HID_REPORT_INTERVAL;
-	counterConfig.Mode = HW_TIMER_COUNTER_MODE_UP;
-
-	timerConfig.ClkSrc = HW_TIMER_CLK_SRC_INT;
-	timerConfig.Mode = HW_TIMER_MODE_COUNTER;
-	timerConfig.Type = HW_TIMER_TYPE_GENERAL;
-	timerConfig.config = &counterConfig;
-	timerConfig.Enable = FALSE;
-
-	LOG_Printf("Initializing Nunchuck HID Report timer\n");
-
-	if( RESULT_IS_ERROR(result, HW_TIMER_Init(NUNCHUCK_HID_REPORTER_TIMER, &timerConfig)) )
+	if( RESULT_IS_ERROR(result, OS_TASK_MGR_Add(OS_TASK_NUNCHUCK_HID_REPORT,
+			NUNCHUCK_HID_REPORT_TASK_NAME,
+			HidReportTask,
+			NUNCHUCK_HID_REPORT_STACK_SIZE,
+			NUNCHUCK_HID_REPORT_TASK_PRIORITY,
+			NULL,
+			HidReportTaskHandle)) )
 	{
-		result = NUNCHUCK_RESULT(TIMER_INIT_FAIL);
+		//LOG_Printf("Failed to create the nunchuck data processor task\n");
 	}
 
 	return result;
@@ -85,26 +77,36 @@ PROTECTED Result NunchuckHidReporterEnableReporting( void )
 {
 	LOG_Printf("NunchuckHidReporterEnableReporting\n");
 
-	return HW_TIMER_Start(NUNCHUCK_HID_REPORTER_TIMER);
+
+	return OS_TASK_MGR_Resume(HidReportTaskHandle);
 }
 
 
 /*****************************************************************************/
 PROTECTED Result NunchuckHidReporterDisableReporting( void )
 {
-	return HW_TIMER_Stop(NUNCHUCK_HID_REPORTER_TIMER);
+
+	return OS_TASK_MGR_Suspend(HidReportTaskHandle);
 }
 
 
 /*****************************************************************************/
-PUBLIC void NUNCHUCK_HID_REPORTER_SendReport( void )
+PUBLIC void HidReportTask( void *Params )
 {
 	Result result = NUNCHUCK_RESULT(SUCCESS);
 	HID_MOUSE_REPORT HidReport;
 
+	UNUSED(Params);
 
-	if( NunchuckProcessedData.NewDataAvailable )
+	//OS_TASK_MGR_Suspend(HidReportTaskHandle);
+
+	for(;;)
 	{
+		OS_TASK_MGR_Delay(NunchuckSettings.HidReportInterval);
+
+		while( !NunchuckProcessedData.NewDataAvailable );
+
+
 		HidReport.X = NunchuckProcessedData.Data.Joystick.X;
 		HidReport.Y = NunchuckProcessedData.Data.Joystick.Y;
 
@@ -118,6 +120,7 @@ PUBLIC void NUNCHUCK_HID_REPORTER_SendReport( void )
 		}
 
 		NunchuckProcessedData.NewDataAvailable = FALSE;
+
 	}
 
 

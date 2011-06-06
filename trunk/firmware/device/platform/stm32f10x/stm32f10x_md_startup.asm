@@ -291,7 +291,6 @@ DEFAULT_ISR_HANDLER DMA2_Channel4_5_IRQHandler
 .word 0xFFFFFFFF
 .section .device_firmware_version, "a",%progbits
 .word DEVICE_FIRMWARE_VERSION
-
 #endif
 
 /******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/

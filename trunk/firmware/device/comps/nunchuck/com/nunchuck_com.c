@@ -152,19 +152,10 @@ PROTECTED Result NunchuckComReadCalibration(pNunchuckCtlCalibration Calibration)
     }
     else
     {
-    	uint8 i;
-    	for(i = 0; i < 14; i++)
-    		LOG_Printf("%d\n", buffer[i]);
 
-        if( dataFormatter )
-        {
-        	for(i = 0; i < 14; i++)
-        		buffer[i] = dataFormatter(buffer[i]);
-        }
-
-        Calibration->Accelerometer.X = ((uint16)(buffer[4]&0x03) << 2) | (uint16)buffer[0];
-        Calibration->Accelerometer.Y = ((uint16)(buffer[5]&0x03) << 2) | (uint16)buffer[1];
-        Calibration->Accelerometer.Z = ((uint16)(buffer[6]&0x03) << 2) | (uint16)buffer[2];
+        Calibration->Accelerometer.X = ((uint16)(buffer[4]&0x03) << 8) | (uint16)buffer[0];
+        Calibration->Accelerometer.Y = ((uint16)(buffer[5]&0x03) << 8) | (uint16)buffer[1];
+        Calibration->Accelerometer.Z = ((uint16)(buffer[6]&0x03) << 8) | (uint16)buffer[2];
 
         Calibration->Joystick.X.Max = buffer[8];
         Calibration->Joystick.X.Min = buffer[9];
@@ -197,7 +188,7 @@ PROTECTED Result NunchuckComEnableEncryption( void )
     Result result = NUNCHUCK_RESULT(SUCCESS);
     uint8 buffer[8] = {0};
 
-    LOG_Printf("Sending Enable encryption code\n");
+    //LOG_Printf("Sending Enable encryption code\n");
     // Enable encryption
     buffer[0] = 0xF0;
     buffer[1] = 0xAA;
@@ -208,7 +199,7 @@ PROTECTED Result NunchuckComEnableEncryption( void )
     OS_TASK_MGR_Delay(NUNCHUCK_INIT_DELAY);
 
 
-    LOG_Printf("Sending first 6 bytes encryption code\n");
+    //LOG_Printf("Sending first 6 bytes encryption code\n");
     // Send first 6 bytes of encryption code
     ZeroMemory(buffer, 7);
     buffer[0] = 0x40;
@@ -217,7 +208,7 @@ PROTECTED Result NunchuckComEnableEncryption( void )
     }
     OS_TASK_MGR_Delay(NUNCHUCK_INIT_DELAY);
 
-    LOG_Printf("Sending net 6 bytes encryption code\n");
+    //LOG_Printf("Sending net 6 bytes encryption code\n");
     // Send next 6 bytes of encryption code
     ZeroMemory(buffer, 7);
     buffer[0] = 0x46;
@@ -226,7 +217,7 @@ PROTECTED Result NunchuckComEnableEncryption( void )
     }
     OS_TASK_MGR_Delay(NUNCHUCK_INIT_DELAY);
 
-    LOG_Printf("Sending last 4 bytes encryption code\n");
+    //LOG_Printf("Sending last 4 bytes encryption code\n");
     // Send last 4 bytes of encryption code
     ZeroMemory(buffer, 5);
     buffer[0] = 0x4C;
@@ -281,6 +272,7 @@ PRIVATE inline void ConvertData(pNunchuckData Data, uint8 *RawData)
     Data->Accelerometer.Y = ((uint16)RawData[3] << 2) | (uint16)((RawData[5]&0x30)>>4);
     Data->Accelerometer.Z = ((uint16)RawData[4] << 2) | (uint16)((RawData[5]&0xC0)>>6);
     Data->Buttons.Buttons = RawData[5]&0x03;
+
 }
 
 

@@ -115,6 +115,7 @@ SECTIONS
         KEEP (*(SORT(.fini_array.*)))
         PROVIDE_HIDDEN (__fini_array_end = .);
     } >FLASH
+    
 */
     . = ALIGN(_Flash_Eeprom_Page_Size);
     _flash_eeprom_base = .;
@@ -147,6 +148,7 @@ SECTIONS
     .bss :
     {
     /* This is used by the startup in order to initialize the .bss secion */
+    . = ALIGN(4);
         _sbss = .;         /* define a global symbol at bss start */
         __bss_start__ = _sbss;
         *(.bss)
@@ -169,6 +171,7 @@ SECTIONS
         . = . + _Min_Stack_Size;
         . = ALIGN(4);
     } >RAM
+
 
     /* Remove information from the standard libraries */
     /DISCARD/ :

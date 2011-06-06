@@ -18,7 +18,7 @@
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
-#define MULTIPLY_FACTOR 0x8000
+#define MULTIPLY_FACTOR 0x8000uL
 #define MULTIPLY_FACTOR_LOG 15
 
 /*-----------------------------------------------------------------------------
@@ -49,7 +49,8 @@ typedef struct
  Local Function Prototypes
 ------------------------------------------------------------------------------*/
 PRIVATE inline void NormalizeData(pNunchuckJoystickData DataPt);
-
+PRIVATE int32 calculateYIntercept(int32 a, int32 b, int32 c);
+PRIVATE int32 calculateSlope(int32 a, int32 b, int32 c);
 
 
 /*-----------------------------------------------------------------------------
@@ -72,17 +73,31 @@ PROTECTED void NunchuckFilterJoystickSetCalibration( pNunchuckCtlCalibration Cal
 
     jsCal = &Calibration->Joystick.X;
     normalizationCal.X.neutral = jsCal->Neutral;
-    normalizationCal.X.yIntMin = -127 - ((((int32)jsCal->Min * -127) * MULTIPLY_FACTOR) / ((int32)jsCal->Min - (int32)jsCal->Neutral));
-    normalizationCal.X.yIntMax = -((((int32)jsCal->Neutral * 127) * MULTIPLY_FACTOR) / ((int32)jsCal->Max - (int32)jsCal->Neutral));
-    normalizationCal.X.mMin = (-127 * MULTIPLY_FACTOR ) / ((int32)jsCal->Min - (int32)jsCal->Neutral);
-    normalizationCal.X.mMax = ( 127 * MULTIPLY_FACTOR ) / ((int32)jsCal->Max - (int32)jsCal->Neutral);
+    normalizationCal.X.yIntMin = calculateYIntercept((int32)jsCal->Min, (int32)jsCal->Neutral, -127L);
+    normalizationCal.X.yIntMax = calculateYIntercept((int32)jsCal->Max, (int32)jsCal->Neutral, 127L);
+    normalizationCal.X.mMin = calculateSlope((int32)jsCal->Min, (int32)jsCal->Neutral, -127L);
+    normalizationCal.X.mMax = calculateSlope((int32)jsCal->Max, (int32)jsCal->Neutral, 127L);
 
     jsCal = &Calibration->Joystick.Y;
     normalizationCal.Y.neutral = jsCal->Neutral;
-    normalizationCal.Y.yIntMin = 127 - ((((int32)jsCal->Min * 127) * MULTIPLY_FACTOR) / ((int32)jsCal->Min - (int32)jsCal->Neutral));
-    normalizationCal.X.yIntMax = -((((int32)jsCal->Neutral * -127) * MULTIPLY_FACTOR) / ((int32)jsCal->Max - (int32)jsCal->Neutral));
-    normalizationCal.Y.mMin = ( 127 * MULTIPLY_FACTOR ) / ((int32)jsCal->Min - (int32)jsCal->Neutral);
-    normalizationCal.Y.mMax = (-127 * MULTIPLY_FACTOR ) / ((int32)jsCal->Max - (int32)jsCal->Neutral);
+    normalizationCal.Y.yIntMin = calculateYIntercept((int32)jsCal->Min, (int32)jsCal->Neutral, 127L);
+    normalizationCal.Y.yIntMax = calculateYIntercept((int32)jsCal->Max, (int32)jsCal->Neutral, -127L);
+    normalizationCal.Y.mMin = calculateSlope((int32)jsCal->Min, (int32)jsCal->Neutral, 127L);
+    normalizationCal.Y.mMax = calculateSlope((int32)jsCal->Max, (int32)jsCal->Neutral, -127L);
+
+
+    LOG_Printf("Joystick Normalized Calibration:\n");
+    LOG_Printf("\tX neutral: %d\n", normalizationCal.X.neutral);
+    LOG_Printf("\tX yIntMin: %d\n", normalizationCal.X.yIntMin);
+    LOG_Printf("\tX yIntMax: %d\n", normalizationCal.X.yIntMax);
+    LOG_Printf("\tX mMin: %d\n", normalizationCal.X.mMin);
+    LOG_Printf("\tX mMax: %d\n", normalizationCal.X.mMax);
+    LOG_Printf("\tY neutral: %d\n", normalizationCal.Y.neutral);
+    LOG_Printf("\tY yIntMin: %d\n", normalizationCal.Y.yIntMin);
+    LOG_Printf("\tY yIntMax: %d\n", normalizationCal.Y.yIntMax);
+    LOG_Printf("\tY mMin: %d\n", normalizationCal.Y.mMin);
+    LOG_Printf("\tY mMa: %d\n", normalizationCal.Y.mMax);
+
 }
 
 /*****************************************************************************/
@@ -100,6 +115,8 @@ PROTECTED void NunchuckFilterJoystickData( void )
 
     NormalizeData(&dataPt->Joystick);
 
+    //LOG_Printf("Joystick normalized data:\n");
+    //LOG_Printf("X: %d\tY: %d\n", dataPt->Joystick.X, dataPt->Joystick.Y);
 
 }
 
@@ -141,6 +158,30 @@ PRIVATE inline void NormalizeData(pNunchuckJoystickData DataPt)
 }
 
 
+/*****************************************************************************/
+PRIVATE int32 calculateYIntercept(int32 a, int32 b, int32 c)
+{
+    int32 top, bottom, quot;
+
+    top = a*c*MULTIPLY_FACTOR;
+    bottom = a-b;
+    quot = (top/bottom);
+
+    return (c*MULTIPLY_FACTOR) - quot;
+}
+
+
+/*****************************************************************************/
+PRIVATE int32 calculateSlope(int32 a, int32 b, int32 c)
+{
+    int32 top, bottom, quot;
+
+    top = c*MULTIPLY_FACTOR;
+    bottom = a-b;
+    quot = top/bottom;
+
+    return quot;
+}
 
 
 
