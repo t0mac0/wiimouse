@@ -22,7 +22,7 @@
 ------------------------------------------------------------------------------*/
 #define NUNCHUCK_SM_NAME "NunchukSM"
 #define NUNCHUCK_SM_SIZE OS_MIN_STACK_SIZE
-#define NUNCHUCK_SM_PRIORITY OS_TASK_PRIORITY_MEDIUM
+
 
 
 

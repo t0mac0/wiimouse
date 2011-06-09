@@ -97,9 +97,11 @@ PUBLIC bool HW_FLASH_Read32Bit(uint32 Address, uint32 *Data, uint32 WordCount)
 
 	for( i= 0; i < WordCount; i++)
 	{
-		*(uint32*)(Data + i) = *(uint32*)(Address);
+		Data[i] = *(uint32*)Address;
 		Address += 4;
-	};
+
+	}
+
 
 	return result;
 }
@@ -110,6 +112,8 @@ PUBLIC bool HW_FLASH_Read16Bit(uint32 Address, uint16 *Data, uint32 WordCount)
 {
 	bool result = TRUE;
 	uint32 i;
+
+
 
 	for( i = 0; i < WordCount; i++)
 	{
@@ -135,13 +139,35 @@ PUBLIC bool HW_FLASH_ErasePages(uint32 FirstPage, uint32 PageCount)
 	{
 		for(i = 0; i < PageCount; i++ )
 		{
-			if( FLASH_ErasePage(FirstPage & 0xFFFFFC00) != FLASH_COMPLETE )
+			if( FLASH_ErasePage(FirstPage & ~(FLASH_PAGE_SIZE-1)) != FLASH_COMPLETE )
 			{
 				result = FALSE;
 				break;
 			}
 			FirstPage += FLASH_PAGE_SIZE;
 		}
+	}
+
+	return result;
+}
+
+
+//****************************************************************************/
+PUBLIC bool HW_FLASH_ErasePage(uint32 PageAddress)
+{
+	bool result = TRUE;
+
+	if( !IS_FLASH_ADDRESS(PageAddress) )
+	{
+		result = FALSE;
+	}
+	else
+	{
+		if( FLASH_ErasePage(PageAddress & ~(FLASH_PAGE_SIZE-1)) != FLASH_COMPLETE )
+		{
+			result = FALSE;
+		}
+
 	}
 
 	return result;

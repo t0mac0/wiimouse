@@ -39,7 +39,8 @@
  Data Members
 ------------------------------------------------------------------------------*/
 PROTECTED NunchuckRawDataInfo NunchuckRawData;
-
+PRIVATE OS_Timer readerTimer;
+PRIVATE OS_TimerCallback ReaderTimerCallback;
 
 //*****************************************************************************
 //
@@ -51,11 +52,15 @@ PROTECTED NunchuckRawDataInfo NunchuckRawData;
 PROTECTED Result NunchuckReaderInit( void )
 {
 	Result result = NUNCHUCK_RESULT(SUCCESS);
-	HW_TIMER_ConfigInfo timerConfig;
-	HW_TIMER_CounterConfig counterConfig;
+	uint32 period;
 
+
+	ZeroMemory(&NunchuckRawData, sizeof(NunchuckRawDataInfo));
 
 	NunchuckRawData.TotalDataPtCount = NunchuckSettings.DataPointsPerHidReport;
+
+	period = NunchuckSettings.HidReportInterval/NunchuckSettings.DataPointsPerHidReport;
+	ASSERT(period);
 
 	NunchuckRawData.DataPts = (pNunchuckData) AllocMemory(sizeof(NunchuckData)*NunchuckRawData.TotalDataPtCount);
 	if( NunchuckRawData.DataPts == NULL )
@@ -67,24 +72,9 @@ PROTECTED Result NunchuckReaderInit( void )
 	{
 		return result;
 	}
-
-	counterConfig.InterruptPriority = 0xF;
-	counterConfig.EnableUpdateInterrupt = TRUE;
-	counterConfig.Frequnecy = (NunchuckSettings.DataPointsPerHidReport*1000)/COMPOSITE_USB_HID_REPORT_INTERVAL;
-	counterConfig.Mode = HW_TIMER_COUNTER_MODE_UP;
-
-	timerConfig.ClkSrc = HW_TIMER_CLK_SRC_INT;
-	timerConfig.Mode = HW_TIMER_MODE_COUNTER;
-	timerConfig.Type = HW_TIMER_TYPE_GENERAL;
-	timerConfig.config = &counterConfig;
-	timerConfig.Enable = FALSE;
-
-	LOG_Printf("Initializing Nunchuck reader timer\n");
-
-
-	if( RESULT_IS_ERROR(result, HW_TIMER_Init(NUNCHUCK_READ_TIMER, &timerConfig)) )
+	else if(RESULT_IS_ERROR(result, OS_CreateTimer(&readerTimer, period, TRUE, 0, ReaderTimerCallback)) )
 	{
-		result = NUNCHUCK_RESULT(TIMER_INIT_FAIL);
+
 	}
 
 	return result;
@@ -98,32 +88,36 @@ PROTECTED Result NunchuckReaderEnableReading( void )
 
 	ZeroMemory(NunchuckRawData.DataPts, sizeof(NunchuckData)*NunchuckRawData.TotalDataPtCount);
 
-	return HW_TIMER_Start(NUNCHUCK_READ_TIMER);
+
+	return OS_TimerStart(readerTimer, 0);
 }
 
 
 /****************************************************************************/
 PROTECTED Result NunchuckReaderDisableReading( void )
 {
-	return HW_TIMER_Stop(NUNCHUCK_READ_TIMER);
+	LOG_Printf("NunchuckReaderDisableReading\n");
+
+	return OS_TimerStop(readerTimer, 0);
 }
 
 
 /****************************************************************************/
-PUBLIC void NUNCHUCK_READER_ReadDataPoint( void )
+PUBLIC void ReaderTimerCallback( OS_Timer timer )
 {
 	Result result = NUNCHUCK_RESULT(SUCCESS);
-	bool higherPriorityTaskWoken;
+
+	UNUSED(timer);
 
 
 	if( RESULT_IS_SUCCESS(result, NunchuckComReadData(&NunchuckRawData.DataPts[NunchuckRawData.NextPoint])) )
 	{
-		LOG_Printf("\n");
 		NunchuckRawData.NextPoint++;
 		if( NunchuckRawData.NextPoint == NunchuckRawData.TotalDataPtCount )
 			NunchuckRawData.NextPoint = 0;
 
-		OS_GiveSemaphoreFromIsr(NunchuckRawData.DataAvailableSem, &higherPriorityTaskWoken);
+		//LOG_Printf("Nunchuck read\n");
+		OS_GIVE_SEM(NunchuckRawData.DataAvailableSem);
 
 	}
 	else

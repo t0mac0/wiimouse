@@ -23,6 +23,7 @@
 #include "queue.h"
 #include "semphr.h"
 #include "list.h"
+#include "timers.h"
 
 /*-----------------------------------------------------------------------------
  Defines

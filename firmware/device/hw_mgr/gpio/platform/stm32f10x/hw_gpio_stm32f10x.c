@@ -15,7 +15,7 @@
 #include <platform_lib.h>
 #include "gpio/hw_gpio.h"
 
-#ifdef STM32F10X_MD
+#if defined STM32F10X_MD || defined STM32F10X_HD
 #ifdef HW_MGR_MOD_GPIO
 /*-----------------------------------------------------------------------------
  Defines

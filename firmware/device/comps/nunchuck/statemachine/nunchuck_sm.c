@@ -109,7 +109,7 @@ PROTECTED Result NunchuckSmInit( void )
     												NUNCHUCK_SM_NAME,
     												NunchuckSmTask,
     												NUNCHUCK_SM_SIZE,
-    												NUNCHUCK_SM_PRIORITY,
+    												OS_TASK_PRIORITY_NUNCHUCK_SM,
                                                     NULL,
                                                     &NunchuckSmTaskHandle)) )
     {
@@ -128,11 +128,14 @@ PROTECTED Result NunchuckSmInit( void )
 /*****************************************************************************/
 PROTECTED void NunchuckSmIssueEvent(NUNCHUCK_SM_Events Event)
 {
-	bool higherPriorityTaskWoken;
+	//uint32 higherPriorityTaskWoken;
 
-	LOG_Printf("Nunchuck event: %d\n", Event);
+	LOG_Printf("issue event: %d\n", Event);
 	NunchuckCurrentEvent = Event;
-	OS_GiveSemaphoreFromIsr(eventSem, &higherPriorityTaskWoken);
+
+	OS_GIVE_SEM(eventSem);
+	//OS_GiveSemaphoreFromIsr(eventSem, &higherPriorityTaskWoken);
+	//OS_TASK_MGR_YieldFromIsr(higherPriorityTaskWoken);
 }
 
 //*****************************************************************************
@@ -152,9 +155,12 @@ PRIVATE void NunchuckSmTask(void *Params)
 
     for(;;)
     {
+    	LOG_Printf("SM waiting...\n");
     	OS_TAKE_SEM(eventSem);
 
-    	LOG_Printf("Nunchuck event: %d\n", NunchuckCurrentEvent);
+    	LOG_Printf("service event: %d\n", NunchuckCurrentEvent);
+
+    	OS_TASK_MGR_EnterCriticalSection();
 
 		for( i = 0; i < ARRAY_SIZE(stateTable); i++ )
 		{
@@ -173,6 +179,8 @@ PRIVATE void NunchuckSmTask(void *Params)
 		{
 			LOG_Printf("Warning: event: %d has been ignored\n", NunchuckCurrentEvent);
 		}
+
+		OS_TASK_MGR_ExitCriticalSection();
     }
 }
 

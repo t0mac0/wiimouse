@@ -17,7 +17,7 @@
 #ifndef __STM32F10x_CONF_H
 #define __STM32F10x_CONF_H
 
-#ifdef STM32F10X_MD
+#if defined STM32F10X_MD || defined STM32F10X_HD
 
 /* Includes ------------------------------------------------------------------*/
 

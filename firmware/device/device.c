@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
         LOG_Printf("failed to start the task scheduler\n");
     }
 
-    for(;;);
+    ASSERT(0);
 
     return 0;
 }

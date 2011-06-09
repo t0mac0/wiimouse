@@ -82,6 +82,12 @@ PUBLIC inline Result OS_TASK_MGR_Delay( uint32 TimeMs )
 }
 
 
+/***************************************************************************/
+PUBLIC inline void OS_TASK_MGR_YieldFromIsr( bool shouldYield )
+{
+	portEND_SWITCHING_ISR(shouldYield);
+}
+
 
 /***************************************************************************/
 PROTECTED inline Result TaskMgrCreateTask( pOS_TaskProtoType StartAddress,
@@ -105,8 +111,17 @@ PROTECTED inline Result TaskMgrCreateTask( pOS_TaskProtoType StartAddress,
     return result;
 }
 
+/***************************************************************************/
+PUBLIC inline void OS_TASK_MGR_EnterCriticalSection( void )
+{
+	taskENTER_CRITICAL();
+}
 
-
+/***************************************************************************/
+PUBLIC inline void OS_TASK_MGR_ExitCriticalSection( void )
+{
+	taskEXIT_CRITICAL();
+}
 
 //*****************************************************************************
 //

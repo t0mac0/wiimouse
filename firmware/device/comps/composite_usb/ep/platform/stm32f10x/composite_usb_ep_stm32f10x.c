@@ -73,7 +73,6 @@ void SOF_Callback(void)
  *******************************************************************************/
 void EP1_IN_Callback (void)
 {
-    LOG_Printf("HID callback\n");
 }
 
 

@@ -22,7 +22,6 @@
  Defines
 ------------------------------------------------------------------------------*/
 #define PACKET_MGR_TASK_NAME "PacketMgr"
-#define PACKET_MGR_TASK_PRIORITY OS_TASK_PRIORITY_MEDIUM
 #define PACKET_MGR_STACK_SIZE OS_MIN_STACK_SIZE
 /*-----------------------------------------------------------------------------
  Macros

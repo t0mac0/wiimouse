@@ -54,6 +54,12 @@ PUBLIC inline Result OS_TASK_MGR_Resume(OS_TaskHandle Handle);
 
 PUBLIC inline Result OS_TASK_MGR_Delay( uint32 TimeMs );
 
+PUBLIC inline void OS_TASK_MGR_YieldFromIsr( bool shouldYield );
+
+PUBLIC inline void OS_TASK_MGR_EnterCriticalSection( void );
+
+PUBLIC inline void OS_TASK_MGR_ExitCriticalSection( void );
+
 /*----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/

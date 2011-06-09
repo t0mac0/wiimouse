@@ -47,6 +47,8 @@ PUBLIC bool HW_FLASH_Read16Bit(uint32 Address, uint16 *Data, uint32 WordCount);
 
 PUBLIC bool HW_FLASH_ErasePages(uint32 FirstPage, uint32 PageCount);
 
+PUBLIC bool HW_FLASH_ErasePage(uint32 PageAddress);
+
 
 /*-----------------------------------------------------------------------------
  External Data Members

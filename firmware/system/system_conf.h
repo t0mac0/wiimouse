@@ -21,8 +21,9 @@
  Defines
 ------------------------------------------------------------------------------*/
 // Specifies the hardware architecture being used
-#ifndef STM32F10X_MD
-#error A SYSTEM_PLATFORM has not been defined. This should be a preprocessor directive specifying the hardware architecture. Supported architectures are: STM32F10X_MD
+#if defined STM32F10X_MD || defined STM32F10X_HD
+#else
+#error A SYSTEM_PLATFORM has not been defined. This should be a preprocessor directive specifying the hardware architecture. Supported architectures are: STM32F10X_MD, STM32F10X_HD
 #endif
 
 /* In the following line adjust the value of External High Speed oscillator (HSE)

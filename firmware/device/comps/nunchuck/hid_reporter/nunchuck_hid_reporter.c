@@ -42,8 +42,8 @@
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
-PRIVATE OS_TaskProtoType HidReportTask;
-PRIVATE OS_TaskHandle HidReportTaskHandle;
+PRIVATE OS_Timer reporterTimer;
+PRIVATE OS_TimerCallback ReporterTimerCallback;
 
 
 //*****************************************************************************
@@ -57,15 +57,10 @@ PROTECTED Result NunchuckHidReporterInit( void )
 {
 	Result result = NUNCHUCK_RESULT(SUCCESS);
 
-	if( RESULT_IS_ERROR(result, OS_TASK_MGR_Add(OS_TASK_NUNCHUCK_HID_REPORT,
-			NUNCHUCK_HID_REPORT_TASK_NAME,
-			HidReportTask,
-			NUNCHUCK_HID_REPORT_STACK_SIZE,
-			NUNCHUCK_HID_REPORT_TASK_PRIORITY,
-			NULL,
-			HidReportTaskHandle)) )
+
+	if(RESULT_IS_ERROR(result, OS_CreateTimer(&reporterTimer, NunchuckSettings.HidReportInterval, TRUE, 0, ReporterTimerCallback)) )
 	{
-		//LOG_Printf("Failed to create the nunchuck data processor task\n");
+
 	}
 
 	return result;
@@ -78,40 +73,38 @@ PROTECTED Result NunchuckHidReporterEnableReporting( void )
 	LOG_Printf("NunchuckHidReporterEnableReporting\n");
 
 
-	return OS_TASK_MGR_Resume(HidReportTaskHandle);
+	return OS_TimerStart(reporterTimer, 0);
 }
 
 
 /*****************************************************************************/
 PROTECTED Result NunchuckHidReporterDisableReporting( void )
 {
+	LOG_Printf("NunchuckHidReporterDisableReporting\n");
 
-	return OS_TASK_MGR_Suspend(HidReportTaskHandle);
+	return OS_TimerStop(reporterTimer, 0);
 }
 
 
 /*****************************************************************************/
-PUBLIC void HidReportTask( void *Params )
+PUBLIC void ReporterTimerCallback( OS_Timer timer )
 {
 	Result result = NUNCHUCK_RESULT(SUCCESS);
 	HID_MOUSE_REPORT HidReport;
 
-	UNUSED(Params);
+	UNUSED(timer);
 
-	//OS_TASK_MGR_Suspend(HidReportTaskHandle);
-
-	for(;;)
+	if(NunchuckProcessedData.DataAvailable)
 	{
-		OS_TASK_MGR_Delay(NunchuckSettings.HidReportInterval);
 
-		while( !NunchuckProcessedData.NewDataAvailable );
+		//LOG_Printf("Reporting\n");
 
 
-		HidReport.X = NunchuckProcessedData.Data.Joystick.X;
-		HidReport.Y = NunchuckProcessedData.Data.Joystick.Y;
+		HidReport.X = NunchuckProcessedData.DataPtr->Joystick.X;
+		HidReport.Y = NunchuckProcessedData.DataPtr->Joystick.Y;
 
-		HidReport.Buttons.Left = NunchuckProcessedData.Data.Buttons.Button.C;
-		HidReport.Buttons.Right = NunchuckProcessedData.Data.Buttons.Button.Z;
+		HidReport.Buttons.Left = NunchuckProcessedData.DataPtr->Buttons.Button.C;
+		HidReport.Buttons.Right = NunchuckProcessedData.DataPtr->Buttons.Button.Z;
 
 		LOG_Printf("X: %03d, Y: %03d, C:%d, Z: %d\n", HidReport.X, HidReport.Y, HidReport.Buttons.Left, HidReport.Buttons.Right );
 
@@ -119,11 +112,8 @@ PUBLIC void HidReportTask( void *Params )
 		{
 		}
 
-		NunchuckProcessedData.NewDataAvailable = FALSE;
-
+		NunchuckProcessedData.DataAvailable = FALSE;
 	}
-
-
 }
 
 //*****************************************************************************

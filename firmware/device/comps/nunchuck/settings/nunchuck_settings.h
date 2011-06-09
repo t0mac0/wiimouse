@@ -56,8 +56,8 @@ PROTECTED typedef struct {
     NunchuckSettingsCalibration Calibration;
     // NunhuckSettingsUserInterface UI;
     uint8 ProfileIndex;
-    uint8 DataPointsPerHidReport;
-    uint8 HidReportInterval; // ms
+    uint16 DataPointsPerHidReport;
+    uint16 HidReportInterval; // ms
 } NunchuckSettingsInfo;
 
 /*-----------------------------------------------------------------------------

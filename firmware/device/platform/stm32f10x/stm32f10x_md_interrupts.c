@@ -62,14 +62,16 @@ PUBLIC void USB_LP_CAN_RX0_IRQHandler( void )
 /******************************************************************************/
 PUBLIC void TIM2_IRQHandler( void )
 {
-	//if( TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET )
-	{
-		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
-
-		// Read nunchuck
-		NUNCHUCK_READER_ReadDataPoint();
-
-	}
+//	//if( TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET )
+//	{
+//		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
+//
+//		// Read nunchuck
+//		NUNCHUCK_READER_ReadDataPoint();
+//
+//
+//
+//	}
 }
 
 
@@ -88,6 +90,8 @@ PUBLIC void TIM3_IRQHandler( void )
 			UTIL_TIMER_Ticker = 0;
 		else
 			UTIL_TIMER_Ticker++;
+
+
 
 	}
 #endif

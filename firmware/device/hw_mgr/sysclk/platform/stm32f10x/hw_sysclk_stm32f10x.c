@@ -15,7 +15,7 @@
 #include <platform_lib.h>
 #include "sysclk/hw_sysclk.h"
 
-#ifdef STM32F10X_MD
+#if defined STM32F10X_MD || defined STM32F10X_HD
 #ifdef HW_MGR_MOD_SYSCLK
 /*-----------------------------------------------------------------------------
  Defines

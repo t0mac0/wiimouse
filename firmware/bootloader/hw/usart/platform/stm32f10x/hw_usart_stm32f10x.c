@@ -16,7 +16,7 @@
 #include "gpio/hw_gpio.h"
 #include "rcc/hw_rcc.h"
 
-#ifdef STM32F10X_MD
+#if defined STM32F10X_MD || defined STM32F10X_HD
 
 /*-----------------------------------------------------------------------------
  Defines

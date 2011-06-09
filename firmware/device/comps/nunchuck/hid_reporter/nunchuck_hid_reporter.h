@@ -20,9 +20,6 @@
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
-#define NUNCHUCK_HID_REPORT_TASK_NAME "NunchukHid"
-#define NUNCHUCK_HID_REPORT_STACK_SIZE OS_MIN_STACK_SIZE
-#define NUNCHUCK_HID_REPORT_TASK_PRIORITY OS_TASK_PRIORITY_MEDIUM
 
 
 /*-----------------------------------------------------------------------------

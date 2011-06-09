@@ -23,6 +23,7 @@
  Defines
 ------------------------------------------------------------------------------*/
 
+
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
@@ -42,8 +43,6 @@ PROTECTED typedef struct {
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
 PROTECTED Result NunchuckReaderInit( void );
-
-PUBLIC void NUNCHUCK_READER_ReadDataPoint( void );
 
 PROTECTED Result NunchuckReaderEnableReading( void );
 

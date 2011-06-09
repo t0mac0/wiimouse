@@ -47,12 +47,11 @@
 // TODO: actually filter the acclerometer data
 PROTECTED void NunchuckFilterAccelerometerData( void )
 {
-    uint8 newest;
+    int8 newest;
 
     newest = NunchuckRawData.NextPoint - 1;
-    if(newest > NunchuckRawData.TotalDataPtCount) newest = NunchuckRawData.TotalDataPtCount - 1;
+    if(newest < 0) newest = NunchuckRawData.TotalDataPtCount - 1;
 
-    CopyMemory(&NunchuckProcessedData.Data.Accelerometer, &NunchuckRawData.DataPts[newest].Accelerometer, sizeof(NunchuckAccelerometerData));
 }
 
 
