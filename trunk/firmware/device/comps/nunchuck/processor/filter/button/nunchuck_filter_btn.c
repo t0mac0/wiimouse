@@ -47,13 +47,13 @@
 // TODO: actually filter the button data
 PROTECTED void NunchuckFilterButtonData( void )
 {
-    uint8 newest;
+    int8 newest;
 
     newest = NunchuckRawData.NextPoint - 1;
-    if(newest > NunchuckRawData.TotalDataPtCount) newest = NunchuckRawData.TotalDataPtCount - 1;
+    if(newest < 0) newest = NunchuckRawData.TotalDataPtCount - 1;
 
-    NunchuckProcessedData.Data.Buttons.Button.Z = ~NunchuckRawData.DataPts[newest].Buttons.Button.Z;
-    NunchuckProcessedData.Data.Buttons.Button.C = ~NunchuckRawData.DataPts[newest].Buttons.Button.C;
+    NunchuckRawData.DataPts[newest].Buttons.Button.Z = ~NunchuckRawData.DataPts[newest].Buttons.Button.Z;
+    NunchuckRawData.DataPts[newest].Buttons.Button.C = ~NunchuckRawData.DataPts[newest].Buttons.Button.C;
 }
 
 

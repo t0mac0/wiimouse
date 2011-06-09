@@ -36,7 +36,7 @@
 /*-----------------------------------------------------------------------------
  Macros
 ------------------------------------------------------------------------------*/
-
+#define OS_MSToTicks(_ms)(_ms/portTICK_RATE_MS)
 /*-----------------------------------------------------------------------------
  Typedefs
 ------------------------------------------------------------------------------*/
@@ -63,7 +63,13 @@ PUBLIC Result OS_GiveSemaphore(OS_Semaphore Semaphore);
 
 PUBLIC Result OS_TakeSemaphore(OS_Semaphore Semaphore, uint32 BlockTime );
 
-PUBLIC Result OS_GiveSemaphoreFromIsr(OS_Semaphore Semaphore, bool *HigherPriorityTaskWoken);
+PUBLIC Result OS_GiveSemaphoreFromIsr(OS_Semaphore Semaphore, uint32 *HigherPriorityTaskWoken);
+
+PUBLIC Result OS_CreateTimer(pOS_Timer Timer, uint32 PeriodMs, bool AutoReload, uint32 Id, pOS_TimerCallback);
+
+PUBLIC Result OS_TimerStart(OS_Timer Timer, uint32 StallTimeMs);
+
+PUBLIC Result OS_TimerStop(OS_Timer Timer, uint32 StallTimeMs);
 
 /*-----------------------------------------------------------------------------
  External Data Members

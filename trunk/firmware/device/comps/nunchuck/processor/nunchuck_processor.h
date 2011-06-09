@@ -22,8 +22,6 @@
 ------------------------------------------------------------------------------*/
 #define NUNCHUCK_PROCESSOR_TASK_NAME "NunchukProcessor"
 #define NUNCHUCK_PROCESSOR_STACK_SIZE OS_MIN_STACK_SIZE
-#define NUNCHUCK_PROCESSOR_TASK_PRIORITY OS_TASK_PRIORITY_MEDIUM
-
 
 /*-----------------------------------------------------------------------------
  Macros
@@ -33,8 +31,8 @@
  Typedefs
 ------------------------------------------------------------------------------*/
 PROTECTED typedef struct {
-    vbool NewDataAvailable;
-    NunchuckData Data;
+    pNunchuckData DataPtr;
+    vbool DataAvailable;
 } NunchuckProcessedDataInfo;
 
 /*-----------------------------------------------------------------------------

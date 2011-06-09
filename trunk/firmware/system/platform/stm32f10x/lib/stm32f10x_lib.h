@@ -22,7 +22,7 @@
 #ifndef __STM32F10x_LIB_H
 #define __STM32F10x_LIB_H
 
-#ifdef STM32F10X_MD
+#if defined STM32F10X_MD || defined STM32F10X_HD
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_map.h"

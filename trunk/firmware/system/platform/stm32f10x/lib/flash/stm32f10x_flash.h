@@ -174,11 +174,18 @@ typedef enum
 
 #define IS_FLASH_WRPROT_PAGE(PAGE) (((PAGE) != 0x00000000))
 
+
 #define IS_FLASH_ADDRESS(ADDRESS) (((ADDRESS) >= 0x08000000) && ((ADDRESS) < 0x0807FFFF))
 
 #define IS_OB_DATA_ADDRESS(ADDRESS) (((ADDRESS) == 0x1FFFF804) || ((ADDRESS) == 0x1FFFF806))
 
+#ifdef STM32F10X_MD
 #define FLASH_PAGE_SIZE     0x400
+#elif defined STM32F10X_HD
+#define FLASH_PAGE_SIZE     0x800
+#else
+#error device not supported
+#endif
 
 /******************************************************************************/
 /*                                                                            */

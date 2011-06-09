@@ -17,7 +17,7 @@
 #include "timer/counter/hw_timer_counter.h"
 
 
-#ifdef STM32F10X_MD
+#if defined STM32F10X_MD || defined STM32F10X_HD
 #ifdef HW_MGR_MOD_TIMER
 
 /*-----------------------------------------------------------------------------
@@ -125,6 +125,7 @@ PROTECTED Result HwTimerCounterStop(HW_TIMER_BlockId BlockId)
 	Result result = HW_TIMER_RESULT(SUCCESS);
 
 	TIM_Cmd( HwTimerCounterBase[BlockId], DISABLE );
+	HwTimerCounterBase[BlockId]->SR = 0;
 
 	return result;
 }

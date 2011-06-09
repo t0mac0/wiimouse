@@ -20,7 +20,7 @@
 
 #include "os.h"
 
-#ifdef STM32F10X_MD
+#if defined STM32F10X_MD || defined STM32F10X_HD
 #ifdef FREERTOS
 
 /*-----------------------------------------------------------------------------

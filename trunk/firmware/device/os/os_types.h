@@ -47,6 +47,14 @@ PUBLIC typedef enum {
     OS_SEM_TYPE_COUNT
 } OS_SemaphoreType;
 
+
+PUBLIC typedef void* OS_Timer;
+PUBLIC typedef OS_Timer* pOS_Timer;
+
+PUBLIC typedef void OS_TimerCallback(OS_Timer Timer);
+PUBLIC typedef void (*pOS_TimerCallback)(OS_Timer Timer);
+
+
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/

@@ -15,7 +15,7 @@
 #include <platform_lib.h>
 #include "int/hw_int.h"
 
-#ifdef STM32F10X_MD
+#if defined STM32F10X_MD || defined STM32F10X_HD
 
 
 /*-----------------------------------------------------------------------------

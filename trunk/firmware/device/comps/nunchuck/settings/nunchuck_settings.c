@@ -53,8 +53,8 @@ PROTECTED Result NunchuckSettingsInit( void )
 
     //return SETTINGS_MGR_Read(SETTINGS_MGR_ENTRY_NUNCHUCK_SETTINGS, &NunchuckSettings, sizeof(NunchuckSettingsInfo), &bytesRead);
 
-    NunchuckSettings.DataPointsPerHidReport = 1;
-    NunchuckSettings.HidReportInterval = 10;
+    NunchuckSettings.DataPointsPerHidReport = 10;
+    NunchuckSettings.HidReportInterval = 32;
     NunchuckSettings.ProfileIndex = 0;
 
     return NUNCHUCK_RESULT(SUCCESS);

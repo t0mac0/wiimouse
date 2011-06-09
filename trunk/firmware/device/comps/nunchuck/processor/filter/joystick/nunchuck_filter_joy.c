@@ -105,11 +105,11 @@ PROTECTED void NunchuckFilterJoystickSetCalibration( pNunchuckCtlCalibration Cal
 // TODO: actually filter the joystick data
 PROTECTED void NunchuckFilterJoystickData( void )
 {
-    uint8 newest;
+    int8 newest;
     pNunchuckData dataPt;
 
     newest = NunchuckRawData.NextPoint - 1;
-    if(newest > NunchuckRawData.TotalDataPtCount) newest = NunchuckRawData.TotalDataPtCount - 1;
+    if(newest < 0) newest = NunchuckRawData.TotalDataPtCount - 1;
 
     dataPt = &NunchuckRawData.DataPts[newest];
 

@@ -55,19 +55,21 @@ PROTECTED Result NunchuckProcessorInit( void )
 
     ZeroMemory(&NunchuckProcessedData, sizeof(NunchuckProcessedDataInfo));
 
-
     if( RESULT_IS_ERROR(result, OS_TASK_MGR_Add(OS_TASK_NUNCHUCK_DATA_PROCESSOR,
                                                     NUNCHUCK_PROCESSOR_TASK_NAME,
                                                     DataProcessorTask,
                                                     NUNCHUCK_PROCESSOR_STACK_SIZE,
-                                                    NUNCHUCK_PROCESSOR_TASK_PRIORITY,
+                                                    OS_TASK_PRIORITY_NUNCHUCK_PROCESSOR,
                                                     NULL,
-                                                    DataProccessTaskHandle)) )
+                                                    &DataProccessTaskHandle)) )
     {
         //LOG_Printf("Failed to create the nunchuck data processor task\n");
     }
 
-
+//	if( RESULT_IS_ERROR(result, OS_CreateSemaphore(&NunchuckProcessedData.DataAvailableSem, OS_SEM_TYPE_BINARY, 0, NULL)) )
+//	{
+//		return result;
+//	}
 
     return result;
 }
@@ -101,15 +103,24 @@ PROTECTED Result NunchuckProcessorTaskResume( void )
 /*****************************************************************************/
 PRIVATE void DataProcessorTask(void *Params)
 {
-
+	int8 newest;
     UNUSED(Params);
+
+    OS_TASK_MGR_Suspend(NULL);
 
     for(;;)
     {
+    	//LOG_Printf("Processor waiting...\n");
     	OS_TAKE_SEM(NunchuckRawData.DataAvailableSem);
+
+    	//LOG_Printf("Processing\n");
         {
             NunchuckFilterData();
-            NunchuckProcessedData.NewDataAvailable = TRUE;
+            newest = NunchuckRawData.NextPoint - 1;
+            if(newest < 0) newest = NunchuckRawData.TotalDataPtCount - 1;
+            NunchuckProcessedData.DataPtr = &NunchuckRawData.DataPts[newest];
+            NunchuckProcessedData.DataAvailable = TRUE;
+
         }
     }
 }

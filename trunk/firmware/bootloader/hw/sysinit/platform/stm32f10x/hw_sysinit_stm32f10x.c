@@ -15,7 +15,7 @@
 #include <platform_lib.h>
 #include "sysinit/hw_sysinit.h"
 
-#ifdef STM32F10X_MD
+#if defined STM32F10X_MD || defined STM32F10X_HD
 
 /*-----------------------------------------------------------------------------
  Defines

@@ -48,9 +48,9 @@
 PROTECTED Result NunchuckActionUsbDisconnected(void)
 {
 	LOG_Printf("NunchuckActionUsbDisconnected\n");
-	NunchuckHidReporterDisableReporting();
-
 	NunchuckReaderDisableReading();
+
+	NunchuckHidReporterDisableReporting();
 
 	NunchuckProcessorTaskSuspend();
 

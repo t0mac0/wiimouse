@@ -41,6 +41,7 @@
  Local Function Prototypes
 ------------------------------------------------------------------------------*/
 PRIVATE OS_TaskProtoType PacketProcessorTask;
+PRIVATE OS_TaskHandle PacketProcessorTaskHandle;
 PRIVATE inline void ProcessInputPackets( void );
 PRIVATE inline void ProcessOutputPackets( void );
 PRIVATE bool WritePacketTag(bool IsStartTag, uint32 PacketId);
@@ -67,9 +68,9 @@ PROTECTED Result PacketMgrCreateTask( void )
                                                     PACKET_MGR_TASK_NAME,
                                                     PacketProcessorTask,
                                                     PACKET_MGR_STACK_SIZE,
-                                                    PACKET_MGR_TASK_PRIORITY,
+                                                    OS_TASK_PRIORITY_PACKET_MGR,
                                                     NULL,
-                                                    NULL)) )
+                                                    &PacketProcessorTaskHandle)) )
     {
         LOG_Printf("Failed to create the packet mgr task\n");
     }
@@ -90,6 +91,8 @@ PROTECTED Result PacketMgrCreateTask( void )
 PRIVATE void PacketProcessorTask(void *Params)
 {
     UNUSED(Params);
+
+    OS_TASK_MGR_Suspend(NULL);
 
     for(;;)
     {
