@@ -110,4 +110,7 @@ typedef struct
 #define FAT16_DIRECTORY_ENTRY_SIZE sizeof(FAT16_DirectoryEntryInfo)
 
 void FATReadLBA(int FAT_LBA,char *pu8DataPointer);
+void FATWriteLBA(int FAT_LBA,char *pu8DataPointer, int offset, int byteCount);
+
+void FATInit(void);
 
