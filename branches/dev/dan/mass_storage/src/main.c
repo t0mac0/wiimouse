@@ -20,6 +20,8 @@
 #include "usb_pwr.h"
 #include "printf.h"
 #include "usart.h"
+#include "FAT16.h"
+
 
 extern uint16 MAL_Init (uint8 lun);
 
@@ -42,6 +44,7 @@ int main(void)
 	Set_System();
   InitUSART2();
   printf("Ah shit, we're roll'n....\n");
+  FATInit();
   Set_USBClock();
   USB_Interrupts_Config();
   USB_Init();

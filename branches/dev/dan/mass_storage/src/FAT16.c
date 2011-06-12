@@ -74,6 +74,13 @@ typedef struct
 } WiiMouseFat;
 #pragma pack(pop)
 
+
+
+char status[512];
+char response[512];
+char buffer[512];
+char command[512];
+
 /********************************************************************
  *       FAT16 Boot Sector
  ********************************************************************/
@@ -227,28 +234,76 @@ void FATReadLBA(int FAT_LBA,char *pu8DataPointer)
 	}
 	else
 	{
+		char *ptr = NULL;
 		switch(FAT_LBA)
 		{
 		case STATUS_SECTOR:
-			sprintf(pu8DataPointer, "%s", "Status sector data\n\nYAY!\n\x0A");
+			ptr = status;
 			break;
 		case COMMAND_SECTOR:
-			sprintf(pu8DataPointer, "%s", "Command sector data\n\nFucking shit yea!\n");
+			ptr = command;
 			break;
 		case RESPONSE_SECTOR:
-			sprintf(pu8DataPointer, "%s", "Response sector data\n\nBitch niggas!\n");
+			ptr = response;
 			break;
 		case BUFFER_SECTOR:
-			sprintf(pu8DataPointer, "%s", "BUffer sector data\n\nLooks like everything is working...\n");break;
-			// All other sectors empty
+			ptr = buffer;
 		default:
-			i = 0;
+break;
+		}
+
+		i = 0;
+		if( ptr == NULL)
+		{
 			while (i++ < FAT16_BYTES_PER_SEC) {
 				*pu8DataPointer++ = 0;
 			}
-			break;
+		}
+		else
+		{
+			while (i++ < FAT16_BYTES_PER_SEC) {
+				*pu8DataPointer++ = *ptr++;
+			}
 		}
 	}
 
 }
 
+
+void FATWriteLBA(int FAT_LBA,char *pu8DataPointer, int offset, int byteCount)
+{
+	char *ptr = NULL;
+	uint32 i ;
+	switch(FAT_LBA)
+	{
+	case STATUS_SECTOR:
+		ptr = status+offset;
+		break;
+	case COMMAND_SECTOR:
+		ptr = command+offset;
+		break;
+	case RESPONSE_SECTOR:
+		ptr = response+offset;
+		break;
+	case BUFFER_SECTOR:
+		ptr = buffer+offset;
+	default:
+break;
+	}
+
+	i = 0;
+	if( ptr != NULL)
+	{
+		while (i++ < byteCount) {
+			*ptr++ = *pu8DataPointer++;
+		}
+	}
+}
+
+void FATInit(void)
+{
+	sprintf(status, "%s\xA", "Initialized status data....\n");
+	sprintf(command, "%s\xA", "Initialized command data....\n");
+	sprintf(response, "%s\xA", "Initialized response data....\n");
+	sprintf(buffer, "%s\xA", "Initialized buffer data....\n");
+}

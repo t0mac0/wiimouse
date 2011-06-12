@@ -107,7 +107,7 @@ void Read_Memory(uint8 lun, uint32 LBA, uint32 BlockNum)
  *******************************************************************************/
 void Write_Memory (uint8 lun, uint32 LBA, uint32 BlkNum)
 {
-	uint32 i;
+	uint32 usbBytesRead;
 	static uint32 currentLba, end_lba, bytesRead, totalCount;
 
 	if (TransferState == TXFR_IDLE )
@@ -123,16 +123,19 @@ void Write_Memory (uint8 lun, uint32 LBA, uint32 BlkNum)
 
 	if (TransferState == TXFR_ONGOING )
 	{
+		usbBytesRead = USB_SIL_Read(EP2_OUT, Data_Buffer);
+
 		// Host writing first file to Data sector of drive
 		if( currentLba >= FAT16_FIRST_DATA_SEC)
 		{
-			printf("Host writing first file to Data sector of drive\n");
+			FATWriteLBA(currentLba, (char*)Data_Buffer, bytesRead, usbBytesRead);
 		}
 
-		CSW.dDataResidue -= BULK_MAX_PACKET_SIZE;
-		bytesRead+=BULK_MAX_PACKET_SIZE;
+		CSW.dDataResidue -= usbBytesRead;
+		bytesRead+=usbBytesRead;
 		SetEPRxStatus(ENDP2, EP_RX_VALID);
 		printf("%d bytes read from LBA: %d (residue: %d)\n",bytesRead, currentLba, CSW.dDataResidue );
+
 
 		if( bytesRead >= DATA_BUFFER_SIZE)
 		{
