@@ -1,13 +1,13 @@
 #include "stm32f10x.h"
 
 
-#define TOTAL_SECTORS				1983495//9
-#define NUM_ROOT_DIR_ENTRIES		512//5
-#define NUM_FAT_ENTRIES				6
+#define TOTAL_SECTORS				9
+#define NUM_ROOT_DIR_ENTRIES		5
+#define NUM_FAT_ENTRIES				9
 
 #define FAT16_BYTES_PER_SEC  		512
-#define FAT16_SEC_PER_CLUSTER		32//1
-#define FAT16_SEC_PER_FAT			243//1
+#define FAT16_SEC_PER_CLUSTER		1
+#define FAT16_SEC_PER_FAT			1
 
 
 
@@ -48,6 +48,7 @@ typedef struct
 #define FAT16_BOOT_SECTOR_SIZE sizeof(FAT16_BootSectorInfo)
 
 typedef uint16 FAT16_FatEntry;
+#define FAT16_FAT_ENTRY_SIZE sizeof(FAT16_FatEntry)
 
 typedef enum
 {
