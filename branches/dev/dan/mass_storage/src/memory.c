@@ -107,55 +107,44 @@ void Read_Memory(uint8 lun, uint32 LBA, uint32 BlockNum)
  *******************************************************************************/
 void Write_Memory (uint8 lun, uint32 LBA, uint32 BlkNum)
 {
-
-	static uint32 end_lba, bytesRead;
+	uint32 i;
+	static uint32 currentLba, end_lba, bytesRead, totalCount;
 
 	if (TransferState == TXFR_IDLE )
 	{
-		end_lba = LBA + BlkNum - 1;
+		currentLba = LBA;
+		end_lba = LBA + BlkNum;
 		TransferState = TXFR_ONGOING;
 		bytesRead = 0;
+		totalCount = 0;
 
-		printf("write: lba: %d, numblk: %d, end_lba: %d\n", LBA, BlkNum, end_lba);
+		printf("write: lba: %d, numblk: %d, end_lba: %d, residue: %d\n", currentLba, BlkNum, end_lba, CSW.dDataResidue);
 	}
 
 	if (TransferState == TXFR_ONGOING )
 	{
-//		// Host writing first file to Data sector of drive
-//		if( LBA >= FATDataSec0)
-//		{
-//			printf("Host writing first file to Data sector of drive\n");
-//		}
-//		else
-//		{
-//			if( LBA == end_lba)
-//			{
-//				TransferState = TXFR_IDLE;
-//				Set_CSW (CSW_CMD_PASSED, SEND_CSW_ENABLE);
-//			}
-//			else
-//			{
-//				CSW.dDataResidue -= BULK_MAX_PACKET_SIZE;
-//				SetEPRxStatus(ENDP2, EP_RX_VALID);
-//
-//
-//
-//				if( bytesRead >= DATA_BUFFER_SIZE)
-//				{
-//					bytesRead = 0;
-//					LBA++;
-//				}
-//				else
-//				{
-//					bytesRead+=BULK_MAX_PACKET_SIZE;
-//
-//				}
-//
-//				printf("%d bytes read from LBA: %d\n",bytesRead, LBA );
-//			}
-//		}
+		// Host writing first file to Data sector of drive
+		if( currentLba >= FAT16_FIRST_DATA_SEC)
+		{
+			printf("Host writing first file to Data sector of drive\n");
+		}
 
+		CSW.dDataResidue -= BULK_MAX_PACKET_SIZE;
+		bytesRead+=BULK_MAX_PACKET_SIZE;
+		SetEPRxStatus(ENDP2, EP_RX_VALID);
+		printf("%d bytes read from LBA: %d (residue: %d)\n",bytesRead, currentLba, CSW.dDataResidue );
 
+		if( bytesRead >= DATA_BUFFER_SIZE)
+		{
+			bytesRead = 0;
+			currentLba++;
+
+			if( currentLba >= end_lba)
+			{
+				TransferState = TXFR_IDLE;
+				Set_CSW (CSW_CMD_PASSED, SEND_CSW_ENABLE);
+			}
+		}
 	}
 
 }

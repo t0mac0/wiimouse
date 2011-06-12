@@ -1,23 +1,33 @@
 #include "stm32f10x.h"
 
 
-#define TOTAL_SECTORS				9
+#ifndef ALIGN
+#define ALIGN(x, n) (((x) + (n) - 1)/(n))
+#endif
+
+#define TOTAL_SECTORS				32768
 #define NUM_ROOT_DIR_ENTRIES		5
-#define NUM_FAT_ENTRIES				9
 
 #define FAT16_BYTES_PER_SEC  		512
 #define FAT16_SEC_PER_CLUSTER		1
 #define FAT16_SEC_PER_FAT			1
+#define FAT16_RESERVED_SEC_COUNT	1
+#define FAT16_MAX_ROOT_ENTRY		512
+#define FAT16_FAT_COUNT				2
 
-
+#define FAT16_ROOT_SEC_COUNT		ALIGN(FAT16_MAX_ROOT_ENTRY * FAT16_DIRECTORY_ENTRY_SIZE, FAT16_BYTES_PER_SEC)
+#define FAT16_FIRST_DATA_SEC		(FAT16_RESERVED_SEC_COUNT + FAT16_FAT_COUNT*FAT16_SEC_PER_FAT + FAT16_ROOT_SEC_COUNT)
 
 typedef enum
 {
-	FAT16_MEDIA_DES_FIXED_DISK = 0xF8
+	FAT16_MEDIA_DES_REMOVABLE	= 0xF0,
+	FAT16_MEDIA_DES_FIXED_DISK 	= 0xF8
 } FAT16_MediaDescriptor;
 
 
 // refer to: http://en.wikipedia.org/wiki/File_Allocation_Table#Boot_Sector
+// http://staff.washington.edu/dittrich/misc/fatgen103.pdf
+// http://www.beginningtoseethelight.org/fat16/
 #pragma pack(push, 1)
 typedef struct
 {
