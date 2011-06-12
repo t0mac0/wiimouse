@@ -46,8 +46,8 @@ extern Bulk_Only_CSW CSW;
 uint8 SCSI_ReadCapacity[SCSICapacitySize]=
 {
 		0x00,       // Last Logical Block0
-		0x1E,       // Last Logical Block1
-		0x45,       // Last Logical Block2
+		0x00,       // Last Logical Block1
+		0x7F,       // Last Logical Block2
 		0xFF,       // Last Logical Block3
 		0x00,       // Bytes per Sector0
 		0x00,       // Bytes per Sector1
@@ -69,16 +69,16 @@ uint8  SCSI_ReadFormatCapacity[SCSICapacityFormatSize]=
 		0x00,       // Reserved
 		0x10,       // Capacity List Length
 		0x00,       // Number of Blocks0
-		0x1E,       // Number of Blocks1
-		0x46,       // Number of Blocks2
+		0x00,       // Number of Blocks1
+		0x01,       // Number of Blocks2
 		0x00,       // Number of Blocks3
 		0x02,       // Formatted Media
 		0x00,       // Bytes per Sector0
 		0x02,       // Bytes per Sector1
 		0x00,       // Bytes per Sector2
 		0x00,       // Number of Blocks0
-		0x1E,       // Number of Blocks1
-		0x46,       // Number of Blocks2
+		0x00,       // Number of Blocks1
+		0x01,       // Number of Blocks2
 		0x00,       // Number of Blocks3
 		0x00,       // Reserved
 		0x00,       // Bytes per Sector0

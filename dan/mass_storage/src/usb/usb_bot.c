@@ -136,13 +136,13 @@ void CBW_Decode(void)
   }
   CSW.dTag = CBW.dTag;
   CSW.dDataResidue = CBW.dDataLength;
-  if (Data_Len != BOT_CBW_PACKET_LENGTH)
+  if (Data_Len < BOT_CBW_PACKET_LENGTH)
   {
     Bot_Abort(BOTH_DIR);
     /* reset the CBW.dSignature to desible the clear feature until receiving a Mass storage reset*/
     CBW.dSignature = 0;
     Set_Scsi_Sense_Data(CBW.bLUN, ILLEGAL_REQUEST, PARAMETER_LIST_LENGTH_ERROR);
-    printf("Data_Len != BOT_CBW_PACKET_LENGTH\n");
+    printf("Data_Len(%d) < BOT_CBW_PACKET_LENGTH(%d)\n", Data_Len, BOT_CBW_PACKET_LENGTH);
     Set_CSW (CSW_CMD_FAILED, SEND_CSW_DISABLE);
     return;
   }
