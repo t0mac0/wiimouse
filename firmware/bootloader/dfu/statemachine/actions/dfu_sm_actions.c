@@ -48,31 +48,31 @@
 //*****************************************************************************
 
 /******************************************************************************/
-PROTECTED void DfuActionQueryDevice(DFU_Command *Cmd, DFU_Response *Response)
+PROTECTED void DfuActionQueryDevice(void)
 {
-	Response->Status = DFU_STATUS_SUCCESS;
+	DfuComResponse.Status = DFU_STATUS_SUCCESS;
 
-	Response->Mode = *((uint32*)DEVICE_MODE_ADDR);
-	Response->FWVersion = (uint16)*((uint32*)DEVICE_VERSION_ADDR);
-	Response->BootloaderVersion = (uint16)*((uint32*)BOOTLOADER_VERSION_ADDR);
+	DfuComResponse.Mode = *((uint32*)DEVICE_MODE_ADDR);
+	DfuComResponse.FWVersion = (uint16)*((uint32*)DEVICE_VERSION_ADDR);
+	DfuComResponse.BootloaderVersion = (uint16)*((uint32*)BOOTLOADER_VERSION_ADDR);
 
-	Response->VendorId = USB_VENDOR_ID;
-	Response->ProductId = USB_PRODUCT_ID;
-	Response->DeviceId = USB_DEVICE_ID;
+	DfuComResponse.VendorId = USB_VENDOR_ID;
+	DfuComResponse.ProductId = USB_PRODUCT_ID;
+	DfuComResponse.DeviceId = USB_DEVICE_ID;
 
 	print("Device queried: \n");
-	print("\tMode: %X\n", Response->Mode);
+	print("\tMode: %X\n", DfuComResponse.Mode);
 	print("\tBootloader Version: %X\n", *((uint32*)BOOTLOADER_VERSION_ADDR));
-	print("\tFW Version: %X\n", Response->FWVersion);
-	print("\tVendor Id: %X\n", Response->VendorId);
-	print("\tProduct Id: %X\n", Response->ProductId);
-	print("\tDevice Id: %X\n", Response->DeviceId);
+	print("\tFW Version: %X\n", DfuComResponse.FWVersion);
+	print("\tVendor Id: %X\n", DfuComResponse.VendorId);
+	print("\tProduct Id: %X\n", DfuComResponse.ProductId);
+	print("\tDevice Id: %X\n", DfuComResponse.DeviceId);
 
 }
 
 
 /******************************************************************************/
-PROTECTED void DfuActionInitializeUpdate(DFU_Command *Cmd, DFU_Response *Response)
+PROTECTED void DfuActionInitializeUpdate(void)
 {
 	print("Initializing device for firmware update...\n");
 
@@ -80,8 +80,7 @@ PROTECTED void DfuActionInitializeUpdate(DFU_Command *Cmd, DFU_Response *Respons
 	DfuMalErase(DEVICE_START_ADDR, FLASH_PAGE_SIZE);
 
 	// send DFU_STATUS_SUCCESS
-	Response->Status = DFU_STATUS_SUCCESS;
-	DfuComSendResponse();
+	DfuComResponse.Status = DFU_STATUS_SUCCESS;
 
 	// reset device
 	print("Resetting device.\n");
@@ -89,9 +88,9 @@ PROTECTED void DfuActionInitializeUpdate(DFU_Command *Cmd, DFU_Response *Respons
 }
 
 /******************************************************************************/
-PROTECTED void DfuActionCompleteUpdate(DFU_Command *Cmd, DFU_Response *Response)
+PROTECTED void DfuActionCompleteUpdate(void)
 {
-	Response->Status = DFU_STATUS_SUCCESS;
+	DfuComResponse.Status = DFU_STATUS_SUCCESS;
 
 	print("Completed update.\n");
 
@@ -99,13 +98,13 @@ PROTECTED void DfuActionCompleteUpdate(DFU_Command *Cmd, DFU_Response *Response)
 	if( !HW_FLASH_Write32Bit(DEVICE_MODE_ADDR, DFU_MODE_USER) )
 	{
 		print("Failed to set device to DFU_MODE_USER\n");
-		Response->Status = DFU_STATUS_INTERNAL_FLASH_WRITE_ERROR;
+		DfuComResponse.Status = DFU_STATUS_INTERNAL_FLASH_WRITE_ERROR;
 
-		DfuComSendResponse();
+
 	}
 	else
 	{
-		DfuComSendResponse();
+
 
 		// reset device
 		print("Resetting device.\n");

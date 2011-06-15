@@ -1,10 +1,10 @@
 /*!
- * \file hw_usb.c
+ * \file hw_usb_ep_mss_storage.c
  *
  * \brief 
  *
  *
- * \date Apr 23, 2011
+ * \date Jun 13, 2011
  * \author Dan Riedler
  *
  */
@@ -12,12 +12,7 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include <platform_lib.h>
-
-#include "hw_usb.h"
-#include "usb/core/hw_usb_core.h"
-#include "usb/mem/hw_usb_mem.h"
-#include "usb/ep/hw_usb_ep_mass_storage.h"
+#include "hw_usb_ep_mass_storage.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -33,16 +28,14 @@
 ------------------------------------------------------------------------------*/
 
 /*-----------------------------------------------------------------------------
- Protected Function Prototypes
+ Local Function Prototypes
 ------------------------------------------------------------------------------*/
-PROTECTED void HwUsbSetUsbClock(void);
-PROTECTED void HwUsbInterruptsConfig(void);
-PROTECTED void HwUsbPinConfig(void);
-
 
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
+PROTECTED pHW_USB_MassStorageCallBack HwUsbMassStorageReadCallback;
+PROTECTED pHW_USB_MassStorageCallBack HwUsbMassStorageWriteCallback;
 
 
 //*****************************************************************************
@@ -51,30 +44,28 @@ PROTECTED void HwUsbPinConfig(void);
 //
 //*****************************************************************************
 
-/*******************************************************************************
- * Function Name  : USB_Init
- * Description    : USB system initialization
- * Input          : None.
- * Output         : None.
- * Return         : None.
- *******************************************************************************/
-PUBLIC void HW_USB_Init(void)
+/*******************************************************************************/
+PROTECTED void HwUsbEpInit( void )
 {
-    HwUsbPinConfig();
 
-    HwUsbInterruptsConfig();
+	HwUsbMassStorageReadCallback = NULL;
+	HwUsbMassStorageWriteCallback = NULL;
 
-    HwUsbSetUsbClock();
+}
 
-    HwUsbEpInit();
 
-    pInformation = &Device_Info;
-    pInformation->ControlState = 2;
-    pProperty = &Device_Property;
-    pUser_Standard_Requests = &User_Standard_Requests;
-    /* Initialize devices one by one */
-    pProperty->Init();
+/*******************************************************************************/
+PUBLIC void HW_USB_RegisterMassStorageReadCallback(pHW_USB_MassStorageCallBack Callback)
+{
+	HwUsbMassStorageReadCallback = Callback;
 
+}
+
+
+/*******************************************************************************/
+PUBLIC void HW_USB_RegisterMassStorageWriteCallback(pHW_USB_MassStorageCallBack Callback)
+{
+	HwUsbMassStorageWriteCallback = Callback;
 }
 
 
@@ -83,4 +74,3 @@ PUBLIC void HW_USB_Init(void)
 // Local Functions
 //
 //*****************************************************************************
-

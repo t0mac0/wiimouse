@@ -17,11 +17,11 @@
 ------------------------------------------------------------------------------*/
 #include "system.h"
 #include "usb/hw_usb.h"
-
+#include "dfu/dfu.h"
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
-#define DFU_COM_TRANSFER_SIZE 60
+#define DFU_COM_TRANSFER_SIZE 512
 
 
 /*-----------------------------------------------------------------------------
@@ -35,16 +35,16 @@
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PROTECTED HW_USB_ReadVirComCallBack DfuComReceiveCommand;
 
-PROTECTED void DfuComSendResponse( void );
-
-PROTECTED void DfuComSendData( uint32 ByteCount );
+PROTECTED void DfuComInit(void);
 
 
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
+PROTECTED extern uint8 DfuComDataBuffer[DFU_COM_TRANSFER_SIZE];
+PROTECTED extern DFU_Response DfuComResponse;
+PROTECTED extern DFU_Command DfuComCommand;
 
 
 #endif /* DFU_COM_H_ */

@@ -43,7 +43,7 @@
 //*****************************************************************************
 
 /*****************************************************************************/
-PUBLIC uint32 HW_USB_Write(uint8 bEpAddr, uint8* pBufferPointer, uint32 wBufferSize)
+PUBLIC uint32 HW_USB_Write(uint8 bEpAddr, uint8* pBufferPointer, uint32 wBufferSize, bool SetValid)
 {
 
     /* Use the memory interface function to write to the selected endpoint */
@@ -52,6 +52,7 @@ PUBLIC uint32 HW_USB_Write(uint8 bEpAddr, uint8* pBufferPointer, uint32 wBufferS
     /* Update the data length in the control register */
     SetEPTxCount((bEpAddr & 0x7F), wBufferSize);
 
+    if(SetValid)
     SetEPTxValid(bEpAddr&0x0F);
 
     return wBufferSize;
@@ -59,7 +60,7 @@ PUBLIC uint32 HW_USB_Write(uint8 bEpAddr, uint8* pBufferPointer, uint32 wBufferS
 
 
 /*****************************************************************************/
-PUBLIC uint32 HW_USB_Read(uint8 bEpAddr, uint8* pBufferPointer)
+PUBLIC uint32 HW_USB_Read(uint8 bEpAddr, uint8* pBufferPointer, bool SetValid)
 {
     uint32 DataLength = 0;
 
@@ -70,6 +71,7 @@ PUBLIC uint32 HW_USB_Read(uint8 bEpAddr, uint8* pBufferPointer)
     /* Use the memory interface function to write to the selected endpoint */
     HwUsbPMAToUserBufferCopy(pBufferPointer, GetEPRxAddr(bEpAddr & 0x7F), DataLength);
 
+    if(SetValid)
     SetEPRxValid(bEpAddr & 0x0F);
 
 

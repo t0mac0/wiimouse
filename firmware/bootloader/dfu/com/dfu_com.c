@@ -13,7 +13,10 @@
  Includes
 ------------------------------------------------------------------------------*/
 #include "dfu/dfu.h"
+#include "dfu/fat/dfu_fat.h"
 
+
+#include "hw/usb/hw_usb.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -30,15 +33,17 @@
 /*-----------------------------------------------------------------------------
  Local Function Prototypes
 ------------------------------------------------------------------------------*/
+PRIVATE HW_USB_MassStorageCallBack ReadCallback;
+PRIVATE HW_USB_MassStorageCallBack WriteCallback;
 
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
-PRIVATE uint32 readCount = 0;
+PROTECTED uint8 DfuComDataBuffer[DFU_COM_TRANSFER_SIZE];
+PROTECTED DFU_Response DfuComResponse;
+PROTECTED DFU_Command DfuComCommand;
 
-PRIVATE DFU_Command *commandBuffer = (DFU_Command*)&DfuMalBuffer[0];
-PRIVATE DFU_Response *responseBuffer = (DFU_Response*)&DfuMalBuffer[DFU_COMMAND_SIZE];
-
+PRIVATE bool isTransferring;
 
 //*****************************************************************************
 //
@@ -47,51 +52,100 @@ PRIVATE DFU_Response *responseBuffer = (DFU_Response*)&DfuMalBuffer[DFU_COMMAND_
 //*****************************************************************************
 
 /******************************************************************************/
-PROTECTED void DfuComReceiveCommand( uint8* Buffer, uint32 ReadCount )
+PROTECTED void DfuComInit(void)
 {
+	HW_USB_RegisterMassStorageReadCallback(ReadCallback);
+	HW_USB_RegisterMassStorageWriteCallback(WriteCallback);
 
-    CopyMemory(&DfuMalBuffer[readCount], Buffer, ReadCount);
-
-    readCount += ReadCount;
-
-    if(DfuMalWriteEnabled)
-    {
-        DfuActionWriteSectionChunk(responseBuffer, readCount);
-        readCount = ((DfuMalWriteEnabled == FALSE) ?  0 : readCount);
-    }
-    else if(DfuMalReadEnabled)
-    {
-        DfuActionReadSectionChunk(&ReadCount);
-        readCount = ((DfuMalReadEnabled == FALSE) ?  0 : readCount);
-    }
-    else if(readCount >= DFU_COMMAND_SIZE)
-    {
-        readCount = 0;
-        DfuSmStateTransition(commandBuffer, responseBuffer);
-    }
+	isTransferring = FALSE;
 }
 
 
 /******************************************************************************/
-PROTECTED void DfuComSendResponse( void )
+PROTECTED void ReadCallback( uint32 StartBlockAddress, uint32 BlockCount )
 {
-    HW_USB_Write(VIR_COM_WRITE_EP, (uint8*)responseBuffer, sizeof(DFU_Response));
+	static uint32 currentAddress, bytesRead, maxBlock;
+
+	if( !isTransferring )
+	{
+		currentAddress = StartBlockAddress;
+		maxBlock = StartBlockAddress + BlockCount;
+		bytesRead = 0;
+		print("Starting read from: %X. to %X\n", currentAddress, maxBlock);
+	}
+
+
+	if( bytesRead == 0 )
+	{
+		DfuFatReadBlockAddress(currentAddress);
+	}
+
+	bytesRead += MASS_STORAGE_MAX_PACKET_SIZE;
+	CSW.dDataResidue -= MASS_STORAGE_MAX_PACKET_SIZE;
+
+	if( bytesRead == MASS_STORAGE_MAX_PACKET_SIZE )
+	{
+		currentAddress++;
+
+		if( currentAddress < maxBlock )
+		{
+			bytesRead = 0;
+		}
+		else
+		{
+			isTransferring = FALSE;
+			// REVISIT: this should NOT be accessed outside of the usb component
+			Bot_State = BOT_DATA_IN_LAST;
+		}
+	}
+
+	HW_USB_Write(MASS_STORAGE_READ_EP, DfuComDataBuffer + bytesRead, MASS_STORAGE_MAX_PACKET_SIZE, TRUE);
 }
 
 
 /******************************************************************************/
-PROTECTED void DfuComSendData( uint32 ByteCount )
+PROTECTED void WriteCallback( uint32 StartBlockAddress, uint32 BlockCount )
 {
+	static uint32 currentAddress, bytesWritten, maxBlock;
+	uint32 usbBytesRead;
 
-    uint32 bytesSent = 0;
-    uint32 bytesToSend;
+	if( !isTransferring )
+	{
+		currentAddress = StartBlockAddress;
+		maxBlock = StartBlockAddress + BlockCount;
+		bytesWritten = 0;
+		print("Starting write to: %X. to %X\n", currentAddress, maxBlock);
+	}
 
-    while(bytesSent < ByteCount)
-    {
-        bytesToSend = ((ByteCount-bytesSent) < DFU_COM_TRANSFER_SIZE) ? (ByteCount-bytesSent) : DFU_COM_TRANSFER_SIZE;
-        HW_USB_Write(VIR_COM_WRITE_EP, (uint8*)&DfuMalBuffer[bytesSent], bytesToSend);
-        bytesSent += bytesToSend;
-    }
+
+	usbBytesRead = HW_USB_Read(MASS_STORAGE_WRITE_EP, DfuComDataBuffer, FALSE);
+	CSW.dDataResidue -= usbBytesRead;
+	bytesWritten += usbBytesRead;
+
+	if( currentAddress >= 0 )
+	{
+
+	}
+	// REVISIT: this should NOT be accessed outside of the usb component
+	SetEPRxStatus(MASS_STORAGE_WRITE_EP, EP_RX_VALID);
+
+	if( bytesWritten >= MASS_STORAGE_MAX_PACKET_SIZE )
+	{
+		currentAddress++;
+
+		if( currentAddress < maxBlock )
+		{
+			bytesWritten = 0;
+		}
+		else
+		{
+			isTransferring = FALSE;
+			// REVISIT: this should NOT be accessed outside of the usb component
+			Set_CSW (CSW_CMD_PASSED, SEND_CSW_ENABLE);
+		}
+	}
+
+
 }
 
 //*****************************************************************************

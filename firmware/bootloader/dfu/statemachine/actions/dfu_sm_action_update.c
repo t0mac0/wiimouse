@@ -52,7 +52,7 @@ PRIVATE uint32 writeAddress;
 //*****************************************************************************
 
 /******************************************************************************/
-PROTECTED void DfuActionBeginUpdate(DFU_Command *Cmd, DFU_Response *Response)
+PROTECTED void DfuActionBeginUpdate(void)
 {
     uint32 *mode;
 
@@ -60,25 +60,25 @@ PROTECTED void DfuActionBeginUpdate(DFU_Command *Cmd, DFU_Response *Response)
     if( !DfuMalRead(DEVICE_MODE_ADDR, 4) )
     {
         print("failed to read DFU_MODE_ADDR\n");
-        Response->Status = DFU_STATUS_FAILURE;
+        DfuComResponse.Status = DFU_STATUS_FAILURE;
         return;
     }
 
-    mode = (uint32*)DfuMalBuffer;
+    mode = (uint32*)DfuComDataBuffer;
 
     if( *mode != DFU_MODE_UPDATE )
     {
         print("Error: attempting to update while not in update mode\n");
-        Response->Status = DFU_STATUS_NOT_IN_UPDATE_MODE;
+        DfuComResponse.Status = DFU_STATUS_NOT_IN_UPDATE_MODE;
         return;
     }
 
     InitializeDataMembers();
 
-    sectionsRemaining = Cmd->SectionsCount;
+    sectionsRemaining = DfuComCommand.SectionsCount;
 
 
-    Response->Status = DFU_STATUS_SUCCESS;
+    DfuComResponse.Status = DFU_STATUS_SUCCESS;
 
     print("ActionBeginUpdate: section count: %d\n", sectionsRemaining);
 
@@ -86,30 +86,30 @@ PROTECTED void DfuActionBeginUpdate(DFU_Command *Cmd, DFU_Response *Response)
 
 
 /******************************************************************************/
-PROTECTED void DfuActionStartSectionUpdate(DFU_Command *Cmd, DFU_Response *Response)
+PROTECTED void DfuActionStartSectionUpdate(void)
 {
     sectionsRemaining--;
 
     if(sectionsRemaining < 0)
     {
-        Response->Status = DFU_STATUS_SECTION_OVERFLOW;
+        DfuComResponse.Status = DFU_STATUS_SECTION_OVERFLOW;
         print("ActionStartSectionUpdate: DFU_STATUS_SECTION_OVERFLOW\n");
         InitializeDataMembers();
     }
-    else if( !DfuMalErase(Cmd->StartAddress, Cmd->Length) )
+    else if( !DfuMalErase(DfuComCommand.StartAddress, DfuComCommand.Length) )
     {
-        Response->Status = DFU_STATUS_INTERNAL_FLASH_ERASE_ERROR;
+        DfuComResponse.Status = DFU_STATUS_INTERNAL_FLASH_ERASE_ERROR;
         print("ActionStartSectionUpdate: DFU_STATUS_INTERNAL_FLASH_ERASE_ERROR: Addr: %X, Length: %d\n",
-        		Cmd->StartAddress, Cmd->Length);
+        		DfuComCommand.StartAddress, DfuComCommand.Length);
         InitializeDataMembers();
     }
     else
     {
-        writeAddress = sectionStartAddress = Cmd->StartAddress;
-        sectionSize = Cmd->Length;
+        writeAddress = sectionStartAddress = DfuComCommand.StartAddress;
+        sectionSize = DfuComCommand.Length;
 
 
-        Response->Status = DFU_STATUS_SUCCESS;
+        DfuComResponse.Status = DFU_STATUS_SUCCESS;
 
         print("ActionStartSectionUpdate: Start Address: %X, Size: %d\n", writeAddress, sectionSize);
     }
@@ -118,21 +118,21 @@ PROTECTED void DfuActionStartSectionUpdate(DFU_Command *Cmd, DFU_Response *Respo
 
 
 /******************************************************************************/
-PROTECTED void DfuActionSectionUpdate(DFU_Command *Cmd, DFU_Response *Response)
+PROTECTED void DfuActionSectionUpdate(void)
 {
 
-    writeAddress += Cmd->Offset;
-    writeSize = Cmd->Length;
+    writeAddress += DfuComCommand.Offset;
+    writeSize = DfuComCommand.Length;
 
     if(IS_DATA_OVERFLOW()){
         print("ActionSectionUpdate: Error data overflow\n");
-        Response->Status = DFU_STATUS_SECTION_DATA_OVERFLOW;
+        DfuComResponse.Status = DFU_STATUS_SECTION_DATA_OVERFLOW;
         InitializeDataMembers();
     }
     else
     {
         DfuMalWriteEnabled = TRUE;
-        Response->Status = DFU_STATUS_SUCCESS;
+        DfuComResponse.Status = DFU_STATUS_SUCCESS;
         print("ActionSectionUpdate: writeAddress: %08X, size: %d\n", writeAddress, writeSize);
     }
 
@@ -149,26 +149,25 @@ PROTECTED void DfuActionWriteSectionChunk(DFU_Response *Response, uint32 BufferS
         if( !DfuMalWrite(writeAddress, writeSize) )
         {
             print("ActionWriteSectionChunk: failed to write %d bytes to %08X\n", writeSize, writeAddress);
-            Response->Status = DFU_STATUS_INTERNAL_FLASH_WRITE_ERROR;
+            DfuComResponse.Status = DFU_STATUS_INTERNAL_FLASH_WRITE_ERROR;
         }
         else
         {
             print("ActionWriteSectionChunk: wrote %d bytes to %08X\n", writeSize, writeAddress);
-            Response->Status = DFU_STATUS_SUCCESS;
+            DfuComResponse.Status = DFU_STATUS_SUCCESS;
         }
 
 
         DfuMalWriteEnabled = FALSE;
-        DfuComSendResponse();
     }
 
 }
 
 
 /******************************************************************************/
-PROTECTED void DfuActionEndSectionUpdate(DFU_Command *Cmd, DFU_Response *Response)
+PROTECTED void DfuActionEndSectionUpdate(void)
 {
-    Response->Status = DFU_STATUS_SUCCESS;
+    DfuComResponse.Status = DFU_STATUS_SUCCESS;
 
     print("ActionEndSectionUpdate\n");
 
@@ -176,9 +175,9 @@ PROTECTED void DfuActionEndSectionUpdate(DFU_Command *Cmd, DFU_Response *Respons
 
 
 /******************************************************************************/
-PROTECTED void DfuActionEndUpdate(DFU_Command *Cmd, DFU_Response *Response)
+PROTECTED void DfuActionEndUpdate(void)
 {
-    Response->Status = DFU_STATUS_SUCCESS;
+    DfuComResponse.Status = DFU_STATUS_SUCCESS;
 
     print("ActionEndUpdate\n");
 

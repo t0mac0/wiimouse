@@ -15,12 +15,11 @@
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "system.h"
+#include "bootloader.h"
 
 /*-----------------------------------------------------------------------------
  Defines
 ------------------------------------------------------------------------------*/
-#define DFU_MAL_BUFFER_SIZE 1024
 
 
 
@@ -44,8 +43,6 @@ PROTECTED bool DfuMalRead (uint32 SectorAddress,  uint32 DataLength);
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
-
-PROTECTED extern uint8  DfuMalBuffer[DFU_MAL_BUFFER_SIZE]; /* RAM Buffer for Downloaded Data */
 
 PROTECTED extern bool DfuMalWriteEnabled;
 PROTECTED extern bool DfuMalReadEnabled;

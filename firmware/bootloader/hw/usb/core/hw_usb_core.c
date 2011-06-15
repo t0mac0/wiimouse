@@ -16,7 +16,7 @@
 #include <hw_usb_platform.h>
 
 #include "hw_usb_core.h"
-#include "usb/desc/hw_usb_desc_vir_com.h"
+#include "usb/desc/hw_usb_desc_mass_storage.h"
 #include "usb/mem/hw_usb_mem.h"
 
 /*-----------------------------------------------------------------------------
