@@ -36,7 +36,7 @@
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
 PROTECTED void DfuSmInit( void );
-PROTECTED void DfuSmStateTransition(DFU_Command *Command, DFU_Response *Response);
+PROTECTED void DfuSmStateTransition(void);
 
 
 /*-----------------------------------------------------------------------------

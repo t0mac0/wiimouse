@@ -56,13 +56,13 @@ PRIVATE uint32 checkSum;
 //*****************************************************************************
 
 /******************************************************************************/
-PROTECTED void DfuActionBeginValidation(DFU_Command *Cmd, DFU_Response *Response)
+PROTECTED void DfuActionBeginValidation(void)
 {
     InitializeDataMembers();
 
-    sectionsRemaining = Cmd->SectionsCount;
+    sectionsRemaining = DfuComCommand.SectionsCount;
 
-    Response->Status = DFU_STATUS_SUCCESS;
+    DfuComResponse.Status = DFU_STATUS_SUCCESS;
 
     print("ActionBeginValidation: section count: %d\n", sectionsRemaining);
 
@@ -70,21 +70,21 @@ PROTECTED void DfuActionBeginValidation(DFU_Command *Cmd, DFU_Response *Response
 
 
 /******************************************************************************/
-PROTECTED void DfuActionStartSectionValidation(DFU_Command *Cmd, DFU_Response *Response)
+PROTECTED void DfuActionStartSectionValidation(void)
 {
     sectionsRemaining--;
 
     if(sectionsRemaining < 0)
     {
-        Response->Status = DFU_STATUS_SECTION_OVERFLOW;
+        DfuComResponse.Status = DFU_STATUS_SECTION_OVERFLOW;
         print("ActionStartSectionValidation: DFU_STATUS_SECTION_OVERFLOW\n");
         InitializeDataMembers();
     }
     else
     {
-        readAddress = sectionStartAddress = Cmd->StartAddress;
-        sectionSize = Cmd->Length;
-        Response->Status = DFU_STATUS_SUCCESS;
+        readAddress = sectionStartAddress = DfuComCommand.StartAddress;
+        sectionSize = DfuComCommand.Length;
+        DfuComResponse.Status = DFU_STATUS_SUCCESS;
 
         print("ActionStartSectionValidation: size: %d\n", sectionSize);
     }
@@ -93,21 +93,21 @@ PROTECTED void DfuActionStartSectionValidation(DFU_Command *Cmd, DFU_Response *R
 
 
 /******************************************************************************/
-PROTECTED void DfuActionSectionValidate(DFU_Command *Cmd, DFU_Response *Response)
+PROTECTED void DfuActionSectionValidate(void)
 {
 
-    readAddress += Cmd->Offset;
-    readSize = Cmd->Length;
+    readAddress += DfuComCommand.Offset;
+    readSize = DfuComCommand.Length;
 
     if(IS_DATA_OVERFLOW()){
         print("ActionSectionValidation: Error data overflow\n");
-        Response->Status = DFU_STATUS_SECTION_DATA_OVERFLOW;
+        DfuComResponse.Status = DFU_STATUS_SECTION_DATA_OVERFLOW;
         InitializeDataMembers();
     }
     else
     {
         DfuMalReadEnabled = TRUE;
-        Response->Status = DFU_STATUS_SUCCESS;
+        DfuComResponse.Status = DFU_STATUS_SUCCESS;
         print("ActionSectionValidation: readAddress: %08X, size: %d\n", readAddress, readSize);
     }
 
@@ -139,17 +139,15 @@ PROTECTED void DfuActionReadSectionChunk(uint32 *BytesRead)
     //UpdateCheckSum((uint32*)Response, readSize/4);
     DfuMalReadEnabled = FALSE;
 
-    DfuComSendData(readSize);
-
     *BytesRead = readSize;
 }
 
 
 /******************************************************************************/
-PROTECTED void DfuActionEndSectionValidation(DFU_Command *Cmd, DFU_Response *Response)
+PROTECTED void DfuActionEndSectionValidation(void)
 {
-    Response->Checksum = checkSum;
-    Response->Status = DFU_STATUS_SUCCESS;
+    DfuComResponse.Checksum = checkSum;
+    DfuComResponse.Status = DFU_STATUS_SUCCESS;
 
     print("ActionEndSectionValidation\n");
 
@@ -158,9 +156,9 @@ PROTECTED void DfuActionEndSectionValidation(DFU_Command *Cmd, DFU_Response *Res
 
 
 /******************************************************************************/
-PROTECTED void DfuActionEndValidation(DFU_Command *Cmd, DFU_Response *Response)
+PROTECTED void DfuActionEndValidation(void)
 {
-    Response->Status = DFU_STATUS_SUCCESS;
+    DfuComResponse.Status = DFU_STATUS_SUCCESS;
 
     print("ActionEndValidation\n");
 

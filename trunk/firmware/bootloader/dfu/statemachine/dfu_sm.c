@@ -104,21 +104,21 @@ PROTECTED void DfuSmInit( void )
 
 
 /******************************************************************************/
-PROTECTED void DfuSmStateTransition(DFU_Command *Command, DFU_Response *Response)
+PROTECTED void DfuSmStateTransition(void)
 {
     uint32 i;
 
-    Response->Status = DFU_STATUS_FAILURE;
+    DfuComResponse.Status = DFU_STATUS_FAILURE;
 
 
     for( i = 0; i < ARRAY_SIZE(stateTable); i++ )
     {
-        if( (Command->Command == stateTable[i].Command) &&
+        if( (DfuComCommand.Command == stateTable[i].Command) &&
                 (currentState == stateTable[i].CurrentState) )
         {
-            stateTable[i].Action(Command, Response);
+            stateTable[i].Action();
 
-            if( Response->Status == DFU_STATUS_SUCCESS )
+            if( DfuComResponse.Status == DFU_STATUS_SUCCESS )
             {
                 currentState = stateTable[i].NextState;
             }
@@ -133,12 +133,10 @@ PROTECTED void DfuSmStateTransition(DFU_Command *Command, DFU_Response *Response
 
     if( i >= ARRAY_SIZE(stateTable))
     {
-        print("State transition error: Cmd: %d, current state: %d\n", Command->Command, currentState);
-        Response->Status = DFU_STATUS_STATE_TRANSISTION_ERROR;
+        print("State transition error: Cmd: %d, current state: %d\n", DfuComCommand.Command, currentState);
+        DfuComResponse.Status = DFU_STATUS_STATE_TRANSISTION_ERROR;
         DfuSmInit();
     }
-
-    DfuComSendResponse();
 
 }
 

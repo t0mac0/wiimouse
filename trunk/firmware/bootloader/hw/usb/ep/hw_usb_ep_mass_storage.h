@@ -1,18 +1,21 @@
 /*!
- * \file hw_usb_ep_vir_com.c
+ * \file hw_usb_ep_mass_storage.h
  *
  * \brief 
  *
  *
- * \date Apr 23, 2011
+ * \date Jun 13, 2011
  * \author Dan Riedler
  *
  */
+#ifndef _HW_USB_EP_MASS_STORAGE_H_
+#define _HW_USB_EP_MASS_STORAGE_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "hw_usb_ep_vir_com.h"
+#include "usb/hw_usb.h"
+#include "hw_usb_ep_conf_stm32f10x.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -28,30 +31,17 @@
 ------------------------------------------------------------------------------*/
 
 /*-----------------------------------------------------------------------------
- Local Function Prototypes
+ Exported Function Prototypes
 ------------------------------------------------------------------------------*/
+PROTECTED void HwUsbEpInit( void );
+
+
 
 /*-----------------------------------------------------------------------------
- Data Members
+ External Data Members
 ------------------------------------------------------------------------------*/
-PROTECTED pHW_USB_ReadVirComCallBack HwUsbVirComCallback;
+PROTECTED extern pHW_USB_MassStorageCallBack HwUsbMassStorageReadCallback;
+PROTECTED extern pHW_USB_MassStorageCallBack HwUsbMassStorageWriteCallback;
 
-//*****************************************************************************
-//
-// Exported Functions
-//
-//*****************************************************************************
 
-PROTECTED void HwUsbEpInit( void )
-{
-
-    HwUsbVirComCallback = NULL;
-
-}
-
-//*****************************************************************************
-//
-// Local Functions
-//
-//*****************************************************************************
-
+#endif /* _HW_USB_EP_MASS_STORAGE_H_ */

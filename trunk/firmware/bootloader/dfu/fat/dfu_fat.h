@@ -1,23 +1,21 @@
 /*!
- * \file dfu_sm_actions.h
+ * \file dfu_fat.h
  *
  * \brief 
  *
  *
- * \date Apr 17, 2011
+ * \date Jun 15, 2011
  * \author Dan Riedler
  *
  */
-
-#ifndef _DFU_SM_ACTIONS_H_
-#define _DFU_SM_ACTIONS_H_
+#ifndef _DFU_FAT_H_
+#define _DFU_FAT_H_
 
 /*-----------------------------------------------------------------------------
  Includes
 ------------------------------------------------------------------------------*/
-#include "system.h"
-#include "dfu/dfu_types.h"
-
+#include "bootloader.h"
+#include "fat16.h"
 
 /*-----------------------------------------------------------------------------
  Defines
@@ -34,32 +32,13 @@
 /*-----------------------------------------------------------------------------
  Exported Function Prototypes
 ------------------------------------------------------------------------------*/
-PROTECTED typedef void (*DfuAction)( void );
-
-PROTECTED void DfuActionQueryDevice(void);
-
-PROTECTED void DfuActionInitializeUpdate(void);
-
-PROTECTED void DfuActionBeginUpdate(void);
-PROTECTED void DfuActionStartSectionUpdate(void);
-PROTECTED void DfuActionSectionUpdate(void);
-PROTECTED void DfuActionWriteSectionChunk(DFU_Response *Response, uint32 BufferSize);
-PROTECTED void DfuActionEndSectionUpdate(void);
-PROTECTED void DfuActionEndUpdate(void);
-
-PROTECTED void DfuActionBeginValidation(void);
-PROTECTED void DfuActionStartSectionValidation(void);
-PROTECTED void DfuActionSectionValidate(void);
-PROTECTED void DfuActionEndSectionValidation(void);
-PROTECTED void DfuActionEndValidation(void);
-PROTECTED void DfuActionReadSectionChunk(uint32 *BytesRead);
-
-PROTECTED void DfuActionCompleteUpdate(void);
-
+PROTECTED void DfuFatReadBlockAddress(uint32 BlockAddress);
+PROTECTED void DfuFatWriteBlockAddress(uint32 BlockAddress, uint32 ByteOffset, uint32 ByteCount);
 
 /*-----------------------------------------------------------------------------
  External Data Members
 ------------------------------------------------------------------------------*/
 
 
-#endif /* DFU_SM_ACTIONS_H_ */
+
+#endif /* _DFU_FAT_H_ */

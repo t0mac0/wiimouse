@@ -61,7 +61,7 @@ struct
 *******************************************************************************/
 USB_RESULT PowerOn(void)
 {
-#ifndef STM32F10X_CL
+
   uint16 wRegVal;
 
   /*** cable plugged-in ? ***/
@@ -79,7 +79,7 @@ USB_RESULT PowerOn(void)
   /*** Set interrupt mask ***/
   wInterrupt_Mask = CNTR_RESETM | CNTR_SUSPM | CNTR_WKUPM;
   _SetCNTR(wInterrupt_Mask);
-#endif /* STM32F10X_CL */
+
 
   return USB_SUCCESS;
 }
@@ -93,7 +93,7 @@ USB_RESULT PowerOn(void)
 *******************************************************************************/
 USB_RESULT PowerOff()
 {
-#ifndef STM32F10X_CL
+
   /* disable all ints and force USB reset */
   _SetCNTR(CNTR_FRES);
   /* clear interrupt status register */
@@ -102,10 +102,6 @@ USB_RESULT PowerOff()
   USB_Cable_Config(DISABLE);
   /* switch-off device */
   _SetCNTR(CNTR_FRES + CNTR_PDWN);
-#endif /* STM32F10X_CL */
-
-  /* sw variables reset */
-  /* ... */
 
   return USB_SUCCESS;
 }

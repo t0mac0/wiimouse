@@ -17,6 +17,7 @@
 #include <platform_lib.h>
 
 #include "dfu_mal.h"
+#include "dfu/com/dfu_com.h"
 #include "flash/hw_flash.h"
 
 /*-----------------------------------------------------------------------------
@@ -38,8 +39,6 @@
 /*-----------------------------------------------------------------------------
  Data Members
 ------------------------------------------------------------------------------*/
-
-PROTECTED uint8  DfuMalBuffer[DFU_MAL_BUFFER_SIZE]; /* RAM Buffer for Downloaded Data */
 
 PROTECTED bool DfuMalWriteEnabled;
 PROTECTED bool DfuMalReadEnabled;
@@ -130,7 +129,7 @@ PROTECTED bool DfuMalWrite (uint32 SectorAddress, uint32 DataLength)
 	{
 		if(address != DEVICE_MODE_ADDR)
 		{
-			if( !HW_FLASH_Write32Bit(address, ((uint32*)DfuMalBuffer)[i]) )
+			if( !HW_FLASH_Write32Bit(address, ((uint32*)DfuComDataBuffer)[i]) )
 			{
 				result = FALSE;
 				break;
@@ -157,7 +156,7 @@ PROTECTED bool DfuMalRead (uint32 SectorAddress, uint32 DataLength)
 		return FALSE;
 	}
 
-	return HW_FLASH_Read32Bit(SectorAddress,(uint32*) DfuMalBuffer, DataLength/sizeof(uint32));
+	return HW_FLASH_Read32Bit(SectorAddress,(uint32*) DfuComDataBuffer, DataLength/sizeof(uint32));
 }
 
 

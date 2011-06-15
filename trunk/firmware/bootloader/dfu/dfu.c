@@ -52,7 +52,7 @@ PUBLIC void DFU_Init(void)
 
     DfuSmInit();
 
-    HW_USB_RegisterVirComReadCallback(DfuComReceiveCommand);
+    DfuComInit();
 }
 
 
